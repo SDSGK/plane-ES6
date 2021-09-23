@@ -28,6 +28,13 @@ class Enemy {
     this.healthOriginal = 100
     // 移动间隔时间 ms
     this.enemyFlyInterval = allMoveSpeed
+    // 记录移动的定时器
+    this.enemyForwardTimer = null
+    this.enemyBackOffTimer = null
+    this.enemyLeftTranslationTimer = null
+    this.enemyRightTranslationTimer = null
+    // 自定义移动方法
+    this.autoMoveList = null
   }
   /**
    * @description: 创建敌机
@@ -37,6 +44,7 @@ class Enemy {
     // 从数据当中 随机生成列表
     return Object.assign({}, enemyList[Math.floor(Math.random() * enemyList.length)])
   }
+  // 创建敌机并且开始移动
   enemyStart() {
     this.createEnemy()
     this.enemyMove()
@@ -63,6 +71,8 @@ class Enemy {
     this.healthOriginal = _info.health
     // 飞行速度
     this.enemyFlyInterval = _info.moveSpeed || allMoveSpeed
+
+    this.autoMoveList = _info.enemyMoveFunc && _info.enemyMoveFunc()
     // 实际位置
     const realX = this.positionX
     const realY = this.positionY
@@ -99,33 +109,126 @@ class Enemy {
   }
   // 飞机移动
   enemyMove() {
-    if (this.timer) this.enemyStop()
-    this.timer = interval(() => {
-      // 更新位置信息
-      enemyStore.setId(this.id, {
-        positionY: this.enemyDom.offsetTop
-      })
+    const autoMoveList = this.autoMoveList
+    // 按键映射
+    const moveDirectionMap = {
+      top: 'enemyForward',
+      button: 'enemyBackOff',
+      left: 'enemyLeftTranslation',
+      right: 'enemyRightTranslation'
+    }
+    if (Array.isArray(autoMoveList) && autoMoveList.length !== 0) {
+      let index = 0
+      // 使用自定义移动方法
+      const moveFunc = async () => {
+        // 检测并运行
+        const singleMove = autoMoveList[index];
+        const directionList = singleMove.moveDirection.split(',');
+        for (const index in directionList) {
+          if (Object.hasOwnProperty.call(directionList, index)) {
+            const element = directionList[index];
+            console.log('element', element);
+            // 移动
+            this[moveDirectionMap[element]] && this[moveDirectionMap[element]]()
+          }
+        }
+        // 添加相对应的速度
+        this.enemyFlyInterval = singleMove.speed || this.enemyFlyInterval
+        this.enemyFlySpeed = singleMove.distance || this.enemyFlySpeed
+        // 等待上一个执行完后执行下一个
+        setTimeout(() => {
+          // 停止移动
+          this.enemyStop()
+          index += 1
+          if (index < autoMoveList.length) {
+            moveFunc()
+          }
+        }, singleMove.timer);
+      }
+      // 使用方法
+      moveFunc()
+    }else {
       // 类型是网上移动
       if (this.moveType === 'top') { 
-        if (this.enemyDom.offsetTop <= 0) {
-          this.clearEnemy()
-          return
-        }
-        this.enemyDom.style.top = this.enemyDom.offsetTop - this.enemyFlySpeed + 'px'
+        this.enemyForward()
       // 如果类型是往下移动
       } else if (this.moveType === 'buttom') { 
-        if (this.enemyDom.offsetTop >= containerHeight) {
-          this.clearEnemy()
-          return
-        }
-        this.enemyDom.style.top = this.enemyDom.offsetTop + this.enemyFlySpeed + 'px'
+        this.enemyBackOff()
       }
+    }
+  }
+  // 前进（往下
+  enemyForward() {
+    // 清除重复定时器
+    this.enemyMoveStop('enemyForwardTimer')
+    this.enemyForwardTimer = interval(() => {
+      // 更新位置信息
+      this.updatePosition()
+      // 判断范围
+      if (this.enemyDom.offsetTop <= delayY) return
+      this.enemyDom.style.top = this.enemyDom.offsetTop - this.enemyFlySpeed + 'px'
     }, this.enemyFlyInterval);
   }
-  // 停止定时器
+  // 后退（往上
+  enemyBackOff() {
+    this.enemyMoveStop('enemyBackOffTimer')
+    this.enemyBackOffTimer = interval(() => {
+      // 更新位置信息
+      this.updatePosition()
+      // 限制范围
+      if (this.enemyDom.offsetTop >= containerHeight) {
+        this.clearEnemy()
+        return
+      }
+      // 移动元素
+      this.enemyDom.style.top = this.enemyDom.offsetTop + this.enemyFlySpeed + 'px'
+    }, this.enemyFlyInterval);
+  }
+  // 左平移
+  enemyLeftTranslation() {
+    this.enemyMoveStop('enemyLeftTranslationTimer')
+    this.enemyLeftTranslationTimer = interval(() => {
+      // 更新位置信息
+      this.updatePosition()
+      // 限制范围
+      if (this.enemyDom.offsetLeft <= 0) return
+      // 移动元素
+      this.enemyDom.style.left = this.enemyDom.offsetLeft - this.enemyFlySpeed + 'px'
+    }, this.enemyFlyInterval);
+  }
+  // 右平移
+  enemyRightTranslation() {
+    this.enemyMoveStop('enemyRightTranslationTimer')
+    this.enemyRightTranslationTimer = interval(() => {
+      // 更新位置信息
+      this.updatePosition()
+      // 限制范围
+      if (this.enemyDom.offsetLeft >= containerWidth - this.enemyDom.offsetWidth) return
+      // 移动元素
+      this.enemyDom.style.left = this.enemyDom.offsetLeft + this.enemyFlySpeed + 'px'
+    }, this.enemyFlyInterval);
+  }
+  // 更新位置
+  updatePosition() {
+    enemyStore.setId(this.id, {
+      positionX: this.enemyDom.offsetLeft,
+      positionY: this.enemyDom.offsetTop
+    })
+  }
+  // 清除相对应的移动定时器
+  enemyMoveStop(key) {
+    if (this[key]) {
+      clearInterval(this[key])
+      this[key] = null
+    }
+  }
+  // 停止所有移动定时器
   enemyStop() {
-    clearInterval(this.timer)
-    this.timer = null
+    const timerList = ['enemyForwardTimer', 'enemyBackOffTimer', 'enemyLeftTranslationTimer', 'enemyRightTranslationTimer']
+    for (const index in timerList) {
+      const key = timerList[index]
+      this.enemyMoveStop(key)
+    }
   }
   // 清除飞机
   clearEnemy() {
