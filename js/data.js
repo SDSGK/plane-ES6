@@ -24,7 +24,7 @@
   // 是否手动点击过暂停按钮
   let isClickStopButton = false
   // TODO：移动速度改变
-  let moveSpeed = 10
+  let moveSpeed = 6
   // TODO：子弹速度修改
   let shootSpeed = 160
   // TODO：飞机的移动距离

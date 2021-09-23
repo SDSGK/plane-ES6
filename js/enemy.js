@@ -171,7 +171,7 @@ class Enemy {
             moveFunc()
           }else {
             if (enemyStore.hasOwnProperty(this.id)) {
-              this.enemyForward()
+              this.enemyBackOff()
             }
           }
         }, singleMove.timer);
@@ -207,7 +207,7 @@ class Enemy {
       }
     }
   }
-  // 前进（往下
+  // 前进（往上
   enemyForward() {
     // 清除重复定时器
     this.enemyMoveStop('enemyForwardTimer')
@@ -219,7 +219,7 @@ class Enemy {
       this.enemyDom.style.top = this.enemyDom.offsetTop - this.enemyFlySpeed + 'px'
     }, this.enemyFlyInterval);
   }
-  // 后退（往上
+  // 后退（往下
   enemyBackOff() {
     this.enemyMoveStop('enemyBackOffTimer')
     this.enemyBackOffTimer = interval(() => {

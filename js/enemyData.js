@@ -13,21 +13,27 @@
   const enemyList = [
     {
       health: 100,
-      moveSpeed: 24,
+      moveSpeed: 16,
       width: 80,
       height: 60,
-      distance: 3,
+      distance: 2,
       image: 'enemy-1',
     },
     {
       health: 100,
-      moveSpeed: 24,
+      moveSpeed: 16,
       width: 80,
       height: 60,
-      distance: 3,
+      distance: 2,
       image: 'enemy-1',
       enemyMoveFunc() {
         return [
+          {
+            timer: 500, 
+            moveDirection: 'button', 
+            moveSpeed: 16, 
+            distance: 3 
+          },
           {
             timer: 3000, 
             moveDirection: 'left', 
@@ -69,7 +75,20 @@
       distance: 3,
       image: 'enemy-1',
       enemyMoveFunc() {
-        return []
+        return [
+          {
+            timer: 2000, 
+            moveDirection: 'button', 
+            moveSpeed: 16, 
+            distance: 3
+          },
+          {
+            timer: 6000, 
+            moveDirection: '', 
+            moveSpeed: 16, 
+            distance: 3
+          },
+        ]
       }
     },
     {
@@ -107,46 +126,46 @@
     },
     {
       health: 200,
-      moveSpeed: 500,
+      moveSpeed: 16,
       width: 120,
       height: 90,
-      distance: 3,
+      distance: 0.5,
       image: 'enemy-1',
       enemyMoveFunc() {
         return [
           {
             timer: 6000, 
             moveDirection: 'button,left', 
-            moveSpeed: 120, 
-            distance: 3 
+            moveSpeed: 16, 
+            distance: 0.5
           },
           {
             timer: 6000, 
             moveDirection: 'button,right', 
-            moveSpeed: 120, 
-            distance: 3 
+            moveSpeed: 16, 
+            distance: 0.2
           },
           {
             timer: 6000, 
             moveDirection: 'top,left', 
-            moveSpeed: 90, 
-            distance: 4 
+            moveSpeed: 16, 
+            distance: 1
           },
           {
             timer: 12000, 
             moveDirection: 'button,right', 
-            moveSpeed: 60, 
-            distance: 5 
+            moveSpeed: 16, 
+            distance: 1
           },
         ]
       }
     },
     {
       health: 200,
-      moveSpeed: 500,
+      moveSpeed: 16,
       width: 120,
       height: 90,
-      distance: 3,
+      distance: 0.5,
       image: 'enemy-1',
     }
   ]
