@@ -163,7 +163,6 @@ document.addEventListener('keyup', keyupFunc)
 // 监听高优先按键
 document.addEventListener('keydown', (e) => {
   const code = e.keyCode
-  console.log(code);
   // ESC键code
   const escKeyCode = 27
   if (code === escKeyCode) {

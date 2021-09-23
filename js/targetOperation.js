@@ -10,7 +10,8 @@ function moveStop() {
         const element = _enemyStore[enemy];
         if (element.target) {
           if (typeof element.target.enemyStop === 'function') {
-            element.target.enemyStop()
+            element?.target?.enemyStop()
+            element?.operationOptions?.operationStop()
           }
         }
       }

@@ -107,6 +107,7 @@ class Bullet {
               enemyDom.style.backgroundSize = 'contain'
               // 页面上删除敌机
               target.enemyStop()
+              enemy.operationOptions?.operationStop()
               enemyStore.removeStore(target.id)
               setTimeout(() => {
                 target.clearEnemy()

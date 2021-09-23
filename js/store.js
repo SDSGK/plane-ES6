@@ -6,6 +6,10 @@ class Store {
   getId(id) {
     return this.Store[id]
   }
+  // 检测是否存在
+  hasOwnProperty(id) {
+    return this.Store.hasOwnProperty(id)
+  }
   // 获取数据长度
   getLength() {
     return Object.keys(this.Store).length
@@ -16,8 +20,7 @@ class Store {
   }
   // 通过id删除
   removeStore(id) {
-    delete this.Store[id]
-    return true
+    return delete this.Store[id]
   }
   // 通过id设置内容
   setId(id, value) {
@@ -33,9 +36,9 @@ class Store {
   }
   // 清空仓库
   clearStore() {
-    const Store = this.Store
-    for (const key in Store) {
-      delete Store[key]
+    const keys = Object.keys(this.Store)
+    for (const index in keys) {
+      delete this.Store[keys[index]]
     }
     return true
   }
