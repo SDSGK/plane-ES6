@@ -7,7 +7,7 @@ function init() {
   if(enemyTimer) stop()
   enemyTimer = setInterval(() => {
     // 限制飞机数量
-    if (enemyStore.getLength() >= 2) {
+    if (enemyStore.getLength() >= 10) {
       return
     }
     // 容器内随机位置

@@ -42,6 +42,9 @@ class Enemy {
    */  
   createEnemyInfo() {
     // 从数据当中 随机生成列表
+    if (typeof fixedEnemyList[fixedEnemyIndex] === 'number') {
+      return  Object.assign({}, enemyList[fixedEnemyList[fixedEnemyIndex++]])
+    }
     return Object.assign({}, enemyList[Math.floor(Math.random() * enemyList.length)])
   }
   // 创建敌机并且开始移动
@@ -78,7 +81,7 @@ class Enemy {
     const realX = this.positionX
     const realY = this.positionY
     // 生成位置
-    const positionX = realX <= _info.width ? _info.width : realX - _info.width
+    const positionX = _info.delayX || realX <= _info.width ? _info.width : realX - _info.width
     const positionY = realY - _info.height
     // 保存当前敌机
     enemyStore.setId(

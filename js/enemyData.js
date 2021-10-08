@@ -25,6 +25,7 @@
       width: 80,
       height: 60,
       distance: 2,
+      delayX: 100,
       image: 'enemy-1',
       enemyMoveFunc() {
         return [
@@ -35,7 +36,7 @@
             distance: 3 
           },
           {
-            timer: 3000, 
+            timer: 500, 
             moveDirection: 'left', 
             moveSpeed: 16, 
             distance: 3 

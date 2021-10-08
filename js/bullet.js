@@ -23,6 +23,11 @@ class Bullet {
     this.timer = null
     // Dom元素
     this.bulletDom = null
+    // 记录移动的定时器
+    this.enemyForwardTimer = null
+    this.enemyBackOffTimer = null
+    this.enemyLeftTranslationTimer = null
+    this.enemyRightTranslationTimer = null
   }
   // 创建子弹
   createBullet() {
@@ -117,6 +122,21 @@ class Bullet {
           }
         }
       }
+    }
+  }
+  // 清除相对应的移动定时器
+  enemyMoveStop(key) {
+    if (this[key]) {
+      clearInterval(this[key])
+      this[key] = null
+    }
+  }
+  // 停止所有移动定时器
+  enemyStop() {
+    const timerList = ['enemyForwardTimer', 'enemyBackOffTimer', 'enemyLeftTranslationTimer', 'enemyRightTranslationTimer']
+    for (const index in timerList) {
+      const key = timerList[index]
+      this.enemyMoveStop(key)
     }
   }
   // 子弹停止 清除定时器

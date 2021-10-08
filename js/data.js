@@ -36,3 +36,11 @@
   const bulletWidth = 10
   // 技能冷却时间
   const defaultCoolingTimeColor = '#ffffff'
+  // 固定的敌机列表（下表）
+  let fixedEnemyIndex = 0
+  // 第一波
+  const firstEnemy = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  // 第二波
+  const secondEnemy = [6, 6, 0, 0, 3, 3, 5, 5, 5, 6]
+   // 固定的敌机列表（对应enemyData下标）
+  const fixedEnemyList = [].concat(firstEnemy, secondEnemy)
