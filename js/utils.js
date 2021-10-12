@@ -17,7 +17,7 @@ function interval(call, dealy = allMoveSpeed) {
   }, dealy)
 }
 // 设置伪类元素 对应技能冷却提示
-function setCoolingTime(parentDom, timer, color = defaultCoolingTimeColor) {
+function setCoolingTime(parentDom, nowCoolingTime, coolingTimeOrginal, color = defaultCoolingTimeColor) {
   parentDom.classList.add('coolingTime')
   // 随机生成唯一ID 进行样式添加记录
   const selectorText = 'coolingTimeRando-' + guid()
@@ -26,13 +26,9 @@ function setCoolingTime(parentDom, timer, color = defaultCoolingTimeColor) {
   // 更改伪类元素
   styleSheets.insertRule(`.${selectorText}::before {
     background-color: ${color} !important;
-    transition: width ${timer}s ease-out !important;
-  }`, 0); // 支持非IE的现代浏览器
-  setTimeout(() => {
-    styleSheets.insertRule(`.${selectorText}::before {
-      width: 0% !important;
-    }`, 0); 
-  }, 16);
+    width: ${nowCoolingTime / coolingTimeOrginal * 100}% !important;
+    transition: width 1s ease-in-out !important;
+  }`, 0);
   // 返回生成的唯一ID
   return selectorText
 }

@@ -3,6 +3,8 @@ function moveStop() {
   const _enemyStore = enemyStore.getStore()
   const _bulletStore = bulletStore.getStore()
 
+  intervalStore.clearInterval()
+  shootIntervalStore.clearInterval()
   // 停止飞机移动
   if (Object.keys(_enemyStore).length) {
     for (const enemy in _enemyStore) {
@@ -41,10 +43,12 @@ function moveStop() {
   document.removeEventListener('keyup', keyupFunc)
   // 停止操作飞机移动
   for (const key in keyLimit) {
-    if (Object.hasOwnProperty.call(keyLimit, key)) {
-      const element = keyLimit[key];
-      element.movend && element.movend()
+    const element = keyLimit[key];
+    if (!element.isCoolingTime) {
+      element.status = false;
     }
+    element.moveStop();
+    element.keyDom.style.border = ''
   }
 }
 
@@ -55,6 +59,12 @@ function moveing() {
   const _enemyStore = enemyStore.getStore()
   const _bulletStore = bulletStore.getStore()
 
+  intervalStore.createInterval()
+  shootIntervalStore.createInterval()
+  // 如果暂停了冷却倒计时
+  if (keyLimit[73].nowCoolingTime) {
+    keyLimit[73].coolingFunc()
+  }
   // 开始飞机移动
   if (Object.keys(_enemyStore).length) {
     for (const enemy in _enemyStore) {

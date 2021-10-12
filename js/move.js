@@ -1,79 +1,61 @@
+const shootIntervalStore = new Interval(shootSpeed)
+shootIntervalStore.createInterval()
 // 键位
 const keyLimit = {
   87: {
     key: 'w',
-    value: true,
-    timer: null,
     status: false,
+    keyDom: wKey,
     moveing() {
-      this.status = true
-      wKey.style.border = '1px solid #67C23A'
-      this.timer = interval(() => {
+      intervalStore.add(() => {
         if(planeDom.offsetTop <= 0) return
         planeDom.style.top = planeDom.offsetTop - moveSpeed + 'px'
-      })
+      }, this.key)
     },
-    movend() {
-      this.status = false
-      wKey.style.border = ''
-      clearInterval(this.timer)
+    moveStop() {
+      intervalStore.remove(this.key)
     }
   },
   83: {
     key: 's',
-    value: true,
-    timer: null,
     status: false,
+    keyDom: sKey,
     moveing() {
-      this.status = true
-      sKey.style.border = '1px solid #67C23A'
-      this.timer = interval(() => {
+      intervalStore.add(() => {
         if(planeDom.offsetTop >= containerHeight - planeDom.offsetWidth) return
         planeDom.style.top = planeDom.offsetTop + moveSpeed + 'px'
-      })
+      }, this.key)
     },
-    movend() {
-      this.status = false
-      sKey.style.border = ''
-      clearInterval(this.timer)
+    moveStop() {
+      intervalStore.remove(this.key)
     }
   },
   65: {
     key: 'a',
-    value: true,
-    timer: null,
     status: false,
+    keyDom: aKey,
     moveing() {
-      this.status = true
-      aKey.style.border = '1px solid #67C23A'
-      this.timer = interval(() => {
+      intervalStore.add(() => {
         if(planeDom.offsetLeft <= 0) return
         planeDom.style.left = planeDom.offsetLeft - moveSpeed + 'px'
-      })
+      }, this.key)
     },
-    movend() {
-      this.status = false
-      aKey.style.border = ''
-      clearInterval(this.timer)
+    moveStop() {
+      intervalStore.remove(this.key)
     }
   },
   68: {
     key: 'd',
-    value: true,
-    timer: null,
     status: false,
+    keyDom: dKey,
     moveing() {
-      this.status = true
-      dKey.style.border = '1px solid #67C23A'
-      this.timer = interval(() => {
+      intervalStore.add(() => {
         if(planeDom.offsetLeft >= containerWidth - planeDom.offsetWidth) return
         planeDom.style.left = planeDom.offsetLeft + moveSpeed + 'px'
-      })
+      }, this.key)
     },
-    movend() {
-      this.status = false
-      dKey.style.border = ''
-      clearInterval(this.timer)
+    moveStop() {
+      intervalStore.remove(this.key)
     }
   },
   74: {
@@ -81,22 +63,19 @@ const keyLimit = {
     value: true,
     timer: null,
     status: false,
+    keyDom: jKey,
     moveing() {
-      this.status = true
-      jKey.style.border = '1px solid #67C23A'
       // 定时创建子弹
-      this.timer = interval(() => {
+      shootIntervalStore.add(() => {
         let positionX = ((planeDom.offsetLeft + delayX) + (planeDom.offsetWidth / 2))
         let positionY = planeDom.offsetTop
         let bullet = new Bullet(allMoveSpeed, positionX, positionY, 'top', 20)
         bullet.createBullet()
         bullet.bulletMove(container)
-      }, shootSpeed)
+      }, this.key)
     },
-    movend() {
-      this.status = false
-      jKey.style.border = ''
-      clearInterval(this.timer)
+    moveStop() {
+      shootIntervalStore.remove(this.key)
     }
   },
   73: {
@@ -104,36 +83,62 @@ const keyLimit = {
     value: true,
     timer: null,
     status: false,
-    CoolingTimeOrginal: 10,
+    coolingTimeOrginal: 10,
     nowCoolingTime: 0,
+    keyDom: iKey,
+    isCoolingTime: true,
+    duration: 3000,
+    coolingClassName: '',
     moveing() {
-      this.status = true
-      iKey.style.border = '1px solid #67C23A'
-      this.nowCoolingTime = this.CoolingTimeOrginal
+      this.nowCoolingTime = this.coolingTimeOrginal
       // 大招 计时器
-      const className = setCoolingTime(iKey, this.CoolingTimeOrginal, '#ffffff')
-      shootSpeed = 16
-      keyLimit[74].movend()
-      keyLimit[74].moveing()
-      
-      setTimeout(() => {
-        shootSpeed = shootSpeedOrginal
-        keyLimit[74].movend()
+      shootIntervalStore.setIntervalDelay(32)
+      if (keyLimit[74].status) {
+        keyLimit[74].moveStop()
         keyLimit[74].moveing()
-      }, 3000);
-      // TODO：按下esc暂停计时
+      }
+      // TODO：技能时间计入定时器暂停
+      setTimeout(() => {
+        shootIntervalStore.setIntervalDelay(shootSpeedOrginal)
+        if (keyLimit[74].status && !isClickStopButton) {
+          keyLimit[74].moveStop()
+          keyLimit[74].moveing()
+        }
+      }, this.duration);
+      this.coolingFunc()
+    },
+    // 技能冷却
+    coolingFunc() {
+      // 如果当前记录了冷却时间 则清除
+      if (this.coolingClassName) {
+        iKey.classList.remove(this.coolingClassName)
+      }
+      // 设置新的时间样式
+      this.coolingClassName = setCoolingTime(iKey, this.nowCoolingTime, this.coolingTimeOrginal, '#ffffff')
+      // 间隔一秒冷却
       this.timer = interval(() => {
         this.nowCoolingTime -= 1
+        iKey.classList.remove(this.coolingClassName)
+        // 重新设置冷却时间样式
+        this.coolingClassName = setCoolingTime(iKey, this.nowCoolingTime, this.coolingTimeOrginal, '#ffffff')
+        // 如果冷却完毕 清除状态
         if (this.nowCoolingTime === 0) {
           this.status = false
-          iKey.classList.remove(className)
+          iKey.classList.remove(this.coolingClassName)
           iKey.classList.remove('coolingTime')
           clearInterval(this.timer)
         }
       }, 1000)
     },
-    movend() {
-      iKey.style.border = ''
+    // 停止冷却计时
+    stopCooling() {
+      if (this.timer) {
+        clearInterval(this.timer)
+        this.timer = null
+      }
+    },
+    moveStop() {
+      this.stopCooling()
     }
   }
 }
@@ -142,6 +147,8 @@ function keydownFunc(e) {
   const code = e.keyCode
   if(keyLimit[code]) {
     if(typeof keyLimit[code].moveing === 'function' && !keyLimit[code].status) {
+      keyLimit[code].status = true
+      keyLimit[code].keyDom.style.border = '1px solid #67C23A'
       keyLimit[code].moveing(e)
     }
   }
@@ -150,8 +157,12 @@ function keydownFunc(e) {
 function keyupFunc(e) {
   const code = e.keyCode
   if(keyLimit[code]) {
-    if(typeof keyLimit[code].movend === 'function') {
-      keyLimit[code].movend(e)
+    if(typeof keyLimit[code].moveStop === 'function') {
+      if (!keyLimit[code].isCoolingTime) {
+        keyLimit[code].status = false
+        keyLimit[code].moveStop(e)
+      }
+      keyLimit[code].keyDom.style.border = ''
     }
   }
 }
@@ -163,11 +174,8 @@ document.addEventListener('keyup', keyupFunc)
 // 监听高优先按键
 document.addEventListener('keydown', (e) => {
   const code = e.keyCode
-  // ESC键code
-  const escKeyCode = 27
   if (code === escKeyCode) {
     escKeyFunc()
-    // isClickStopButton = true
   }
 })
 

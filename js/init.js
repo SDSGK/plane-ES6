@@ -4,6 +4,7 @@ let enemyTimer = null
 let enemyFlySpeed = 3
 
 function init() {
+  intervalStore.createInterval()
   if(enemyTimer) stop()
   enemyTimer = setInterval(() => {
     // 限制飞机数量

@@ -36,6 +36,8 @@
   const bulletWidth = 10
   // 技能冷却时间
   const defaultCoolingTimeColor = '#ffffff'
+  // ESC键code
+  const escKeyCode = 27
   // 固定的敌机列表（下表）
   let fixedEnemyIndex = 0
   // 第一波
