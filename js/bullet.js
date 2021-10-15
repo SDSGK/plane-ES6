@@ -19,15 +19,8 @@ class Bullet {
     this.cut = cut
     // 唯一id
     this.id = 'bullet-' + guid()
-    // 定时器
-    this.timer = null
     // Dom元素
     this.bulletDom = null
-    // 记录移动的定时器
-    this.enemyForwardTimer = null
-    this.enemyBackOffTimer = null
-    this.enemyLeftTranslationTimer = null
-    this.enemyRightTranslationTimer = null
   }
   // 创建子弹
   createBullet() {
@@ -46,8 +39,7 @@ class Bullet {
   }
   // 子弹移动 
   bulletMove() {
-    if (this.timer) this.bulletStop()
-    this.timer = interval(() => {
+    intervalStore.add(() => {
       if (this.moveType === 'top') {
         // 碰壁
         if (this.bulletDom.offsetTop <= delayY) {
@@ -67,7 +59,7 @@ class Bullet {
         // 数据移动
         this.positionY = this.bulletDom.offsetTop + this.bulletFlySpeed
       }
-    });
+    }, this.id);
   }
   // 子弹射击 
   bulletShooting() {
@@ -108,7 +100,7 @@ class Bullet {
               enemyHealthTextDom.innerText = ''
               // 更换爆炸gif
               const enemyDom = target.enemyDom
-              enemyDom.style.background = 'url(../image/boom.gif) no-repeat'
+              enemyDom.style.background = 'url(../image/boom.gif' + '?' + 'gif-' + guid() + ') no-repeat'
               enemyDom.style.backgroundSize = 'contain'
               // 页面上删除敌机
               target.enemyStop()
@@ -124,25 +116,9 @@ class Bullet {
       }
     }
   }
-  // 清除相对应的移动定时器
-  enemyMoveStop(key) {
-    if (this[key]) {
-      clearInterval(this[key])
-      this[key] = null
-    }
-  }
-  // 停止所有移动定时器
-  enemyStop() {
-    const timerList = ['enemyForwardTimer', 'enemyBackOffTimer', 'enemyLeftTranslationTimer', 'enemyRightTranslationTimer']
-    for (const index in timerList) {
-      const key = timerList[index]
-      this.enemyMoveStop(key)
-    }
-  }
   // 子弹停止 清除定时器
   bulletStop() {
-    clearInterval(this.timer)
-    this.timer = null
+    intervalStore.remove(this.id);
   }
   // 清除子弹
   clearBullet() {
