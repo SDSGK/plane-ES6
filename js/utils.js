@@ -10,7 +10,7 @@ function random(min,max) {
   const num = Math.floor(Math.random()*(max-min)) + min;
   return num;
 }
-
+// TODO：逐渐替换 函数
 function interval(call, dealy = allMoveSpeed) {
   return setInterval(() => {
     call()
@@ -31,4 +31,29 @@ function setCoolingTime(parentDom, nowCoolingTime, coolingTimeOrginal, color = d
   }`, 0);
   // 返回生成的唯一ID
   return selectorText
+}
+
+// 技能冷却
+function coolingFunc(self) {
+  // 如果当前记录了冷却时间 则清除
+  const keyDom = self.keyDom
+  if (self.coolingClassName) {
+    keyDom.classList.remove(self.coolingClassName)
+  }
+  // 设置新的时间样式
+  self.coolingClassName = setCoolingTime(keyDom, self.nowCoolingTime, self.coolingTimeOrginal, '#ffffff')
+  // 间隔一秒冷却
+  self.timer = interval(() => {
+    self.nowCoolingTime -= 1
+    keyDom.classList.remove(self.coolingClassName)
+    // 重新设置冷却时间样式
+    self.coolingClassName = setCoolingTime(keyDom, self.nowCoolingTime, self.coolingTimeOrginal, '#ffffff')
+    // 如果冷却完毕 清除状态
+    if (self.nowCoolingTime === 0) {
+      self.status = false
+      keyDom.classList.remove(self.coolingClassName)
+      keyDom.classList.remove('coolingTime')
+      clearInterval(self.timer)
+    }
+  }, 1000)
 }

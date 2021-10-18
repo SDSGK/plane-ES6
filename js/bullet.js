@@ -29,8 +29,8 @@ class Bullet {
     bulletStore.setId(this.id, { target: this })
     // 设置子弹信息
     _bulletDom.style.cssText = `
-      width: ${ bulletWidth}px; 
-      height: ${ bulletHeight}px; 
+      width: ${bulletWidth}px; 
+      height: ${bulletHeight}px; 
       left: ${this.positionX}px; 
       top: ${this.positionY}px;
     `
@@ -52,7 +52,7 @@ class Bullet {
         this.positionY = this.bulletDom.offsetTop - this.bulletFlySpeed
         // 调用碰撞检测
         this.bulletShooting()
-      // TODO：撞到底部 后续添加
+        // TODO：撞到底部 后续添加
       } else if (this.moveType === 'buttom') {
         // 元素移动
         this.bulletDom.style.top = this.bulletDom.offsetTop + this.bulletFlySpeed + 'px'
@@ -75,12 +75,12 @@ class Bullet {
           const bulletDelayX = this.positionX - delayX
           // 碰撞判断
           if (// Y轴判断
-            (enemy.positionY <= bulletDelayY && ( enemy.positionY + enemy.height ) >= bulletDelayY)
+            (enemy.positionY <= bulletDelayY && (enemy.positionY + enemy.height) >= bulletDelayY)
             && // X轴判断
-            (enemy.positionX <= bulletDelayX && ( enemy.positionX + enemy.width ) >= bulletDelayX)
+            (enemy.positionX <= bulletDelayX && (enemy.positionX + enemy.width) >= bulletDelayX)
           ) {
             enemy.health -= this.hurt
-            const target =  enemy.target
+            const target = enemy.target
             // 页面上删除子弹
             this.clearBullet()
             // 更新飞机血量

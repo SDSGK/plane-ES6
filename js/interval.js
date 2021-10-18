@@ -45,11 +45,10 @@ class Interval {
   intervalOperationFunc() {
     const intervalFuncMap = this.intervalFuncMap
     for (const key in intervalFuncMap) {
-        const func = intervalFuncMap[key];
-        if (typeof func === 'function') {
-          func()
-        }
-        
+      const func = intervalFuncMap[key];
+      if (typeof func === 'function') {
+        func()
+      }
     }
   }
 }

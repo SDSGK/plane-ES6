@@ -8,7 +8,7 @@ const keyLimit = {
     keyDom: wKey,
     moveing() {
       intervalStore.add(() => {
-        if(planeDom.offsetTop <= 0) return
+        if (planeDom.offsetTop <= 0) return
         planeDom.style.top = planeDom.offsetTop - moveSpeed + 'px'
       }, this.key)
     },
@@ -22,7 +22,7 @@ const keyLimit = {
     keyDom: sKey,
     moveing() {
       intervalStore.add(() => {
-        if(planeDom.offsetTop >= containerHeight - planeDom.offsetWidth) return
+        if (planeDom.offsetTop >= containerHeight - planeDom.offsetWidth) return
         planeDom.style.top = planeDom.offsetTop + moveSpeed + 'px'
       }, this.key)
     },
@@ -36,7 +36,7 @@ const keyLimit = {
     keyDom: aKey,
     moveing() {
       intervalStore.add(() => {
-        if(planeDom.offsetLeft <= 0) return
+        if (planeDom.offsetLeft <= 0) return
         planeDom.style.left = planeDom.offsetLeft - moveSpeed + 'px'
       }, this.key)
     },
@@ -50,7 +50,7 @@ const keyLimit = {
     keyDom: dKey,
     moveing() {
       intervalStore.add(() => {
-        if(planeDom.offsetLeft >= containerWidth - planeDom.offsetWidth) return
+        if (planeDom.offsetLeft >= containerWidth - planeDom.offsetWidth) return
         planeDom.style.left = planeDom.offsetLeft + moveSpeed + 'px'
       }, this.key)
     },
@@ -145,8 +145,8 @@ const keyLimit = {
 // 按下
 function keydownFunc(e) {
   const code = e.keyCode
-  if(keyLimit[code]) {
-    if(typeof keyLimit[code].moveing === 'function' && !keyLimit[code].status) {
+  if (keyLimit[code]) {
+    if (typeof keyLimit[code].moveing === 'function' && !keyLimit[code].status) {
       keyLimit[code].status = true
       keyLimit[code].keyDom.style.border = '1px solid #67C23A'
       keyLimit[code].moveing(e)
@@ -156,8 +156,8 @@ function keydownFunc(e) {
 // 抬起
 function keyupFunc(e) {
   const code = e.keyCode
-  if(keyLimit[code]) {
-    if(typeof keyLimit[code].moveStop === 'function') {
+  if (keyLimit[code]) {
+    if (typeof keyLimit[code].moveStop === 'function') {
       if (!keyLimit[code].isCoolingTime) {
         keyLimit[code].status = false
         keyLimit[code].moveStop(e)
@@ -185,7 +185,7 @@ function escKeyFunc() {
   if (isClickStopButton) {
     isClickStopButton = false
     moveing()
-  }else {
+  } else {
     isClickStopButton = true
     moveStop()
   }

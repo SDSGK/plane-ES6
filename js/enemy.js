@@ -41,11 +41,11 @@ class Enemy {
   /**
    * @description: 创建敌机
    * @return {Object} 随机敌机数据
-   */  
+   */
   createEnemyInfo() {
     // 从数据当中 随机生成列表
     if (typeof fixedEnemyList[fixedEnemyIndex] === 'number') {
-      return  Object.assign({}, enemyList[fixedEnemyList[fixedEnemyIndex++]])
+      return Object.assign({}, enemyList[fixedEnemyList[fixedEnemyIndex++]])
     }
     return Object.assign({}, enemyList[Math.floor(Math.random() * enemyList.length)])
   }
@@ -87,12 +87,12 @@ class Enemy {
     const positionY = realY - _info.height
     // 保存当前敌机
     enemyStore.setId(
-      this.id, 
+      this.id,
       Object.assign(
         _info, {
-          positionY,
-          positionX
-        },
+        positionY,
+        positionX
+      },
         {
           target: this
         }
@@ -192,17 +192,17 @@ class Enemy {
           singleMove.timer = singleMove.timer - (allMoveSpeed * operationOptions.moveNumber)
         }
         moveFunc()
-      }else {
+      } else {
         // 使用方法
         moveFunc()
       }
-      
-    }else {
+
+    } else {
       // 类型是网上移动
-      if (this.moveType === 'top') { 
+      if (this.moveType === 'top') {
         this.enemyForward()
-      // 如果类型是往下移动
-      } else if (this.moveType === 'buttom') { 
+        // 如果类型是往下移动
+      } else if (this.moveType === 'buttom') {
         this.enemyBackOff()
       }
     }
