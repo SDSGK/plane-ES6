@@ -105,30 +105,7 @@ const keyLimit = {
           keyLimit[74].moveing()
         }
       }, this.duration);
-      this.coolingFunc()
-    },
-    // 技能冷却
-    coolingFunc() {
-      // 如果当前记录了冷却时间 则清除
-      if (this.coolingClassName) {
-        iKey.classList.remove(this.coolingClassName)
-      }
-      // 设置新的时间样式
-      this.coolingClassName = setCoolingTime(iKey, this.nowCoolingTime, this.coolingTimeOrginal, '#ffffff')
-      // 间隔一秒冷却
-      this.timer = interval(() => {
-        this.nowCoolingTime -= 1
-        iKey.classList.remove(this.coolingClassName)
-        // 重新设置冷却时间样式
-        this.coolingClassName = setCoolingTime(iKey, this.nowCoolingTime, this.coolingTimeOrginal, '#ffffff')
-        // 如果冷却完毕 清除状态
-        if (this.nowCoolingTime === 0) {
-          this.status = false
-          iKey.classList.remove(this.coolingClassName)
-          iKey.classList.remove('coolingTime')
-          clearInterval(this.timer)
-        }
-      }, 1000)
+      coolingFunc(this)
     },
     // 停止冷却计时
     stopCooling() {
