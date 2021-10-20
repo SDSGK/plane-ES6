@@ -53,7 +53,6 @@ class Bullet {
         this.positionY = this.bulletDom.offsetTop - this.bulletFlySpeed
         // 调用碰撞检测
         this.bulletShooting()
-        // TODO：撞到底部 后续添加
       } else if (this.moveType === 'buttom') {
         // 到底部
         if (this.bulletDom.offsetTop >= containerHeight) {

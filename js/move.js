@@ -95,7 +95,6 @@ const keyLimit = {
         keyLimit[74].moveStop()
         keyLimit[74].moveing()
       }
-      // TODO：技能时间计入定时器暂停
       setTimeout(() => {
         shootIntervalStore.setIntervalDelay(shootSpeedOrginal)
         if (keyLimit[74].status && !isClickStopButton) {

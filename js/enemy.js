@@ -107,7 +107,7 @@ class Enemy {
       height: ${_info.height || 50}px; 
       left: ${positionX}px; 
       top: ${positionY}px; 
-      background: url(../image/${_info.image}.png) no-repeat;
+      background: url(./image/${_info.image}.png) no-repeat;
       background-size: contain;
     `
     _enemyDom.setAttribute('id', this.id)
