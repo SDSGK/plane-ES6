@@ -29,12 +29,18 @@ let moveSpeed = 6
 let shootSpeed = 160
 // TODO：飞机的移动距离
 let distance = 3
-
+// 玩家血量
+let playBloodVolume = 100
+// 玩家无敌时间
+let playInvincibleTimer = 500
+// 是否在无敌时间
+let isInvincibleTimer = false
+// 射击初始间隔
 const shootSpeedOrginal = 160
 // 子弹的宽高度
 const bulletHeight = 20
 const bulletWidth = 10
-// 技能冷却时间
+// 技能冷却时间颜色
 const defaultCoolingTimeColor = '#ffffff'
 // ESC键code
 const escKeyCode = 27

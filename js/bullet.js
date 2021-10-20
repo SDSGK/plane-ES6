@@ -33,6 +33,7 @@ class Bullet {
       height: ${bulletHeight}px; 
       left: ${this.positionX}px; 
       top: ${this.positionY}px;
+      transform: rotate(${this.cut === 'play' ? '0deg' : '180deg'});
     `
     this.bulletDom = _bulletDom
     document.body.appendChild(_bulletDom)
@@ -54,8 +55,14 @@ class Bullet {
         this.bulletShooting()
         // TODO：撞到底部 后续添加
       } else if (this.moveType === 'buttom') {
+        // 到底部
+        if (this.bulletDom.offsetTop >= containerHeight) {
+          this.clearBullet()
+          return
+        }
         // 元素移动
         this.bulletDom.style.top = this.bulletDom.offsetTop + this.bulletFlySpeed + 'px'
+        this.bulletShooting()
         // 数据移动
         this.positionY = this.bulletDom.offsetTop + this.bulletFlySpeed
       }
@@ -64,7 +71,7 @@ class Bullet {
   // 子弹射击 
   bulletShooting() {
     // 体积判断
-    if (this.bulletDom) {
+    if (this.bulletDom && this.cut === 'play') {
       const enemyStoreList = enemyStore.getStore()
       // 遍历飞机列表
       for (const key in enemyStoreList) {
@@ -112,6 +119,36 @@ class Bullet {
             }
             return;
           }
+        }
+      }
+    } else {
+      // 敌机子弹
+      const bulletDelayY = this.positionY - delayY
+      const bulletDelayX = this.positionX - delayX
+      const planeDomDelayY = planeDom.offsetTop
+      const planeDomDelayX = planeDom.offsetLeft
+      const planeHeight = planeDom.offsetHeight
+      const planeWidth = planeDom.offsetWidth
+      if (// Y轴判断
+        (planeDomDelayY <= bulletDelayY && (planeDomDelayY + planeHeight) >= bulletDelayY)
+        && // X轴判断
+        (planeDomDelayX <= bulletDelayX && (planeDomDelayX + planeWidth) >= bulletDelayX)
+      ) {
+        this.clearBullet()
+        if (!isInvincibleTimer) {
+          playBloodVolume -= this.hurt
+          if (playBloodVolume <= 0) {
+            // 游戏结束
+            console.log('game over');
+          }
+          // TODO：暂停时 暂停无敌时间
+          // 无敌时间
+          planeDom.classList.add('invincibleTimer')
+          isInvincibleTimer = true;
+          setTimeout(() => {
+            planeDom.classList.remove('invincibleTimer')
+            isInvincibleTimer = false;
+          }, playInvincibleTimer)
         }
       }
     }

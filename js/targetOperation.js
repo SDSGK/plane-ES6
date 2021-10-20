@@ -63,7 +63,7 @@ function moveing() {
   shootIntervalStore.createInterval()
   // 如果暂停了冷却倒计时
   if (keyLimit[73].nowCoolingTime) {
-    keyLimit[73].coolingFunc()
+    coolingFunc(keyLimit[73])
   }
   // 开始飞机移动
   if (Object.keys(_enemyStore).length) {

@@ -54,3 +54,7 @@ class Interval {
 }
 
 const intervalStore = new Interval()
+intervalStore.createInterval()
+
+const shootIntervalStore = new Interval(shootSpeed)
+shootIntervalStore.createInterval()

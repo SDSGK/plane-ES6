@@ -33,7 +33,7 @@ const enemyList = [
         },
         {
           timer: 500,
-          moveDirection: 'left',
+          moveDirection: 'left,shoot',
           distance: 3
         },
         {
@@ -43,7 +43,7 @@ const enemyList = [
         },
         {
           timer: 2000,
-          moveDirection: 'top,left',
+          moveDirection: 'top,left,shoot',
           distance: 3
         },
         {
@@ -53,7 +53,7 @@ const enemyList = [
         },
         {
           timer: 6000,
-          moveDirection: 'button',
+          moveDirection: 'button,shoot',
           distance: 3
         },
       ]
@@ -74,7 +74,7 @@ const enemyList = [
         },
         {
           timer: 6000,
-          moveDirection: '',
+          moveDirection: 'shoot',
           distance: 3
         },
       ]
@@ -125,7 +125,7 @@ const enemyList = [
         },
         {
           timer: 6000,
-          moveDirection: 'button,right',
+          moveDirection: 'button,right,shoot',
           distance: 0.2
         },
         {

@@ -35,8 +35,11 @@ class Enemy {
       top: 'enemyForward',
       button: 'enemyBackOff',
       left: 'enemyLeftTranslation',
-      right: 'enemyRightTranslation'
+      right: 'enemyRightTranslation',
+      shoot: 'enemyShoot',
     }
+    this.shootTimer = null
+    this.shootInterval = 160
   }
   /**
    * @description: 创建敌机
@@ -216,7 +219,7 @@ class Enemy {
       // 更新位置信息
       this.updatePosition()
       this.enemyDom.style.top = this.enemyDom.offsetTop - this.enemyFlySpeed + 'px'
-    }, 'enemyForwardTimer')
+    }, this.id + 'enemyForwardTimer')
   }
   // 后退（往下
   enemyBackOff() {
@@ -231,7 +234,7 @@ class Enemy {
       this.updatePosition()
       // 移动元素
       this.enemyDom.style.top = this.enemyDom.offsetTop + this.enemyFlySpeed + 'px'
-    }, 'enemyBackOffTimer')
+    }, this.id + 'enemyBackOffTimer')
   }
   // 左平移
   enemyLeftTranslation() {
@@ -242,7 +245,7 @@ class Enemy {
       this.updatePosition()
       // 移动元素
       this.enemyDom.style.left = this.enemyDom.offsetLeft - this.enemyFlySpeed + 'px'
-    }, 'enemyLeftTranslationTimer')
+    }, this.id + 'enemyLeftTranslationTimer')
   }
   // 右平移
   enemyRightTranslation() {
@@ -253,7 +256,25 @@ class Enemy {
       this.updatePosition()
       // 移动元素
       this.enemyDom.style.left = this.enemyDom.offsetLeft + this.enemyFlySpeed + 'px'
-    }, 'enemyRightTranslationTimer')
+    }, this.id + 'enemyRightTranslationTimer')
+  }
+  // 发射子弹
+  enemyShoot() {
+    this.stopEnemyShoot()
+    this.shootTimer = setInterval(() =>{
+      const enemyDom = this.enemyDom
+      let positionX = ((enemyDom.offsetLeft + delayX) + (enemyDom.offsetWidth / 2))
+      let positionY = enemyDom.offsetTop
+      let bullet = new Bullet(allMoveSpeed, positionX, positionY, 'buttom', 10, 'enemy')
+      bullet.createBullet()
+      bullet.bulletMove()
+    }, this.shootInterval)
+  }
+  stopEnemyShoot() {
+    if (this.shootTimer) {
+      clearInterval(this.shootTimer)
+      this.shootTimer = null
+    }
   }
   // 更新位置
   updatePosition() {
@@ -265,7 +286,7 @@ class Enemy {
   // 清除相对应的移动定时器
   enemyMoveStop(key) {
     if (this[key]) {
-      intervalStore.remove(this[key]);
+      intervalStore.remove(this.id + this[key]);
       this[key] = null
     }
   }
@@ -274,8 +295,10 @@ class Enemy {
     const timerList = ['enemyForwardTimer', 'enemyBackOffTimer', 'enemyLeftTranslationTimer', 'enemyRightTranslationTimer']
     for (const index in timerList) {
       const key = timerList[index]
-      intervalStore.remove(key);
+      intervalStore.remove(this.id + key);
     }
+    // 暂停发射
+    this.stopEnemyShoot()
   }
   // 清除飞机
   clearEnemy() {

@@ -1,5 +1,3 @@
-const shootIntervalStore = new Interval(shootSpeed)
-shootIntervalStore.createInterval()
 // 键位
 const keyLimit = {
   87: {
@@ -71,7 +69,7 @@ const keyLimit = {
         let positionY = planeDom.offsetTop
         let bullet = new Bullet(allMoveSpeed, positionX, positionY, 'top', 20)
         bullet.createBullet()
-        bullet.bulletMove(container)
+        bullet.bulletMove()
       }, this.key)
     },
     moveStop() {
