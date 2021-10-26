@@ -1,16 +1,10 @@
-
-// 构建子弹仓库
-const bulletStore = new Store()
-
-const killEnemy = new Store()
-
 class Bullet {
-  constructor(bulletFlySpeed, positionX, positionY, moveType, hurt = 10, cut = 'play') {
+  constructor(bulletFlySpeed, positionX, positionY, moveType, hurt = hurt, cut = 'play') {
     // 飞行速度
     this.bulletFlySpeed = bulletFlySpeed
     // 位置信息
     this.positionX = positionX - bulletWidth / 2
-    this.positionY = positionY + bulletHeight * 2
+    this.positionY = positionY + bulletHeight
     // 方向
     this.moveType = moveType
     // 伤害
@@ -91,17 +85,15 @@ class Bullet {
             this.clearBullet()
             // 更新飞机血量
             const enemyHealthDom = target.enemyHealthDom
-            enemyHealthDom.style.width = enemy.health / enemy.target.healthOriginal * 100 + '%'
+            enemyHealthDom.style.width = enemy.health / enemy.target.healthOriginal * target.healthOriginal + '%'
             // 更新血量提示文字
             const enemyHealthTextDom = target.enemyHealthTextDom
             enemyHealthTextDom.innerText = enemy.health
             // 如果生命清零 则删除飞机
             if (enemy.health <= 0) {
-              // 记录击杀的列表
-              killEnemy.setId(
-                enemy.target.id,
-                enemy
-              )
+              enemyHealthDom.style.width = '0%'
+              // 获取经验
+              playExperience.accumulateExperience(enemy)
               // 血条提示文字变为空
               enemyHealthTextDom.innerText = ''
               // 更换爆炸gif
@@ -136,11 +128,11 @@ class Bullet {
         this.clearBullet()
         if (!isInvincibleTimer) {
           playBloodVolume -= this.hurt
+          operationDom.setPlayBloodVolume(playBloodVolume)
           if (playBloodVolume <= 0) {
             // 游戏结束
             console.log('game over');
           }
-          // TODO：暂停时 暂停无敌时间
           // 无敌时间
           planeDom.classList.add('invincibleTimer')
           isInvincibleTimer = true;
@@ -163,3 +155,5 @@ class Bullet {
     bulletStore.removeStore(this.id)
   }
 }
+
+

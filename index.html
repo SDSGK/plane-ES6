@@ -11,9 +11,32 @@
 
 <body>
   <div class="plane_container">
+    <!-- 玩家信息展示 -->
+    <div class="experience-box">
+      <div>
+        当前当前血量：<span class="playBloodVolume">100</span>
+      </div>
+      <div>
+        当前经验：<span class="experience">0</span>
+      </div>
+      <div>
+        当前升级所需经验：<span class="requiredForUpgrade">100</span>
+      </div>
+      <div>
+        当前等级：<span class="rank">1</span>
+      </div>
+      <div>
+        当前当前子弹射速：<span class="shootSpeed">160</span>
+      </div>
+      <div>
+        当前当前子弹伤害：<span class="hurt">10</span>
+      </div>
+    </div>
+    <!-- 暂停 -->
     <div class="pause display-none dont-select">
       <span>暂停</span>
     </div>
+    <!-- 暂停按钮（不显示） -->
     <div class="button-list display-none">
       <button class="start ripple color-border" onclick="isClickStopButton = false, moveing()">
         <span class="color-text">
@@ -26,9 +49,11 @@
         </span>
       </button>
     </div>
+    <!-- 容器 -->
     <div class="container">
       <div class="plane"></div>
     </div>
+    <!-- 键盘按键提示 -->
     <div class="keyboard">
       <!-- 方向键 -->
       <div class="group float_left">
@@ -70,6 +95,8 @@
 <script src="./js/enemyData.js"></script>
 <script src="./js/data.js"></script>
 <script src="./js/interval.js"></script>
+<script src="./js/operationDom.js"></script>
+<script src="./js/experience.js"></script>
 <script src="./js/utils.js"></script>
 <script src="./js/store.js"></script>
 <script src="./js/enemy.js"></script>

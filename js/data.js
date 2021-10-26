@@ -18,6 +18,13 @@ const kKey = document.querySelector('.k_key')
 const lKey = document.querySelector('.l_key')
 const iKey = document.querySelector('.i_key')
 
+const playBloodVolumeDom = document.querySelector('.playBloodVolume')
+const experienceDom = document.querySelector('.experience')
+const requiredForUpgradeDom = document.querySelector('.requiredForUpgrade')
+const rankDom = document.querySelector('.rank')
+const shootSpeedDom = document.querySelector('.shootSpeed')
+const hurtDom = document.querySelector('.hurt')
+
 const pause = document.querySelector('.pause')
 // 全局定时器延迟
 const allMoveSpeed = 16
@@ -37,6 +44,8 @@ let playInvincibleTimer = 500
 let isInvincibleTimer = false
 // 射击初始间隔
 const shootSpeedOrginal = 160
+// 玩家子弹伤害
+let hurt = 15
 // 子弹的宽高度
 const bulletHeight = 20
 const bulletWidth = 10
@@ -47,8 +56,7 @@ const escKeyCode = 27
 // 固定的敌机列表（下表）
 let fixedEnemyIndex = 0
 // 第一波
-const firstEnemy = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+const firstEnemy = ['planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeBoss1']
 // 第二波
-const secondEnemy = [6, 6, 0, 0, 3, 3, 5, 5, 5, 6]
 // 固定的敌机列表（对应enemyData下标）
-const fixedEnemyList = [].concat(firstEnemy, secondEnemy)
+const fixedEnemyList = [].concat(firstEnemy)

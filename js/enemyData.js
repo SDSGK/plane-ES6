@@ -9,15 +9,8 @@
  * distance：一次性移动多少距离
  */
 // 敌机数据
-const enemyList = [
-  {
-    health: 100,
-    width: 80,
-    height: 60,
-    distance: 2,
-    image: 'enemy-1',
-  },
-  {
+const enemyMap = {
+  planeLeftRight: {
     health: 100,
     width: 80,
     height: 60,
@@ -42,12 +35,12 @@ const enemyList = [
           distance: 4
         },
         {
-          timer: 2000,
+          timer: 3000,
           moveDirection: 'top,left,shoot',
           distance: 3
         },
         {
-          timer: 4000,
+          timer: 3000,
           moveDirection: 'right',
           distance: 3
         },
@@ -59,93 +52,97 @@ const enemyList = [
       ]
     }
   },
-  {
-    health: 60,
-    width: 40,
-    height: 30,
-    distance: 3,
+  planeRightLeft: {
+    health: 100,
+    width: 80,
+    height: 60,
+    distance: 2,
+    delayX: 600,
     image: 'enemy-1',
     enemyMoveFunc() {
       return [
         {
-          timer: 2000,
+          timer: 500,
           moveDirection: 'button',
           distance: 3
         },
         {
+          timer: 500,
+          moveDirection: 'right,shoot',
+          distance: 3
+        },
+        {
+          timer: 2000,
+          moveDirection: 'button,left',
+          distance: 4
+        },
+        {
+          timer: 3000,
+          moveDirection: 'top,right,shoot',
+          distance: 3
+        },
+        {
+          timer: 3000,
+          moveDirection: 'left',
+          distance: 3
+        },
+        {
           timer: 6000,
-          moveDirection: 'shoot',
+          moveDirection: 'button,shoot',
           distance: 3
         },
       ]
     }
   },
-  {
-    health: 60,
-    width: 40,
-    height: 30,
-    distance: 3,
-    image: 'enemy-1',
-    enemyMoveFunc() {
-      return []
-    }
-  },
-  {
-    health: 60,
-    width: 40,
-    height: 30,
-    distance: 3,
-    image: 'enemy-1',
-    enemyMoveFunc() {
-      return []
-    }
-  },
-  {
-    health: 60,
-    width: 40,
-    height: 30,
-    distance: 3,
-    image: 'enemy-1',
-    enemyMoveFunc() {
-      return []
-    }
-  },
-  {
-    health: 200,
-    width: 120,
-    height: 90,
-    distance: 0.5,
+  planeBoss1: {
+    health: 6000,
+    width: 240,
+    height: 160,
+    distance: 2,
     image: 'enemy-1',
     enemyMoveFunc() {
       return [
         {
-          timer: 6000,
-          moveDirection: 'button,left',
-          distance: 0.5
+          timer: 1500,
+          moveDirection: 'button',
+          distance: 3
         },
         {
-          timer: 6000,
-          moveDirection: 'button,right,shoot',
-          distance: 0.2
+          timer: 1000,
+          moveDirection: 'left,shoot',
+          distance: 1.5
         },
         {
-          timer: 6000,
-          moveDirection: 'top,left',
-          distance: 1
+          timer: 2000,
+          moveDirection: 'right,shoot',
+          distance: 1.5
         },
         {
-          timer: 12000,
-          moveDirection: 'button,right',
-          distance: 1
+          timer: 1000,
+          moveDirection: 'left,shoot',
+          distance: 2
+        },
+        {
+          timer: 1000,
+          moveDirection: 'top',
+          distance: 3
+        },
+        {
+          timer: 1000,
+          moveDirection: 'left,button,shoot',
+          distance: 1.5
+        },
+        {
+          timer: 1000,
+          moveDirection: 'right,button,shoot',
+          distance: 1.5
+        },
+        {
+          timer: 1000,
+          moveDirection: 'left,button',
+          distance: 1.5
         },
       ]
     }
   },
-  {
-    health: 200,
-    width: 120,
-    height: 90,
-    distance: 0.5,
-    image: 'enemy-1',
-  }
-]
+}

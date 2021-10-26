@@ -1,6 +1,3 @@
-
-const enemyStore = new Store()
-
 class Enemy {
   constructor(enemyFlySpeed, positionX, positionY, moveType) {
     // 飞行速度
@@ -47,10 +44,12 @@ class Enemy {
    */
   createEnemyInfo() {
     // 从数据当中 随机生成列表
-    if (typeof fixedEnemyList[fixedEnemyIndex] === 'number') {
-      return Object.assign({}, enemyList[fixedEnemyList[fixedEnemyIndex++]])
+    if (enemyMap.hasOwnProperty(fixedEnemyList[fixedEnemyIndex])) {
+      return Object.assign({}, enemyMap[fixedEnemyList[fixedEnemyIndex++]])
+    } else {
+      const keys = Object.keys(enemyMap)
+      return Object.assign({}, enemyMap[keys[Math.floor(Math.random() * keys.length)]])
     }
-    return Object.assign({}, enemyList[Math.floor(Math.random() * enemyList.length)])
   }
   // 创建敌机并且开始移动
   enemyStart() {
@@ -68,15 +67,20 @@ class Enemy {
     _enemyhealthDom.classList.add('enemyhealth')
     // 血条文字
     const _enemyHealthTextDom = document.createElement('span')
-    _enemyHealthTextDom.innerText = _info.health
+    // 获取玩家等级
+    const rank = playExperience.getRank()
+    const empiricalRatio = playExperience.getEmpiricalRatio()
+    const health = parseInt((rank / empiricalRatio) * (_info.health * empiricalRatio * 0.35))
+
+    _enemyHealthTextDom.innerText = health
     _enemyHealthTextDom.classList.add('enemyHealthText')
 
     _enemyDom.appendChild(_enemyhealthDom)
     _enemyDom.appendChild(_enemyHealthTextDom)
     // 血量
-    this.health = _info.health
+    this.health = health
     // 原血量
-    this.healthOriginal = _info.health
+    this.healthOriginal = health
     // 飞行速度
     this.enemyFlyInterval = allMoveSpeed
     this.enemyFlySpeed = _info.distance || distance
@@ -86,7 +90,7 @@ class Enemy {
     const realX = this.positionX
     const realY = this.positionY
     // 生成位置
-    const positionX = _info.delayX || realX <= _info.width ? _info.width : realX - _info.width
+    const positionX = (_info.delayX || (realX <= _info.width ? _info.width : realX - _info.width))
     const positionY = realY - _info.height
     // 保存当前敌机
     enemyStore.setId(
@@ -264,7 +268,7 @@ class Enemy {
     this.shootTimer = setInterval(() =>{
       const enemyDom = this.enemyDom
       let positionX = ((enemyDom.offsetLeft + delayX) + (enemyDom.offsetWidth / 2))
-      let positionY = enemyDom.offsetTop
+      let positionY = enemyDom.offsetTop + enemyDom.offsetHeight
       let bullet = new Bullet(allMoveSpeed, positionX, positionY, 'buttom', 10, 'enemy')
       bullet.createBullet()
       bullet.bulletMove()

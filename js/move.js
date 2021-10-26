@@ -67,7 +67,7 @@ const keyLimit = {
       shootIntervalStore.add(() => {
         let positionX = ((planeDom.offsetLeft + delayX) + (planeDom.offsetWidth / 2))
         let positionY = planeDom.offsetTop
-        let bullet = new Bullet(allMoveSpeed, positionX, positionY, 'top', 20)
+        let bullet = new Bullet(allMoveSpeed, positionX, positionY, 'top', hurt)
         bullet.createBullet()
         bullet.bulletMove()
       }, this.key)

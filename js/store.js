@@ -43,3 +43,8 @@ class Store {
     return true
   }
 }
+
+// 构建子弹仓库
+const bulletStore = new Store()
+// 敌机数据存放仓库
+const enemyStore = new Store()
