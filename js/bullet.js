@@ -41,10 +41,30 @@ class Bullet {
           this.clearBullet()
           return
         }
-        // 元素移动
-        this.bulletDom.style.top = this.bulletDom.offsetTop - this.bulletFlySpeed + 'px'
-        // 数据移动
-        this.positionY = this.bulletDom.offsetTop - this.bulletFlySpeed
+        if (isFollowBullet) {
+          // 跟踪子弹
+          const enemyStoreList = enemyStore.getStore()
+          const keys = Object.keys(enemyStoreList)
+          const enemy = enemyStoreList[keys[0]]
+          const {x, y, angle} = FollowUpBullet(
+            enemy.positionX + delayX - enemy.width / 2, 
+            enemy.positionY + delayY - enemy.height / 2, 
+            this.positionY, 
+            this.positionX, 
+            this.bulletFlySpeed
+          )
+          // 元素移动
+          this.bulletDom.style.top = this.positionY + y + 'px'
+          this.bulletDom.style.left = this.positionX + x + 'px'
+          this.bulletDom.style.transform = 'rotate(' + angle + 'deg)'
+
+          this.positionY = this.positionY + y
+          this.positionX = this.positionX + x
+        } else {
+          // 数据移动
+          this.bulletDom.style.top = this.bulletDom.offsetTop - this.bulletFlySpeed + 'px'
+          this.positionY = this.bulletDom.offsetTop - this.bulletFlySpeed
+        }
         // 调用碰撞检测
         this.bulletShooting()
       } else if (this.moveType === 'buttom') {

@@ -114,6 +114,38 @@ const keyLimit = {
     moveStop() {
       this.stopCooling()
     }
+  },
+  76: {
+    key: 'l',
+    value: true,
+    timer: null,
+    status: false,
+    coolingTimeOrginal: 10,
+    nowCoolingTime: 0,
+    keyDom: lKey,
+    isCoolingTime: true,
+    duration: 3000,
+    coolingClassName: '',
+    moveing() {
+      this.nowCoolingTime = this.coolingTimeOrginal
+      isFollowBullet = true
+      setTimeout(() => {
+        shootIntervalStore.setIntervalDelay(shootSpeedOrginal)
+        // 技能持续时间结束
+        isFollowBullet = false
+      }, this.duration);
+      coolingFunc(this)
+    },
+    // 停止冷却计时
+    stopCooling() {
+      if (this.timer) {
+        clearInterval(this.timer)
+        this.timer = null
+      }
+    },
+    moveStop() {
+      this.stopCooling()
+    }
   }
 }
 // 按下

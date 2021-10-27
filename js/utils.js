@@ -1,13 +1,13 @@
- //用于生成uuid
+//用于生成uuid
 function S4() {
-  return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+  return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 }
 function guid() {
-  return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+  return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 }
 // 随机取数字
-function random(min,max) {
-  const num = Math.floor(Math.random()*(max-min)) + min;
+function getRandomNumber(min, max) {
+  const num = Math.floor(Math.random() * (max - min)) + min;
   return num;
 }
 // TODO：逐渐替换 函数
@@ -56,4 +56,55 @@ function coolingFunc(self) {
       clearInterval(self.timer)
     }
   }, 1000)
+}
+
+// 原文链接：https://blog.csdn.net/erweimac/article/details/82256087
+// https://blog.csdn.net/weixin_30756499/article/details/97551805
+// https://blog.csdn.net/looffer/article/details/8846159
+// https://github.com/processing/p5.js
+/**
+ * @description: 追踪目标
+ * @param {number} x1 追踪目标x轴
+ * @param {number} y1 追踪目标y轴
+ * @param {number} x2 追踪者x轴
+ * @param {number} y2 追踪者y轴
+ * @param {number} speed 追踪者速度
+ * @return {Object} {x, y} 返回下一次要移动的位置
+ */
+function FollowUpBullet(x1, y1, x2, y2, speed) {
+  // 向量
+  const deltaX = x1 - x2
+  const deltaY = y1 - y2
+
+  if (deltaX == 0) {
+    if (y1 >= y2) {
+      deltaX = 0.0000001
+    } else {
+      deltaX = -0.0000001
+    }
+  }
+  if (deltaY == 0) {
+    if (x1 >= x2) {
+      deltaY = 0.0000001
+    } else {
+      deltaY = -0.0000001
+    }
+  }
+  // 向量长度
+  const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+  let angle = 0
+  let π = 3.1415926
+  if (deltaX > 0 && deltaY > 0) {
+    angle = Math.atan(Math.abs(deltaY / deltaX)) // 第一项限
+  } else if (deltaX < 0 && deltaY > 0) {
+    angle = π - Math.atan(Math.abs(deltaY / deltaX)) // 第二项限
+  } else if (deltaX < 0 && deltaY < 0) {
+    angle = π + Math.atan(Math.abs(deltaY / deltaX)) // 第三项限
+  } else {
+    angle = 2 * π - Math.atan(Math.abs(deltaY / deltaX)) // 第四项限
+  }
+  // 偏移量
+  let x =  deltaX * (1 / length) * speed
+  let y = deltaY * (1 / length) * speed
+  return {x, y, angle}
 }

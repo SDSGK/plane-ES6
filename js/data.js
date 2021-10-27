@@ -30,6 +30,7 @@ const pause = document.querySelector('.pause')
 const allMoveSpeed = 16
 // 是否手动点击过暂停按钮
 let isClickStopButton = false
+let isFollowBullet = false
 // TODO：移动速度改变
 let moveSpeed = 6
 // TODO：子弹速度修改
