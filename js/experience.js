@@ -25,10 +25,11 @@ class Experience {
     // 更新经验显示页面
     operationDom.setExperience(this.experience)
     if (this.experience >= this.requiredForUpgrade) {
-      // 升级
-      this.rank += 1
+      // 记录提升的等级（可能会出现连续升级的情况）
+      const level = parseInt(this.experience / this.requiredForUpgrade) || 1
+      this.rank += level
       // 翻倍经验
-      this.requiredForUpgrade  = parseInt(this.requiredForUpgrade *= this.empiricalRatio)
+      this.requiredForUpgrade  = parseInt((this.requiredForUpgrade *= this.empiricalRatio) * level) 
       this.upgrade()
       this.synchronization()
     }

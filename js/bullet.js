@@ -79,18 +79,18 @@ class Bullet {
             && // X轴判断
             (enemy.positionX <= bulletDelayX && (enemy.positionX + enemy.width) >= bulletDelayX)
           ) {
-            enemy.health -= this.hurt
+            enemy.target.health -= this.hurt
             const target = enemy.target
             // 页面上删除子弹
             this.clearBullet()
             // 更新飞机血量
             const enemyHealthDom = target.enemyHealthDom
-            enemyHealthDom.style.width = enemy.health / enemy.target.healthOriginal * target.healthOriginal + '%'
+            enemyHealthDom.style.width = enemy.target.health / enemy.target.healthOriginal * 100 + '%'
             // 更新血量提示文字
             const enemyHealthTextDom = target.enemyHealthTextDom
-            enemyHealthTextDom.innerText = enemy.health
+            enemyHealthTextDom.innerText = enemy.target.health
             // 如果生命清零 则删除飞机
-            if (enemy.health <= 0) {
+            if (enemy.target.health <= 0) {
               enemyHealthDom.style.width = '0%'
               // 获取经验
               playExperience.accumulateExperience(enemy)
