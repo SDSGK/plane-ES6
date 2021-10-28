@@ -1,7 +1,6 @@
 
 function moveStop() {
   const _enemyStore = enemyStore.getStore()
-  const _bulletStore = bulletStore.getStore()
 
   intervalStore.clearInterval()
   shootIntervalStore.clearInterval()
@@ -14,20 +13,6 @@ function moveStop() {
           if (typeof element.target.enemyStop === 'function') {
             element?.target?.enemyStop()
             element?.operationOptions?.operationStop()
-          }
-        }
-      }
-    }
-  }
-
-  // 停止子弹移动
-  if (Object.keys(_bulletStore).length) {
-    for (const enemy in _bulletStore) {
-      if (Object.hasOwnProperty.call(_bulletStore, enemy)) {
-        const element = _bulletStore[enemy];
-        if (element.target) {
-          if (typeof element.target.bulletStop === 'function') {
-            element.target.bulletStop()
           }
         }
       }
@@ -57,7 +42,6 @@ function moveing() {
     return
   }
   const _enemyStore = enemyStore.getStore()
-  const _bulletStore = bulletStore.getStore()
 
   intervalStore.createInterval()
   shootIntervalStore.createInterval()
@@ -73,19 +57,6 @@ function moveing() {
         if (element.target) {
           if (typeof element.target.enemyMove === 'function') {
             element.target.enemyMove()
-          }
-        }
-      }
-    }
-  }
-  // 开始子弹移动
-  if (Object.keys(_bulletStore).length) {
-    for (const enemy in _bulletStore) {
-      if (Object.hasOwnProperty.call(_bulletStore, enemy)) {
-        const element = _bulletStore[enemy];
-        if (element.target) {
-          if (typeof element.target.bulletMove === 'function') {
-            element.target.bulletMove()
           }
         }
       }
