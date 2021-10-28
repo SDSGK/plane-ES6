@@ -49,6 +49,9 @@ function moveing() {
   if (keyLimit[73].nowCoolingTime) {
     coolingFunc(keyLimit[73])
   }
+  if (keyLimit[76].nowCoolingTime) {
+    coolingFunc(keyLimit[76])
+  }
   // 开始飞机移动
   if (Object.keys(_enemyStore).length) {
     for (const enemy in _enemyStore) {
