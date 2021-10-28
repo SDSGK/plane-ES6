@@ -32,11 +32,15 @@ const allMoveSpeed = 16
 let isClickStopButton = false
 let isFollowBullet = false
 // TODO：移动速度改变
-let moveSpeed = 6
+let moveSpeed = 5
+let moveSpeedOrginal = moveSpeed
+const planeWidth = 80
+const planeHeight = 60
 // TODO：子弹速度修改
 let shootSpeed = 160
+let shootDistance = 9.5
 // TODO：飞机的移动距离
-let distance = 3
+let distance = 2.5
 // 玩家血量
 let playBloodVolume = 100
 // 玩家无敌时间
@@ -47,6 +51,7 @@ let isInvincibleTimer = false
 const shootSpeedOrginal = 160
 // 玩家子弹伤害
 let hurt = 15
+let hurtOrginal = 15
 // 子弹的宽高度
 const bulletHeight = 20
 const bulletWidth = 10

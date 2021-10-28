@@ -67,7 +67,7 @@ const keyLimit = {
       shootIntervalStore.add(() => {
         let positionX = ((planeDom.offsetLeft + delayX) + (planeDom.offsetWidth / 2))
         let positionY = planeDom.offsetTop
-        let bullet = new Bullet(allMoveSpeed, positionX, positionY, 'top', hurt)
+        let bullet = new Bullet(shootDistance, positionX, positionY, 'top', hurt)
         bullet.createBullet()
         bullet.bulletMove()
       }, this.key)
@@ -145,6 +145,45 @@ const keyLimit = {
     },
     moveStop() {
       this.stopCooling()
+    }
+  },
+  75: {
+    key: 'k',
+    status: false,
+    keyDom: kKey,
+    moveing() {
+      // 记录当前速度
+      moveSpeedOrginal = moveSpeed
+      // 加速
+      moveSpeed = moveSpeed * 1.35
+      // 记录当前子弹伤害
+      hurtOrginal = hurt
+      // 进行伤害降低
+      hurt = hurt * 0.75
+      // 更新界面显示
+      operationDom.setHurt(hurt)
+      const scaleWidthNumber = planeWidth / 2
+      const scaleHeightNumber = planeHeight / 2
+      // 体积减少
+      planeDom.style.width = scaleWidthNumber + 'px'
+      planeDom.style.height = scaleHeightNumber + 'px'
+      // 位置变为中心点
+      planeDom.style.left = planeDom.offsetLeft + scaleWidthNumber / 2 + 'px'
+      planeDom.style.top = planeDom.offsetTop + scaleWidthNumber / 2 + 'px'
+    },
+    moveStop() {
+      // 移动速度还原
+      moveSpeed = moveSpeedOrginal
+      // 伤害还原
+      hurt = hurtOrginal
+       // 更新界面显示
+      operationDom.setHurt(hurt)
+      // 体积还原
+      planeDom.style.width = planeWidth + 'px'
+      planeDom.style.height = planeHeight + 'px'
+      // 位置变为中心点
+      planeDom.style.left = planeDom.offsetLeft - planeWidth / 4 + 'px'
+      planeDom.style.top = planeDom.offsetTop - planeHeight / 4 + 'px'
     }
   }
 }

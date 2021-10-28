@@ -270,7 +270,7 @@ class Enemy {
       const enemyDom = this.enemyDom
       let positionX = ((enemyDom.offsetLeft + delayX) + (enemyDom.offsetWidth / 2))
       let positionY = enemyDom.offsetTop + enemyDom.offsetHeight
-      let bullet = new Bullet(allMoveSpeed, positionX, positionY, 'buttom', 10, 'enemy')
+      let bullet = new Bullet(shootDistance, positionX, positionY, 'buttom', 10, 'enemy')
       bullet.createBullet()
       bullet.bulletMove()
     }, this.shootInterval)
