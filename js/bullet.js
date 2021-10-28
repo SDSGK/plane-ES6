@@ -83,6 +83,22 @@ class Bullet {
   }
   // 子弹射击 
   bulletShooting() {
+    // 子弹偏移位置
+    const bulletDelayY = this.positionY - delayY
+    const bulletDelayX = this.positionX - delayX
+    // 子弹射击掩体
+    let wall = storeStore.getStore()
+    for (const key in wall) {
+      const enemy = storeStore.getId(key)
+      if (// Y轴判断
+        (enemy.positionY <= bulletDelayY && (enemy.positionY + enemy.height) >= bulletDelayY)
+        && // X轴判断
+        (enemy.positionX <= bulletDelayX && (enemy.positionX + enemy.width) >= bulletDelayX)
+      ) {
+        this.updateEnemyInfo(enemy)
+        return 
+      }
+    }
     // 体积判断
     if (this.bulletDom && this.cut === 'play') {
       const enemyStoreList = enemyStore.getStore()
@@ -90,9 +106,6 @@ class Bullet {
       for (const key in enemyStoreList) {
         if (Object.hasOwnProperty.call(enemyStoreList, key)) {
           const enemy = enemyStoreList[key];
-          // 子弹偏移位置
-          const bulletDelayY = this.positionY - delayY
-          const bulletDelayX = this.positionX - delayX
           // 碰撞判断
           if (// Y轴判断
             (enemy.positionY <= bulletDelayY && (enemy.positionY + enemy.height) >= bulletDelayY)
@@ -106,26 +119,11 @@ class Bullet {
       }
     } else {
       // 敌机子弹
-      const bulletDelayY = this.positionY - delayY
-      const bulletDelayX = this.positionX - delayX
       const planeDomDelayY = planeDom.offsetTop
       const planeDomDelayX = planeDom.offsetLeft
       const planeHeight = planeDom.offsetHeight
       const planeWidth = planeDom.offsetWidth
-      // 子弹射击掩体
-      let wall = Object.keys(enemyStore.getStore()).filter(key => key.includes('wall'))
-      for (const index in wall) {
-        const key = wall[index];
-        const enemy = enemyStore.getId(key)
-        if (// Y轴判断
-          (enemy.positionY <= bulletDelayY && (enemy.positionY + enemy.height) >= bulletDelayY)
-          && // X轴判断
-          (enemy.positionX <= bulletDelayX && (enemy.positionX + enemy.width) >= bulletDelayX)
-        ) {
-          this.updateEnemyInfo(enemy)
-          return 
-        }
-      }
+      
       if (// Y轴判断
         (planeDomDelayY <= bulletDelayY && (planeDomDelayY + planeHeight) >= bulletDelayY)
         && // X轴判断

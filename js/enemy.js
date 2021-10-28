@@ -19,6 +19,8 @@ class Enemy {
     this.enemyDom = null
     this.enemyHealthDom = null
     this.enemyHealthTextDom = null
+    // 类型
+    this.type = 'enemy'
     // 当前血量
     this.health = 100
     // 最大血量
@@ -37,6 +39,11 @@ class Enemy {
     }
     this.shootTimer = null
     this.shootInterval = 160
+    // store进行区分
+    this.typeStore = {
+      'enemy': enemyStore,
+      'wall' : storeStore
+    }
   }
   /**
    * @description: 创建敌机
@@ -93,19 +100,10 @@ class Enemy {
     // 生成位置
     const positionX = (_info.delayX || (realX <= _info.width ? _info.width : realX - _info.width))
     const positionY = realY - _info.height
-    // 保存当前敌机
-    enemyStore.setId(
-      this.id,
-      Object.assign(
-        _info, {
-        positionY,
-        positionX
-      },
-        {
-          target: this
-        }
-      )
-    )
+    // 合并数据
+    const saveObject = Object.assign(_info, { positionY, positionX },{ target: this })
+    this.type = _info.type
+    this.typeStore[_info.type].setId(this.id, saveObject)
     _enemyDom.style.cssText = `
       position: absolute;
       width: ${_info.width || 50}px; 
@@ -178,16 +176,17 @@ class Enemy {
           if (operationIndex < autoMoveList.length) {
             moveFunc()
           } else {
-            if (enemyStore.hasOwnProperty(this.id)) {
+            if (this.typeStore[this.type].hasOwnProperty(this.id)) {
               this.enemyBackOff()
             }
           }
         }, singleMove.timer);
         // 保存
-        enemyStore.setId(this.id, { operationOptions })
+        this.typeStore[this.type].setId(this.id, { operationOptions })
+
       }
       // 如果 当前在移动 （暂停后继续执行
-      const operationTarget = enemyStore.getId(this.id)
+      const operationTarget = this.typeStore[this.type].getId(this.id)
       if (operationTarget && operationTarget.hasOwnProperty('operationOptions')) {
         // 获取操作对象
         const operationOptions = operationTarget.operationOptions
@@ -283,10 +282,11 @@ class Enemy {
   }
   // 更新位置
   updatePosition() {
-    enemyStore.setId(this.id, {
+    const saveObject = { 
       positionX: this.enemyDom.offsetLeft,
       positionY: this.enemyDom.offsetTop
-    })
+    }
+    this.typeStore[this.type].setId(this.id, saveObject)
   }
   // 清除相对应的移动定时器
   enemyMoveStop(key) {
@@ -307,10 +307,10 @@ class Enemy {
   }
   // 清除飞机
   clearEnemy() {
-    const enemyTarget = enemyStore.getId(this.id)
+    const enemyTarget = this.typeStore[this.type].getId(this.id)
     enemyTarget?.operationOptions?.operationStop()
     this.enemyStop()
     container.removeChild(this.enemyDom)
-    enemyStore.removeStore(this.id)
+    this.typeStore[this.type].removeStore(this.id)
   }
 }

@@ -48,3 +48,5 @@ class Store {
 const bulletStore = new Store()
 // 敌机数据存放仓库
 const enemyStore = new Store()
+// 石头数据仓库
+const storeStore = new Store()
