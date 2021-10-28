@@ -11,6 +11,7 @@
 // 敌机数据
 const enemyMap = {
   planeLeftRight: {
+    type: 'enemy',
     health: 100,
     width: 80,
     height: 60,
@@ -53,6 +54,7 @@ const enemyMap = {
     }
   },
   planeRightLeft: {
+    type: 'enemy',
     health: 100,
     width: 80,
     height: 60,
@@ -95,6 +97,7 @@ const enemyMap = {
     }
   },
   planeBoss1: {
+    type: 'enemy',
     health: 6000,
     width: 240,
     height: 160,
@@ -105,6 +108,11 @@ const enemyMap = {
         {
           timer: 1500,
           moveDirection: 'button',
+          distance: 1.5
+        },
+        {
+          timer: 60000,
+          moveDirection: '',
           distance: 3
         },
         {
@@ -141,6 +149,52 @@ const enemyMap = {
           timer: 1000,
           moveDirection: 'left,button',
           distance: 1.5
+        },
+      ]
+    }
+  },
+  wall1: {
+    health: 100000000000,
+    type: 'wall',
+    width: 160,
+    height: 140,
+    distance: 2,
+    delayX: 100,
+    image: 'store-1',
+    enemyMoveFunc() {
+      return [
+        {
+          timer: 2000,
+          moveDirection: 'button',
+          distance: 2.5
+        },
+        {
+          timer: 60000,
+          moveDirection: '',
+          distance: 3
+        },
+      ]
+    }
+  },
+  wall2: {
+    health: 100000000000,
+    type: 'wall',
+    width: 160,
+    height: 140,
+    distance: 0.5,
+    delayX: 500,
+    image: 'store-1',
+    enemyMoveFunc() {
+      return [
+        {
+          timer: 2000,
+          moveDirection: 'button',
+          distance: 2.5
+        },
+        {
+          timer: 60000,
+          moveDirection: '',
+          distance: 3
         },
       ]
     }

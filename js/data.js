@@ -57,7 +57,22 @@ const escKeyCode = 27
 // 固定的敌机列表（下表）
 let fixedEnemyIndex = 0
 // 第一波
-const firstEnemy = ['planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeBoss1']
+const firstEnemy = [
+  'wall1', 
+  'wall2', 
+  'planeRightLeft', 'planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeRightLeft',
+  'planeLeftRight',]
+
+const Boss = [
+  'planeBoss1',
+  'planeBoss1',
+  'planeBoss1',
+  'planeBoss1',
+  'planeBoss1',
+  'planeBoss1',
+  'planeBoss1',
+  'planeBoss1',
+]
 // 第二波
 // 固定的敌机列表（对应enemyData下标）
 const fixedEnemyList = [].concat(firstEnemy)

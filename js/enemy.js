@@ -12,7 +12,7 @@ class Enemy {
     // 类型
     // this.cut = cut
     // 唯一id
-    this.id = 'enemy-' + guid()
+    this.id = 'ceateEnemyID'
     // 定时器
     this.timer = null
     // Dom元素
@@ -84,7 +84,8 @@ class Enemy {
     // 飞行速度
     this.enemyFlyInterval = allMoveSpeed
     this.enemyFlySpeed = _info.distance || distance
-
+    // 创建ID
+    this.id = _info.type + '-' + guid()
     this.autoMoveList = _info.enemyMoveFunc && _info.enemyMoveFunc()
     // 实际位置
     const realX = this.positionX

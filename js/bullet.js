@@ -99,35 +99,7 @@ class Bullet {
             && // X轴判断
             (enemy.positionX <= bulletDelayX && (enemy.positionX + enemy.width) >= bulletDelayX)
           ) {
-            enemy.target.health -= this.hurt
-            const target = enemy.target
-            // 页面上删除子弹
-            this.clearBullet()
-            // 更新飞机血量
-            const enemyHealthDom = target.enemyHealthDom
-            enemyHealthDom.style.width = enemy.target.health / enemy.target.healthOriginal * 100 + '%'
-            // 更新血量提示文字
-            const enemyHealthTextDom = target.enemyHealthTextDom
-            enemyHealthTextDom.innerText = enemy.target.health
-            // 如果生命清零 则删除飞机
-            if (enemy.target.health <= 0) {
-              enemyHealthDom.style.width = '0%'
-              // 获取经验
-              playExperience.accumulateExperience(enemy)
-              // 血条提示文字变为空
-              enemyHealthTextDom.innerText = ''
-              // 更换爆炸gif
-              const enemyDom = target.enemyDom
-              enemyDom.style.background = 'url(../image/boom.gif' + '?' + 'gif-' + guid() + ') no-repeat'
-              enemyDom.style.backgroundSize = 'contain'
-              // 页面上删除敌机
-              target.enemyStop()
-              enemy.operationOptions?.operationStop()
-              enemyStore.removeStore(target.id)
-              setTimeout(() => {
-                target.clearEnemy()
-              }, 1000)
-            }
+            this.updateEnemyInfo(enemy)
             return;
           }
         }
@@ -140,6 +112,20 @@ class Bullet {
       const planeDomDelayX = planeDom.offsetLeft
       const planeHeight = planeDom.offsetHeight
       const planeWidth = planeDom.offsetWidth
+      // 子弹射击掩体
+      let wall = Object.keys(enemyStore.getStore()).filter(key => key.includes('wall'))
+      for (const index in wall) {
+        const key = wall[index];
+        const enemy = enemyStore.getId(key)
+        if (// Y轴判断
+          (enemy.positionY <= bulletDelayY && (enemy.positionY + enemy.height) >= bulletDelayY)
+          && // X轴判断
+          (enemy.positionX <= bulletDelayX && (enemy.positionX + enemy.width) >= bulletDelayX)
+        ) {
+          this.updateEnemyInfo(enemy)
+          return 
+        }
+      }
       if (// Y轴判断
         (planeDomDelayY <= bulletDelayY && (planeDomDelayY + planeHeight) >= bulletDelayY)
         && // X轴判断
@@ -162,6 +148,37 @@ class Bullet {
           }, playInvincibleTimer)
         }
       }
+    }
+  }
+  updateEnemyInfo(enemy) {
+    enemy.target.health -= this.hurt
+    const target = enemy.target
+    // 页面上删除子弹
+    this.clearBullet()
+    // 更新飞机血量
+    const enemyHealthDom = target.enemyHealthDom
+    enemyHealthDom.style.width = enemy.target.health / enemy.target.healthOriginal * 100 + '%'
+    // 更新血量提示文字
+    const enemyHealthTextDom = target.enemyHealthTextDom
+    enemyHealthTextDom.innerText = enemy.target.health
+    // 如果生命清零 则删除飞机
+    if (enemy.target.health <= 0) {
+      enemyHealthDom.style.width = '0%'
+      // 获取经验
+      playExperience.accumulateExperience(enemy)
+      // 血条提示文字变为空
+      enemyHealthTextDom.innerText = ''
+      // 更换爆炸gif
+      const enemyDom = target.enemyDom
+      enemyDom.style.background = 'url(../image/boom.gif' + '?' + 'gif-' + guid() + ') no-repeat'
+      enemyDom.style.backgroundSize = 'contain'
+      // 页面上删除敌机
+      target.enemyStop()
+      enemy.operationOptions?.operationStop()
+      enemyStore.removeStore(target.id)
+      setTimeout(() => {
+        target.clearEnemy()
+      }, 1000)
     }
   }
   // 子弹停止 清除定时器
