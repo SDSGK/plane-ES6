@@ -15,7 +15,7 @@ function init() {
     if (nowIndex === limitSize) { 
       // 如果刷满了{limitSize} 架飞机 则等待飞机清空进行下一轮
       if (enemyStore.getLength() === 0) {
-        // nowIndex = 0
+        nowIndex = 0
       }
       return
     }

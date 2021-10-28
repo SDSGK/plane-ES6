@@ -39,11 +39,13 @@ class Experience {
     switch (this.rank) {
       case 5:
         shootSpeed = 150
+        bulletLength += 1
         // 应用射速间隔
         shootIntervalStore.setIntervalDelay(shootSpeed)
         break;
       case 10:
         shootSpeed = 130
+        bulletLength += 1
         hurt = 15
         playInvincibleTimer = 700
         shootIntervalStore.setIntervalDelay(shootSpeed)
@@ -51,6 +53,7 @@ class Experience {
       case 20:
         shootSpeed = 110
         hurt = 20
+        bulletLength += 1
         playInvincibleTimer = 1200
         shootIntervalStore.setIntervalDelay(shootSpeed)
         break;

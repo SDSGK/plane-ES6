@@ -65,11 +65,18 @@ const keyLimit = {
     moveing() {
       // 定时创建子弹
       shootIntervalStore.add(() => {
-        let positionX = ((planeDom.offsetLeft + delayX) + (planeDom.offsetWidth / 2))
+        let positionX = planeDom.offsetLeft + delayX
         let positionY = planeDom.offsetTop
-        let bullet = new Bullet(shootDistance, positionX, positionY, 'top', hurt)
-        bullet.createBullet()
-        bullet.bulletMove()
+        // 循环发射子弹
+        for (let i = 0; i < bulletLength; i++) {
+          // 宽度进行取平均分布子弹
+          const average = planeDom.offsetWidth / (bulletLength + 1)
+          // 依次分布子弹位置
+          let bulletPositionX = positionX + average * (i + 1)
+          let bullet = new Bullet(shootDistance, bulletPositionX, positionY, 'top', hurt)
+          bullet.createBullet()
+          bullet.bulletMove()
+        }
       }, this.key)
     },
     moveStop() {
