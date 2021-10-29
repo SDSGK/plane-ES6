@@ -71,6 +71,10 @@ const firstEnemy = [
   'planeRightLeft', 'planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeRightLeft', 'planeLeftRight', 'planeRightLeft',
   'planeLeftRight',]
 
+const secondEnemy = [
+  'planeLeftRight', 'planeLeftRight', 'planeLeftRight', 'planeLeftRight', 
+  'planeLeftRight', 'planeRightLeft', 'planeRightLeft', 'planeRightLeft', 'planeRightLeft', 'planeRightLeft',]
+
 const Boss = [
   'planeBoss1',
   'planeBoss1',
@@ -83,4 +87,4 @@ const Boss = [
 ]
 // 第二波
 // 固定的敌机列表（对应enemyData下标）
-const fixedEnemyList = [].concat(firstEnemy)
+const fixedEnemyList = [].concat(firstEnemy, secondEnemy)

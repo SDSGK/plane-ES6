@@ -46,20 +46,27 @@ class Bullet {
           const enemyStoreList = enemyStore.getStore()
           const keys = Object.keys(enemyStoreList)
           const enemy = enemyStoreList[keys[0]]
-          const {x, y, angle} = FollowUpBullet(
-            enemy.positionX + delayX - enemy.width / 2, 
-            enemy.positionY + delayY - enemy.height / 2, 
-            this.positionY, 
-            this.positionX, 
-            this.bulletFlySpeed
-          )
-          // 元素移动
-          this.bulletDom.style.top = this.positionY + y + 'px'
-          this.bulletDom.style.left = this.positionX + x + 'px'
-          this.bulletDom.style.transform = 'rotate(' + angle + 'deg)'
-
-          this.positionY = this.positionY + y
-          this.positionX = this.positionX + x
+          // 如果没有敌机 清除子弹
+          if (enemy === undefined) {
+             // 数据移动
+            this.bulletDom.style.top = this.bulletDom.offsetTop - this.bulletFlySpeed + 'px'
+            this.positionY = this.bulletDom.offsetTop - this.bulletFlySpeed
+          } else {
+            const {x, y, angle} = FollowUpBullet(
+              enemy.positionX + delayX + enemy.width / 2, 
+              enemy.positionY + delayY + enemy.height / 2, 
+              this.positionX,
+              this.positionY, 
+              this.bulletFlySpeed
+            )
+            // 元素移动
+            this.bulletDom.style.top = this.positionY + y + 'px'
+            this.bulletDom.style.left = this.positionX + x + 'px'
+            this.bulletDom.style.transform = 'rotate(' + angle + 'deg)'
+            // 保存位置
+            this.positionY = this.positionY + y
+            this.positionX = this.positionX + x
+          }
         } else {
           // 数据移动
           this.bulletDom.style.top = this.bulletDom.offsetTop - this.bulletFlySpeed + 'px'

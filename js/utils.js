@@ -75,7 +75,7 @@ function FollowUpBullet(x1, y1, x2, y2, speed) {
   // 向量
   const deltaX = x1 - x2
   const deltaY = y1 - y2
-
+  // 微小偏移
   if (deltaX == 0) {
     if (y1 >= y2) {
       deltaX = 0.0000001
@@ -90,21 +90,43 @@ function FollowUpBullet(x1, y1, x2, y2, speed) {
       deltaY = -0.0000001
     }
   }
-  // 向量长度
-  const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+
   let angle = 0
-  let π = 3.1415926
+  let π = Math.PI
+  // 右下角
   if (deltaX > 0 && deltaY > 0) {
     angle = Math.atan(Math.abs(deltaY / deltaX)) // 第一项限
+  // 左下角
   } else if (deltaX < 0 && deltaY > 0) {
     angle = π - Math.atan(Math.abs(deltaY / deltaX)) // 第二项限
+  // 左上角
   } else if (deltaX < 0 && deltaY < 0) {
     angle = π + Math.atan(Math.abs(deltaY / deltaX)) // 第三项限
+  // 右上角
   } else {
     angle = 2 * π - Math.atan(Math.abs(deltaY / deltaX)) // 第四项限
   }
-  // 偏移量
-  let x =  deltaX * (1 / length) * speed
-  let y = deltaY * (1 / length) * speed
-  return {x, y, angle}
+  let x = speed * Math.cos(angle)
+  let y = speed * Math.sin(angle)
+  return {x, y, angle: calAngle(x2, y2, x1, y1)}
+}
+// 参考：https://juejin.cn/post/6844903880493367304
+// 计算角度
+function calAngle(cx, cy, x, y) {
+  const radian = getCosBy2pt(x, y, cx, cy);
+  let angle = Math.acos(radian) * 180 / Math.PI;
+  if (x < cx) angle = -angle;
+  return angle;
+  // 计算 点1指点2形成 的向量 
+  function getCosBy2pt(x, y, cx, cy) {
+      let a = [x - cx, y - cy];
+      let b = [0, -1];
+      return calCos(a, b);
+  }
+  function calCos(a, b) {
+    // 点积
+    let dotProduct = a[0] * b[0] + a[1] * b[1];
+    let d = Math.sqrt(a[0] * a[0] + a[1] * a[1]) * Math.sqrt(b[0] * b[0] + b[1] * b[1]);
+    return dotProduct/d;
+  }
 }
