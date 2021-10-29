@@ -163,3 +163,12 @@ function calAngle(cx, cy, x, y) {
     return dotProduct / d;
   }
 }
+
+function toDecimal(x) {
+  let f = parseFloat(x);
+  if (isNaN(f)) {
+    return x;
+  }
+  f = Math.round(x * 100) / 100;
+  return f;
+}

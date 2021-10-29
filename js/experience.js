@@ -8,6 +8,9 @@ class Experience {
     this.requiredForUpgrade = 100;
     // 经验比率
     this.empiricalRatio = 1.5;
+    // 攻击力升级加成
+    this.aggressivityRatio = 1.05
+    
   }
   // 获取等级
   getRank() {
@@ -31,6 +34,8 @@ class Experience {
       // 记录提升的等级（可能会出现连续升级的情况）
       const level = parseInt(this.experience / this.requiredForUpgrade) || 1;
       this.rank += level;
+      // 升级提高伤害
+      hurt = toDecimal(hurt * this.aggressivityRatio);
       // 翻倍经验
       this.requiredForUpgrade = parseInt(
         (this.requiredForUpgrade *= this.empiricalRatio) * level
@@ -51,20 +56,20 @@ class Experience {
       case 10:
         shootSpeed = 130;
         bulletLength += 1;
-        hurt = 15;
+        hurt = toDecimal(hurt * 1.25);
         playInvincibleTimer = 700;
         shootIntervalStore.setIntervalDelay(shootSpeed);
         break;
       case 20:
         shootSpeed = 110;
-        hurt = 20;
+        hurt = toDecimal(hurt * 1.25);
         bulletLength += 1;
         playInvincibleTimer = 1200;
         shootIntervalStore.setIntervalDelay(shootSpeed);
         break;
       case 30:
         shootSpeed = 100;
-        hurt = 30;
+        hurt = toDecimal(hurt * 1.25);
         playInvincibleTimer = 1500;
         shootIntervalStore.setIntervalDelay(shootSpeed);
         break;

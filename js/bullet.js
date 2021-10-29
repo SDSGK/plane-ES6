@@ -175,7 +175,7 @@ class Bullet {
     }
   }
   updateEnemyInfo(enemy) {
-    enemy.target.health -= this.hurt;
+    enemy.target.health = toDecimal(enemy.target.health - this.hurt);
     const target = enemy.target;
     // 页面上删除子弹
     this.clearBullet();
