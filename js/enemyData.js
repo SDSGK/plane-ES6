@@ -111,11 +111,6 @@ const enemyMap = {
           distance: 1.5,
         },
         {
-          timer: 60000,
-          moveDirection: "",
-          distance: 3,
-        },
-        {
           timer: 1000,
           moveDirection: "left,shoot",
           distance: 1.5,
@@ -148,6 +143,11 @@ const enemyMap = {
         {
           timer: 1000,
           moveDirection: "left,button",
+          distance: 1.5,
+        },
+        {
+          timer: 3000,
+          moveDirection: "shoot,top",
           distance: 1.5,
         },
       ];
@@ -183,7 +183,7 @@ const enemyMap = {
     height: 140,
     distance: 0.5,
     delayX: 500,
-    image: "store-1",
+    image: "store-2",
     enemyMoveFunc() {
       return [
         {
