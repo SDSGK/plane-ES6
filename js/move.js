@@ -166,7 +166,9 @@ const keyLimit = {
     key: "k",
     status: false,
     keyDom: kKey,
+    isHoldOn: false,
     moveing() {
+      this.isHoldOn = true;
       // 记录当前速度
       moveSpeedOrginal = moveSpeed;
       // 加速
@@ -184,7 +186,7 @@ const keyLimit = {
       planeDom.style.height = scaleHeightNumber + "px";
       // 位置变为中心点
       planeDom.style.left = planeDom.offsetLeft + scaleWidthNumber / 2 + "px";
-      planeDom.style.top = planeDom.offsetTop + scaleWidthNumber / 2 + "px";
+      planeDom.style.top = planeDom.offsetTop + scaleHeightNumber / 2 + "px";
     },
     moveStop() {
       // 移动速度还原
@@ -197,8 +199,11 @@ const keyLimit = {
       planeDom.style.width = planeWidth + "px";
       planeDom.style.height = planeHeight + "px";
       // 位置变为中心点
-      planeDom.style.left = planeDom.offsetLeft - planeWidth / 4 + "px";
-      planeDom.style.top = planeDom.offsetTop - planeHeight / 4 + "px";
+      if (this.isHoldOn) {
+        planeDom.style.left = planeDom.offsetLeft - planeWidth / 4 + "px";
+        planeDom.style.top = planeDom.offsetTop - planeHeight / 4 + "px";
+      }
+      this.isHoldOn = false
     },
   },
 };
