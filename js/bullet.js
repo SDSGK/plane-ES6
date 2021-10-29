@@ -53,12 +53,13 @@ class Bullet {
           const enemyStoreList = enemyStore.getStore();
           const keys = Object.keys(enemyStoreList);
           const enemy = enemyStoreList[keys[0]];
-          // 如果没有敌机 清除子弹
+          // 如果没有敌机 子弹往前飞
           if (enemy === undefined) {
             // 数据移动
-            this.bulletDom.style.top =
-              this.bulletDom.offsetTop - this.bulletFlySpeed + "px";
-            this.positionY = this.bulletDom.offsetTop - this.bulletFlySpeed;
+            this.positionY -= this.bulletFlySpeed;
+            this.bulletDom.style.top = this.positionY + "px";
+            // 旋转角度归零
+            this.bulletDom.style.transform = "rotate(" + 0 + "deg)";
           } else {
             const { x, y, angle } = FollowUpBullet(
               enemy.positionX + delayX + enemy.width / 2,
@@ -67,19 +68,21 @@ class Bullet {
               this.positionY,
               this.bulletFlySpeed
             );
-            // 元素移动
-            this.bulletDom.style.top = this.positionY + y + "px";
-            this.bulletDom.style.left = this.positionX + x + "px";
-            this.bulletDom.style.transform = "rotate(" + angle + "deg)";
             // 保存位置
-            this.positionY = this.positionY + y;
-            this.positionX = this.positionX + x;
+            this.positionY += y;
+            this.positionX += x;
+            // 元素移动
+            this.bulletDom.style.top = this.positionY + "px";
+            this.bulletDom.style.left = this.positionX + "px";
+            // 子弹旋转
+            this.bulletDom.style.transform = "rotate(" + angle + "deg)";
           }
         } else {
           // 数据移动
-          this.bulletDom.style.top =
-            this.bulletDom.offsetTop - this.bulletFlySpeed + "px";
-          this.positionY = this.bulletDom.offsetTop - this.bulletFlySpeed;
+          this.positionY -= this.bulletFlySpeed;
+          this.bulletDom.style.top = this.positionY + "px";
+          // 旋转角度归零
+          this.bulletDom.style.transform = "rotate(" + 0 + "deg)";
         }
         // 调用碰撞检测
         this.bulletShooting();
