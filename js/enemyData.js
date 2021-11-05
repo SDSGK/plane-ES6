@@ -153,6 +153,9 @@ const enemyMap = {
       ];
     },
   },
+};
+// 墙数据
+const wallData = {
   wall1: {
     health: 100000000000,
     type: "wall",
@@ -160,6 +163,7 @@ const enemyMap = {
     height: 140,
     distance: 2,
     delayX: 100,
+    isHideHealth: true,
     image: "store-1",
     enemyMoveFunc() {
       return [
@@ -183,6 +187,7 @@ const enemyMap = {
     height: 140,
     distance: 0.5,
     delayX: 500,
+    isHideHealth: true,
     image: "store-2",
     enemyMoveFunc() {
       return [
@@ -199,4 +204,86 @@ const enemyMap = {
       ];
     },
   },
-};
+}
+// 补给数据
+const supplyData = {
+  supplyHp: {
+    health: 50,
+    type: "supply",
+    width: 50,
+    height: 50,
+    distance: 2,
+    delayX: 100,
+    isHideHealth: true,
+    image: "supply-1",
+    enemyMoveFunc() {
+      return [
+        {
+          timer: 2000,
+          moveDirection: "button",
+          distance: 2.5,
+        },
+        {
+          timer: 2000,
+          moveDirection: "left",
+          distance: 3,
+        },
+        {
+          timer: 4000,
+          moveDirection: "right",
+          distance: 3,
+        },
+        {
+          timer: 4000,
+          moveDirection: "left",
+          distance: 3,
+        },
+        {
+          timer: 4000,
+          moveDirection: "right,button",
+          distance: 3,
+        },
+      ];
+    },
+  },
+  supplySpeed: {
+    health: 50,
+    type: "supply",
+    width: 50,
+    height: 50,
+    distance: 2,
+    delayX: 600,
+    isHideHealth: true,
+    image: "supply-2",
+    enemyMoveFunc() {
+      return [
+        {
+          timer: 2000,
+          moveDirection: "button",
+          distance: 2.5,
+        },
+        {
+          timer: 2000,
+          moveDirection: "left",
+          distance: 3,
+        },
+        {
+          timer: 4000,
+          moveDirection: "right",
+          distance: 3,
+        },
+        {
+          timer: 4000,
+          moveDirection: "left",
+          distance: 3,
+        },
+        {
+          timer: 4000,
+          moveDirection: "right,button",
+          distance: 3,
+        },
+      ];
+    },
+  }
+}
+Object.assign(enemyMap, wallData, supplyData)

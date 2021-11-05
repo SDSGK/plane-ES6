@@ -8,7 +8,7 @@ class Enemy {
     // 方向
     this.moveType = moveType;
     // 伤害
-    // this.hurt = hurt
+    this.hurt = hurt
     // 类型
     // this.cut = cut
     // 唯一id
@@ -43,7 +43,12 @@ class Enemy {
     this.typeStore = {
       enemy: enemyStore,
       wall: storeStore,
+      supply: supplyStore,
     };
+    // 速度加成
+    this.speedUp = 1
+    // 攻击力加成
+    this.hurtUp = 1
   }
   /**
    * @description: 创建敌机
@@ -86,7 +91,11 @@ class Enemy {
 
     _enemyHealthTextDom.innerText = health;
     _enemyHealthTextDom.classList.add("enemyHealthText");
-
+    // 不显示血条
+    if (_info.isHideHealth) {
+      _enemyHealthTextDom.style.display = "none";
+      _enemyhealthDom.style.display = "none";
+    }
     _enemyDom.appendChild(_enemyhealthDom);
     _enemyDom.appendChild(_enemyHealthTextDom);
     // 血量
@@ -172,7 +181,7 @@ class Enemy {
           }
         }
         // 添加相对应的速度
-        this.enemyFlySpeed = singleMove.distance || this.enemyFlySpeed;
+        this.enemyFlySpeed = (singleMove.distance || this.enemyFlySpeed) * this.speedUp;
 
         // 进行移动时间记录 按照 60hz/1(具体取决于配置的飞机移动间隔) 的记录规则
         operationOptions.moveTimer = interval(() => {
@@ -296,7 +305,8 @@ class Enemy {
         positionX,
         positionY,
         "buttom",
-        10,
+        this.id,
+        this.hurt,
         "enemy"
       );
       bullet.createBullet();

@@ -69,6 +69,11 @@ const wall = [
   "wall1",
   "wall2",
 ]
+const supply = [
+  'supplyHp',
+  'supplySpeed'
+]
+
 const firstEnemy = [
   "planeRightLeft",
   "planeLeftRight",
@@ -105,4 +110,4 @@ const Boss = [
 ];
 // 第二波
 // 固定的敌机列表（对应enemyData下标）
-const fixedEnemyList = [].concat(wall, firstEnemy, secondEnemy, firstEnemy, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, wall, firstEnemy, secondEnemy, firstEnemy,);
+const fixedEnemyList = [].concat(supply, wall, firstEnemy, secondEnemy, firstEnemy, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, wall, firstEnemy, secondEnemy, firstEnemy, firstEnemy, secondEnemy, firstEnemy, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, );

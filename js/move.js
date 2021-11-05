@@ -80,6 +80,7 @@ const keyLimit = {
             bulletPositionX,
             positionY,
             "top",
+            'player',
             hurt
           );
           bullet.createBullet();

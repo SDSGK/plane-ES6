@@ -50,3 +50,5 @@ const bulletStore = new Store();
 const enemyStore = new Store();
 // 石头数据仓库
 const storeStore = new Store();
+// 补给仓库
+const supplyStore = new Store();

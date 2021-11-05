@@ -4,6 +4,7 @@ class Bullet {
     positionX,
     positionY,
     moveType,
+    parentId,
     hurt = hurt,
     cut = "play"
   ) {
@@ -16,12 +17,19 @@ class Bullet {
     this.moveType = moveType;
     // 伤害
     this.hurt = hurt;
+    // 父级ID 用于记录谁发射的子弹
+    this.parentId = parentId;
     // 类型
     this.cut = cut;
     // 唯一id
     this.id = "bullet-" + guid();
     // Dom元素
     this.bulletDom = null;
+    // 循环的仓库
+    this.forStore = {
+      wall: storeStore,
+      supply: supplyStore,
+    };
   }
   // 创建子弹
   createBullet() {
@@ -106,19 +114,24 @@ class Bullet {
     // 子弹偏移位置
     const bulletDelayY = this.positionY - delayY;
     const bulletDelayX = this.positionX - delayX;
-    // 子弹射击掩体
-    let wall = storeStore.getStore();
-    for (const key in wall) {
-      const enemy = storeStore.getId(key);
-      if (
-        // Y轴判断
-        enemy.positionY <= bulletDelayY &&
-        enemy.positionY + enemy.height >= bulletDelayY && // X轴判断
-        enemy.positionX <= bulletDelayX &&
-        enemy.positionX + enemy.width >= bulletDelayX
-      ) {
-        this.updateEnemyInfo(enemy);
-        return;
+    // 循环需要碰撞的仓库
+    const forStore = this.forStore;
+    for (const key in forStore) {
+      let store = forStore[key].getStore();
+      // 取出仓库 进行循环
+      for (const storeKey in store) {
+        // 循环取出仓库每一项
+        const enemy = forStore[key].getId(storeKey);
+        if (
+          // Y轴判断
+          enemy.positionY <= bulletDelayY &&
+          enemy.positionY + enemy.height >= bulletDelayY && // X轴判断
+          enemy.positionX <= bulletDelayX &&
+          enemy.positionX + enemy.width >= bulletDelayX
+        ) {
+          this.updateEnemyInfo(enemy);
+          return;
+        }
       }
     }
     // 体积判断
@@ -174,7 +187,11 @@ class Bullet {
       }
     }
   }
+  // 子弹碰到敌人后续操作
   updateEnemyInfo(enemy) {
+    // if (enemy) {
+      
+    // }
     enemy.target.health = toDecimal(enemy.target.health - this.hurt);
     const target = enemy.target;
     // 页面上删除子弹
