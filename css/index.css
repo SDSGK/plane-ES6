@@ -1,0 +1,232 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 14;
+}
+/* 背景 */
+.plane_container {
+  height: 100vh;
+  background: url(../image/background.jpeg);
+  background-size: cover;
+}
+/* 子弹样式 */
+.bullet {
+  width: 10px;
+  height: 20px; 
+  border: 1px solid;
+  position: absolute;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  background-color: #ffffff;
+}
+/* 敌机血条样式 */
+.enemyhealth {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  transform: translateY(-150%);
+  background-color: red;
+  transition: width 16ms ease-in-out;
+  text-align: center;
+}
+.enemyHealthText {
+  transform: scale(0.5) translate(-100%, -170%);
+  font-size: 12px;
+  color: #ffffff;
+  position: absolute;
+  left: 50%;
+}
+/* 容器的样式 */
+.container {
+  width: 800px;
+  height: 800px;
+  margin: 20px auto 0 auto;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+  background-color: rgba(63, 63, 63, 0.794);
+  position: absolute;
+  left: calc(50% - 400px);
+  overflow: hidden;
+}
+/* 飞机的样式 */
+.plane {
+  position: absolute;
+  width: 80px;
+  height: 60px;
+  top: calc(100% - 80px);
+  left: calc(50% - 80px);
+  background: url(../image/player.png) no-repeat;
+  background-size: contain;
+}
+/* 键盘的布局样式 */
+.keyboard {
+  width: 800px;
+  margin: 5px auto;
+  border: 1px solid #ccc;
+  position: absolute;
+  top: calc(800px + 70px);
+  left: calc(50% - 400px);
+}
+/* 所有按键的统一样式 */
+.key_style {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid red;
+  margin: 1px;
+  text-align: center;
+  color: #fff;
+  position: relative;
+}
+.group {
+  margin: 0 20px;
+}
+.keywrap {
+  display: inline-flex;
+}
+.w_key, .i_key {
+  margin-left: calc((150px  / 3) - 25px + 6px + 4px);
+}
+
+/* 两个按钮的样式 */
+.start,
+.stop {
+  width: 120px;
+  border-radius: 2px;
+  background: transparent; 
+  padding: 1em 2em;   
+  outline: none;
+  font-weight: 400;   
+  text-align: center;   
+}
+/* 无敌时间的样式 */
+.invincibleTimer {
+  animation: invincibleTimer .5s ease-in forwards;
+}
+
+@keyframes invincibleTimer {
+  0%,100% {
+    opacity: 1
+  }
+  50% {
+    opacity: .2
+  }
+}
+
+.pause {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  line-height: 800px;
+  margin: 20px auto 0 auto;
+  left: calc(50% - 400px);
+  background-color: #00000096;
+  z-index: 2;
+  text-align: center;
+}
+
+.pause span {
+  color: #ffffff;
+}
+
+.display-none {
+  display: none;
+}
+.float_left {
+  float: left;
+}
+
+/* 经验相关布局 */
+.experience-box {
+  position: absolute;
+  height: 450px;
+  width: 350px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  left: 50px;
+  top: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-indent: 18px;
+  color: rgb(255, 255, 255);
+}
+
+.dont-select {
+  -webkit-touch-callout: none;
+  -moz-user-select: none; /*火狐*/
+  -webkit-user-select: none;  /*webkit浏览器*/
+  -ms-user-select: none;   /*IE10*/
+  -khtml-user-select: none; /*早期浏览器*/
+  user-select: none;
+}
+
+
+.coolingTime::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: #ffffff;
+}
+
+
+
+
+
+
+
+/* 按钮相关的颜色 */
+.color-text {
+  background: -webkit-linear-gradient(left, #3dade9, #bf2fcb);   
+  -webkit-background-clip: text;   
+  -webkit-text-fill-color: transparent;   
+}
+.color-border {
+  -webkit-border-image: -webkit-linear-gradient(left, #3dade9, #bf2fcb) round;   
+  border-image-slice: 1;   
+}
+.stop span {
+  background: -webkit-linear-gradient(left, #add356, #00dfa6);   
+  -webkit-background-clip: text;   
+  -webkit-text-fill-color: transparent;
+}
+.stop {
+  box-shadow: 0 1px 0 1px rgba(43, 220, 146, 0.25), 0 -1px 0 1px rgba(129, 214, 106, 0.25), 1px 0 0 1px rgba(43, 220, 146, 0.25), -1px 0 0 1px rgba(129, 214, 106, 0.25), 1px -1px 0 1px rgba(86, 217, 126, 0.5), -1px 1px 0 1px rgba(86, 217, 126, 0.5), 1px 1px 0 1px rgba(0, 223, 166, 0.75), -1px -1px 0 1px rgba(173, 211, 86, 0.75);   
+  
+  border: 1px solid transparent;
+}
+
+/* 设置按钮点击后进行的波浪效果 */
+.ripple {
+  position: relative;
+  /* 隐藏溢出的径向渐变背景 */
+  overflow: hidden;
+}
+.ripple:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  /* 设置径向渐变 */
+  background-image: radial-gradient(circle, #666 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform .3s, opacity .5s;
+}
+
+.ripple:active:after {
+  transform: scale(0, 0);
+  opacity: .3;
+  /* 设置初始状态 */
+  transition: 0s;
+}

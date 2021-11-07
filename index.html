@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plane</title>
+  <link rel="stylesheet" href="./css/index.css" />
+</head>
+
+<body>
+  <div class="plane_container">
+    <!-- 玩家信息展示 -->
+    <div class="experience-box">
+      <div>当前当前血量：<span class="playBloodVolume">100</span></div>
+      <div>当前经验：<span class="experience">0</span></div>
+      <div>当前升级所需经验：<span class="requiredForUpgrade">100</span></div>
+      <div>当前等级：<span class="rank">1</span></div>
+      <div>当前当前子弹射速：<span class="shootSpeed">160</span></div>
+      <div>当前当前子弹伤害：<span class="hurt">10</span></div>
+    </div>
+    <!-- 暂停 -->
+    <div class="pause display-none dont-select">
+      <span>暂停</span>
+    </div>
+    <!-- 暂停按钮（不显示） -->
+    <div class="button-list display-none">
+      <button class="start ripple color-border" onclick="isClickStopButton = false, moveing()">
+        <span class="color-text"> start </span>
+      </button>
+      <button class="stop ripple" onclick="isClickStopButton = true, moveStop()">
+        <span> stop </span>
+      </button>
+    </div>
+    <!-- 容器 -->
+    <div class="container">
+      <div class="plane"></div>
+    </div>
+    <!-- 键盘按键提示 -->
+    <div class="keyboard">
+      <!-- 方向键 -->
+      <div class="group float_left">
+        <div class="w_key key_style color-border">W</div>
+        <div class="keywrap">
+          <div class="a_key key_style color-border">A</div>
+          <div class="s_key key_style color-border">S</div>
+          <div class="d_key key_style color-border">D</div>
+        </div>
+      </div>
+      <!-- 操作键 -->
+      <div class="group float_left">
+        <div class="i_key key_style color-border">I</div>
+        <div class="keywrap">
+          <div class="j_key key_style color-border">J</div>
+          <div class="k_key key_style color-border">K</div>
+          <div class="l_key key_style color-border">L</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="./js/enemyData.js"></script>
+<script src="./js/data.js"></script>
+<script src="./js/interval.js"></script>
+<script src="./js/operationDom.js"></script>
+<script src="./js/experience.js"></script>
+<script src="./js/utils.js"></script>
+<script src="./js/store.js"></script>
+<script src="./js/enemy.js"></script>
+<script src="./js/bullet.js"></script>
+<script src="./js/move.js"></script>
+<script src="./js/visibilitychange.js"></script>
+<script src="./js/targetOperation.js"></script>
+<script src="./js/init.js"></script>
+<script>
+  function handleVisibilityChange() {
+    if (document[hidden]) {
+      // 停止移动
+      moveStop();
+    } else {
+      moveing();
+    }
+  }
+  init();
+  // 判断浏览器的支持情况
+  if (
+    typeof document.addEventListener === "undefined" ||
+    typeof document[hidden] === "undefined"
+  ) {
+    console.log(
+      "此演示需要一个浏览器，如谷歌浏览器或Firefox，支持页面可见性API。"
+    );
+  } else {
+    // 监听visibilityChange事件
+    document.addEventListener(
+      visibilityChange,
+      handleVisibilityChange,
+      false
+    );
+  }
+</script>
+
+</html>
