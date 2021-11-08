@@ -192,10 +192,10 @@ class Bullet {
     // if (enemy) {
       
     // }
-    enemy.target.health = toDecimal(enemy.target.health - this.hurt);
-    const target = enemy.target;
     // 页面上删除子弹
     this.clearBullet();
+    enemy.target.health = toDecimal(enemy.target.health - this.hurt);
+    const target = enemy.target;
     // 更新飞机血量
     const enemyHealthDom = target.enemyHealthDom;
     enemyHealthDom.style.width =
@@ -205,6 +205,10 @@ class Bullet {
     enemyHealthTextDom.innerText = enemy.target.health;
     // 如果生命清零 则删除飞机
     if (enemy.target.health <= 0) {
+      // 页面上删除敌机
+      target.enemyStop();
+      // 数据上进行擦除
+      typeStore[target.type].removeStore(target.id);
       enemyHealthDom.style.width = "0%";
       // 获取经验
       playExperience.accumulateExperience(enemy);
@@ -215,10 +219,7 @@ class Bullet {
       enemyDom.style.background =
         "url(../image/boom.gif" + "?" + "gif-" + guid() + ") no-repeat";
       enemyDom.style.backgroundSize = "contain";
-      // 页面上删除敌机
-      target.enemyStop();
       enemy.operationOptions?.operationStop();
-      enemyStore.removeStore(target.id);
       setTimeout(() => {
         target.clearEnemy();
       }, 1000);

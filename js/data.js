@@ -60,6 +60,8 @@ const bulletHeight = 20;
 const bulletWidth = 10;
 // 技能冷却时间颜色
 const defaultCoolingTimeColor = "#ffffff";
+// 存放仓库
+const typeStore = {}
 // ESC键code
 const escKeyCode = 27;
 // 固定的敌机列表（下表）

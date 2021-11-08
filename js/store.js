@@ -48,7 +48,11 @@ class Store {
 const bulletStore = new Store();
 // 敌机数据存放仓库
 const enemyStore = new Store();
+typeStore.enemy = enemyStore
 // 石头数据仓库
 const storeStore = new Store();
+typeStore.wall = storeStore
 // 补给仓库
 const supplyStore = new Store();
+typeStore.supply = supplyStore
+// typeStore 与 type 相对应

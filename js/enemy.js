@@ -39,12 +39,6 @@ class Enemy {
     };
     this.shootTimer = null;
     this.shootInterval = 160;
-    // store进行区分
-    this.typeStore = {
-      enemy: enemyStore,
-      wall: storeStore,
-      supply: supplyStore,
-    };
     // 速度加成
     this.speedUp = 1
     // 攻击力加成
@@ -123,7 +117,7 @@ class Enemy {
       { target: this }
     );
     this.type = _info.type;
-    this.typeStore[_info.type].setId(this.id, saveObject);
+    typeStore[_info.type].setId(this.id, saveObject);
     _enemyDom.style.cssText = `
       position: absolute;
       width: ${_info.width || 50}px; 
@@ -197,16 +191,16 @@ class Enemy {
           if (operationIndex < autoMoveList.length) {
             moveFunc();
           } else {
-            if (this.typeStore[this.type].hasOwnProperty(this.id)) {
+            if (typeStore[this.type].hasOwnProperty(this.id)) {
               this.enemyBackOff();
             }
           }
         }, singleMove.timer);
         // 保存
-        this.typeStore[this.type].setId(this.id, { operationOptions });
+        typeStore[this.type].setId(this.id, { operationOptions });
       };
       // 如果 当前在移动 （暂停后继续执行
-      const operationTarget = this.typeStore[this.type].getId(this.id);
+      const operationTarget = typeStore[this.type].getId(this.id);
       if (
         operationTarget &&
         operationTarget.hasOwnProperty("operationOptions")
@@ -325,7 +319,7 @@ class Enemy {
       positionX: this.enemyDom.offsetLeft,
       positionY: this.enemyDom.offsetTop,
     };
-    this.typeStore[this.type].setId(this.id, saveObject);
+    typeStore[this.type].setId(this.id, saveObject);
   }
   // 清除相对应的移动定时器
   enemyMoveStop(key) {
@@ -351,10 +345,10 @@ class Enemy {
   }
   // 清除飞机
   clearEnemy() {
-    const enemyTarget = this.typeStore[this.type].getId(this.id);
+    const enemyTarget = typeStore[this.type].getId(this.id);
     enemyTarget?.operationOptions?.operationStop();
     this.enemyStop();
     container.removeChild(this.enemyDom);
-    this.typeStore[this.type].removeStore(this.id);
+    typeStore[this.type].removeStore(this.id);
   }
 }
