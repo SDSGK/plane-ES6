@@ -6,8 +6,13 @@ const keyLimit = {
     keyDom: wKey,
     moveing() {
       intervalStore.add(() => {
-        if (planeDom.offsetTop <= 0) return;
-        planeDom.style.top = planeDom.offsetTop - moveSpeed + "px";
+        // 边界判断
+        if (playerInfo.offsetTop <= 0) return;
+        // 渲染判断
+        playerInfo.offsetTop -= moveSpeed
+        if (!rende2Canvas) {
+          ansycPosition()
+        }
       }, this.key);
     },
     moveStop() {
@@ -20,9 +25,13 @@ const keyLimit = {
     keyDom: sKey,
     moveing() {
       intervalStore.add(() => {
-        if (planeDom.offsetTop >= containerHeight - planeDom.offsetWidth)
-          return;
-        planeDom.style.top = planeDom.offsetTop + moveSpeed + "px";
+        // 边界判断
+        if (playerInfo.offsetTop >= containerInfo.height - playerInfo.height) return;
+        playerInfo.offsetTop += moveSpeed
+        // 渲染判断
+        if (!rende2Canvas) {
+          ansycPosition()
+        }
       }, this.key);
     },
     moveStop() {
@@ -35,8 +44,13 @@ const keyLimit = {
     keyDom: aKey,
     moveing() {
       intervalStore.add(() => {
-        if (planeDom.offsetLeft <= 0) return;
-        planeDom.style.left = planeDom.offsetLeft - moveSpeed + "px";
+        // 边界判断
+        if (playerInfo.offsetLeft <= 0) return;
+        playerInfo.offsetLeft -= moveSpeed
+        // 渲染判断
+        if (!rende2Canvas) {
+          ansycPosition()
+        }
       }, this.key);
     },
     moveStop() {
@@ -49,9 +63,13 @@ const keyLimit = {
     keyDom: dKey,
     moveing() {
       intervalStore.add(() => {
-        if (planeDom.offsetLeft >= containerWidth - planeDom.offsetWidth)
-          return;
-        planeDom.style.left = planeDom.offsetLeft + moveSpeed + "px";
+        // 边界判断
+        if (playerInfo.offsetLeft >= containerInfo.width - playerInfo.width) return;
+        playerInfo.offsetLeft += moveSpeed
+        // 渲染判断
+        if (!rende2Canvas) {
+          ansycPosition()
+        }
       }, this.key);
     },
     moveStop() {
@@ -67,12 +85,12 @@ const keyLimit = {
     moveing() {
       // 定时创建子弹
       shootIntervalStore.add(() => {
-        let positionX = planeDom.offsetLeft + delayX;
-        let positionY = planeDom.offsetTop;
+        let positionX = playerInfo.offsetLeft + containerInfo.offsetLeft;
+        let positionY = playerInfo.offsetTop;
         // 循环发射子弹
         for (let i = 0; i < bulletLength; i++) {
           // 宽度进行取平均分布子弹
-          const average = planeDom.offsetWidth / (bulletLength + 1);
+          const average = playerInfo.width / (bulletLength + 1);
           // 依次分布子弹位置
           let bulletPositionX = positionX + average * (i + 1);
           let bullet = new Bullet(
@@ -180,14 +198,20 @@ const keyLimit = {
       hurt = hurt * 0.75;
       // 更新界面显示
       operationDom.setHurt(hurt);
-      const scaleWidthNumber = planeWidth / 2;
-      const scaleHeightNumber = planeHeight / 2;
-      // 体积减少
-      planeDom.style.width = scaleWidthNumber + "px";
-      planeDom.style.height = scaleHeightNumber + "px";
-      // 位置变为中心点
-      planeDom.style.left = planeDom.offsetLeft + scaleWidthNumber / 2 + "px";
-      planeDom.style.top = planeDom.offsetTop + scaleHeightNumber / 2 + "px";
+      playerInfo.width /= 2;
+      playerInfo.height /= 2;
+
+      playerInfo.offsetLeft += (playerInfo.width / 2);
+      playerInfo.offsetTop += (playerInfo.height / 2);
+      
+      if (!rende2Canvas) {
+        // 体积减少
+        planeDom.style.width = playerInfo.width + "px";
+        planeDom.style.height = playerInfo.height + "px";
+        // 位置变为中心点
+        planeDom.style.left = playerInfo.offsetLeft + "px";
+        planeDom.style.top = playerInfo.offsetTop + "px";
+      }
     },
     moveStop() {
       // 移动速度还原
@@ -197,12 +221,19 @@ const keyLimit = {
       // 更新界面显示
       operationDom.setHurt(hurt);
       // 体积还原
-      planeDom.style.width = planeWidth + "px";
-      planeDom.style.height = planeHeight + "px";
+      playerInfo.width *= 2;
+      playerInfo.height *= 2;
+
+      playerInfo.offsetLeft -= (playerInfo.width / 4);
+      playerInfo.offsetTop -= (playerInfo.height / 4);
       // 位置变为中心点
-      if (this.isHoldOn) {
-        planeDom.style.left = planeDom.offsetLeft - planeWidth / 4 + "px";
-        planeDom.style.top = planeDom.offsetTop - planeHeight / 4 + "px";
+      if (this.isHoldOn && !rende2Canvas) {
+         // 体积减少
+        planeDom.style.width = playerInfo.width + "px";
+        planeDom.style.height = playerInfo.height + "px";
+        // 位置变为中心点
+        planeDom.style.left = playerInfo.offsetLeft + "px";
+        planeDom.style.top = playerInfo.offsetTop + "px";
       }
       this.isHoldOn = false
     },
@@ -260,4 +291,9 @@ function escKeyFunc() {
   }
   // 切换样式 用于隐藏、显示 暂停提示
   pause.classList.toggle("display-none");
+}
+// 同步飞机位置
+function ansycPosition() {
+  planeDom.style.left = playerInfo.offsetLeft + "px";
+  planeDom.style.top = playerInfo.offsetTop + "px";
 }

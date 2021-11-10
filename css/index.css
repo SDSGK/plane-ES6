@@ -37,7 +37,8 @@
   left: 50%;
 }
 /* 容器的样式 */
-.container {
+.container,
+.canvas {
   width: 800px;
   height: 800px;
   margin: 20px auto 0 auto;
@@ -53,7 +54,7 @@
   position: absolute;
   width: 80px;
   height: 60px;
-  top: calc(100% - 80px);
+  top: calc(100% - 60px);
   left: calc(50% - 80px);
   background: url(../image/player.png) no-repeat;
   background-size: contain;
@@ -151,6 +152,10 @@
   text-indent: 18px;
   color: rgb(255, 255, 255);
 }
+.experience-box > div {
+  display: inline-flex;
+  align-items: center;
+}
 
 .dont-select {
   -webkit-touch-callout: none;
@@ -176,8 +181,68 @@
 
 
 
+/* 原文链接：https://blog.csdn.net/en__ne/article/details/87896218 */
+.switch{
+  appearance: none;
+  -moz-appearance:button;
+  -webkit-appearance: none;
+}
+.switch {
+  position: relative;
+  margin: 0;
+  width: 40PX;
+  height: 24PX;
+  border: 1PX solid #EBEBF9;
+  outline: 0;
+  border-radius: 16PX;
+  box-sizing: border-box;
+  background-color: #EBEBF9;
+  -webkit-transition: background-color 0.1s, border 0.1s;
+  transition: background-color 0.1s, border 0.1s;
+}
 
+.switch:before {
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 38PX;
+  height: 22PX;
+  border-radius: 19PX;
+  background-color: #EBEBF9;
+  -webkit-transition: -webkit-transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+  transition: -webkit-transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+  transition: transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+}
 
+.switch:after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 1px;
+  width: 22PX;
+  height: 22PX;
+  border-radius: 15PX;
+  background-color: #FFFFFF;
+  /*box-shadow: 0 1PX 3PX rgba(0, 0, 0, 0.4);*/
+  -webkit-transition: -webkit-transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+  transition: -webkit-transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+  transition: transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+}
+
+.switch:checked{
+  background: #00D287;
+  border: solid 1px #00D287;
+}
+
+.switch:checked:before{
+  transform: scale(0);
+}
+
+.switch:checked:after{
+  transform: translateX(15PX);
+}
+/* end */
 
 /* 按钮相关的颜色 */
 .color-text {

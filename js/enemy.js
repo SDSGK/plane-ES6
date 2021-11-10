@@ -43,6 +43,9 @@ class Enemy {
     this.speedUp = 1
     // 攻击力加成
     this.hurtUp = 1
+    // 宽度
+    this.width = 50
+    this.height = 50
   }
   /**
    * @description: 创建敌机
@@ -110,12 +113,16 @@ class Enemy {
       _info.delayX ||
       (realX <= _info.width ? _info.width : realX - _info.width);
     const positionY = realY - _info.height;
+    this.positionX = positionX
+    this.positionY = positionY
     // 合并数据
     const saveObject = Object.assign(
       _info,
       { positionY, positionX },
       { target: this }
     );
+    this.width = _info.width
+    this.height = _info.height
     this.type = _info.type;
     typeStore[_info.type].setId(this.id, saveObject);
     _enemyDom.style.cssText = `
@@ -131,7 +138,9 @@ class Enemy {
     this.enemyDom = _enemyDom;
     this.enemyHealthDom = _enemyhealthDom;
     this.enemyHealthTextDom = _enemyHealthTextDom;
-    container.appendChild(_enemyDom);
+    if (!rende2Canvas) {
+      container.appendChild(_enemyDom);
+    }
   }
   // 飞机移动
   enemyMove() {
@@ -222,7 +231,7 @@ class Enemy {
         moveFunc();
       }
     } else {
-      // 类型是网上移动
+      // 类型是往上移动
       if (this.moveType === "top") {
         this.enemyForward();
         // 如果类型是往下移动
@@ -236,65 +245,70 @@ class Enemy {
     // 清除重复定时器
     intervalStore.add(() => {
       // 判断范围
-      if (this.enemyDom.offsetTop <= delayY) return;
+      if (this.positionY <= containerInfo.offsetTop) return;
+      this.positionY -= this.enemyFlySpeed
       // 更新位置信息
       this.updatePosition();
-      this.enemyDom.style.top =
-        this.enemyDom.offsetTop - this.enemyFlySpeed + "px";
+      if (!rende2Canvas) {
+        this.enemyDom.style.top =
+          this.enemyDom.offsetTop - this.enemyFlySpeed + "px";
+      }
     }, this.id + "enemyForwardTimer");
   }
   // 后退（往下
   enemyBackOff() {
     intervalStore.add(() => {
       // 限制范围
-      if (this.enemyDom.offsetTop >= containerHeight) {
+      if (this.positionY >= containerInfo.height) {
         this.enemyMoveStop("enemyBackOffTimer");
         this.clearEnemy();
         return;
       }
+      this.positionY += this.enemyFlySpeed
       // 更新位置信息
       this.updatePosition();
-      // 移动元素
-      this.enemyDom.style.top =
-        this.enemyDom.offsetTop + this.enemyFlySpeed + "px";
+      if (!rende2Canvas) {
+        // 移动元素
+        this.enemyDom.style.top =
+          this.enemyDom.offsetTop + this.enemyFlySpeed + "px";
+      }
     }, this.id + "enemyBackOffTimer");
   }
   // 左平移
   enemyLeftTranslation() {
     intervalStore.add(() => {
       // 限制范围
-      if (this.enemyDom.offsetLeft <= 0) return;
+      if (this.positionX <= 0) return;
+      this.positionX -= this.enemyFlySpeed
       // 更新位置信息
       this.updatePosition();
-      // 移动元素
-      this.enemyDom.style.left =
-        this.enemyDom.offsetLeft - this.enemyFlySpeed + "px";
+      if (!rende2Canvas) {
+        // 移动元素
+        this.enemyDom.style.left = this.positionX + "px";
+      }
     }, this.id + "enemyLeftTranslationTimer");
   }
   // 右平移
   enemyRightTranslation() {
     intervalStore.add(() => {
       // 限制范围
-      if (
-        this.enemyDom.offsetLeft >=
-        containerWidth - this.enemyDom.offsetWidth
-      )
-        return;
+      if (this.positionX >= containerInfo.height - this.width) return;
+      this.positionX += this.enemyFlySpeed
       // 更新位置信息
       this.updatePosition();
-      // 移动元素
-      this.enemyDom.style.left =
-        this.enemyDom.offsetLeft + this.enemyFlySpeed + "px";
+      if (!rende2Canvas) {
+        // 移动元素
+        this.enemyDom.style.left = this.positionX + "px";
+      }
     }, this.id + "enemyRightTranslationTimer");
   }
   // 发射子弹
   enemyShoot() {
     this.stopEnemyShoot();
     this.shootTimer = setInterval(() => {
-      const enemyDom = this.enemyDom;
-      let positionX = enemyDom.offsetLeft + delayX + enemyDom.offsetWidth / 2;
-      let positionY = enemyDom.offsetTop + enemyDom.offsetHeight;
-      let bullet = new Bullet(
+      const positionX = this.positionX + containerInfo.offsetLeft + this.width / 2;
+      const positionY = this.positionY + this.height;
+      const bullet = new Bullet(
         shootDistance,
         positionX,
         positionY,
@@ -316,8 +330,8 @@ class Enemy {
   // 更新位置
   updatePosition() {
     const saveObject = {
-      positionX: this.enemyDom.offsetLeft,
-      positionY: this.enemyDom.offsetTop,
+      positionX: this.positionX,
+      positionY: this.positionY,
     };
     typeStore[this.type].setId(this.id, saveObject);
   }
@@ -348,7 +362,9 @@ class Enemy {
     const enemyTarget = typeStore[this.type].getId(this.id);
     enemyTarget?.operationOptions?.operationStop();
     this.enemyStop();
-    container.removeChild(this.enemyDom);
+    if (!rende2Canvas) {
+      container.removeChild(this.enemyDom);
+    }
     typeStore[this.type].removeStore(this.id);
   }
 }

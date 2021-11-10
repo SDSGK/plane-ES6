@@ -1,5 +1,5 @@
-const positionX = delayX;
-const positionY = delayY;
+const positionX = containerInfo.offsetLeft;;
+const positionY = containerInfo.offsetTop;;
 let enemyTimer = null;
 let enemyFlySpeed = 3;
 
@@ -9,6 +9,12 @@ let limitSize = 10;
 let nowIndex = 0;
 // 初始化
 function init() {
+  if (rende2Canvas) {
+    // TODO：刷新画布暂停开启
+    intervalStore.add(() => {
+      draw()
+    }, 'draw')
+  }
   if (enemyTimer) stop();
   enemyTimer = setInterval(() => {
     // 限制飞机数量
@@ -21,7 +27,7 @@ function init() {
     }
     nowIndex += 1;
     // 容器内随机位置
-    let mathX = Math.floor(Math.random() * containerWidth);
+    let mathX = Math.floor(Math.random() * containerInfo.width);
     // 构建对象 创建属性并添加到页面中
     new Enemy(enemyFlySpeed, mathX, positionY, "buttom").enemyStart();
   }, 500);

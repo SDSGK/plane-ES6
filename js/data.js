@@ -1,10 +1,12 @@
 // 容器
 const container = document.querySelector(".container");
-// 容器的偏移量
-const delayX = container.offsetLeft;
-const delayY = container.offsetTop;
-const containerHeight = container.offsetHeight;
-const containerWidth = container.offsetWidth;
+// canvas容器
+const canvasContainer = document.querySelector(".canvas");
+const ctx = canvasContainer.getContext('2d');
+// 玩家贴图
+const playerImage = new Image();
+playerImage.src = '../image/player.png'
+
 // 飞机
 const planeDom = document.querySelector(".plane");
 // 移动键
@@ -24,24 +26,26 @@ const requiredForUpgradeDom = document.querySelector(".requiredForUpgrade");
 const rankDom = document.querySelector(".rank");
 const shootSpeedDom = document.querySelector(".shootSpeed");
 const hurtDom = document.querySelector(".hurt");
-
+// 暂停遮罩DOM
 const pause = document.querySelector(".pause");
+// 渲染方式文字提示
+const rendeMode = document.querySelector(".rendeMode");
 // 全局定时器延迟
-const allMoveSpeed = 16;
+const allMoveSpeed = 1 / 60 * 1000;
 // 是否手动点击过暂停按钮
 let isClickStopButton = false;
 let isFollowBullet = false;
-// TODO：移动速度改变
+// 移动速度
 let moveSpeed = 4.5;
 let moveSpeedOrginal = moveSpeed;
 const planeWidth = 80;
 const planeHeight = 60;
-// TODO：子弹速度修改
+// 子弹发射间隔
 let shootSpeed = 160;
 // 射击初始间隔
 const shootSpeedOrginal = shootSpeed;
 let shootDistance = 9.5;
-// TODO：飞机的移动距离
+// 飞机的移动距离
 let distance = 2.5;
 // 一次性发射子弹的数量
 let bulletLength = 1;
@@ -51,7 +55,7 @@ let playBloodVolume = 100;
 let playInvincibleTimer = 500;
 // 是否在无敌时间
 let isInvincibleTimer = false;
-
+let rende2Canvas = true
 // 玩家子弹伤害
 let hurt = 15;
 let hurtOrginal = hurt;
@@ -66,6 +70,19 @@ const typeStore = {}
 const escKeyCode = 27;
 // 固定的敌机列表（下表）
 let fixedEnemyIndex = 0;
+// 玩家飞机基本信息
+const playerInfo = {
+  offsetLeft: 320,
+  offsetTop: 740,
+  width: 80,
+  height: 60
+}
+const containerInfo = {
+  width: 800,
+  height: 800,
+  offsetLeft: 560,
+  offsetTop: 20
+}
 // 第一波
 const wall = [
   "wall1",

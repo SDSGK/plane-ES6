@@ -19,6 +19,8 @@
       <div>当前等级：<span class="rank">1</span></div>
       <div>当前当前子弹射速：<span class="shootSpeed">160</span></div>
       <div>当前当前子弹伤害：<span class="hurt">10</span></div>
+      <!-- 引用 https://blog.csdn.net/en__ne/article/details/87896218 样式 -->
+      <div><span>渲染方式(测试)：</span><input class="switch" type="checkbox" onChange="handelRendeModeChange(this)" checked="checked"/><span class="rendeMode">canvas渲染</span></div>
     </div>
     <!-- 暂停 -->
     <div class="pause display-none dont-select">
@@ -34,9 +36,10 @@
       </button>
     </div>
     <!-- 容器 -->
-    <div class="container">
+    <div class="container display-none">
       <div class="plane"></div>
     </div>
+    <canvas class="canvas" width="800" height="800"></canvas>
     <!-- 键盘按键提示 -->
     <div class="keyboard">
       <!-- 方向键 -->
@@ -67,6 +70,7 @@
 <script src="./js/experience.js"></script>
 <script src="./js/utils.js"></script>
 <script src="./js/store.js"></script>
+<script src="./js/canvas.js"></script>
 <script src="./js/enemy.js"></script>
 <script src="./js/bullet.js"></script>
 <script src="./js/move.js"></script>
@@ -82,6 +86,25 @@
       moveing();
     }
   }
+  function handelRendeModeChange(target) {
+    rende2Canvas = target.checked
+    if (rende2Canvas) {
+      // 开启
+      rendeMode.innerText = 'canvas渲染'
+      if (true) {
+        initCanvas()
+      }
+      container.classList.add('display-none')
+      canvasContainer.classList.remove('display-none')
+    } else {
+      // 关闭
+      rendeMode.innerText = '原生DOM渲染'
+      canvasContainer.classList.add('display-none')
+      container.classList.remove('display-none')
+      ansycPosition()
+    }
+  }
+  initCanvas()
   init();
   // 判断浏览器的支持情况
   if (
