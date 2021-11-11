@@ -46,6 +46,8 @@ class Enemy {
     // 宽度
     this.width = 50
     this.height = 50
+    
+    this.isHideHealth = false
   }
   /**
    * @description: 创建敌机
@@ -99,6 +101,7 @@ class Enemy {
     this.health = health;
     // 原血量
     this.healthOriginal = health;
+    this.isHideHealth = _info.isHideHealth;
     // 飞行速度
     this.enemyFlyInterval = allMoveSpeed;
     this.enemyFlySpeed = _info.distance || distance;

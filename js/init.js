@@ -9,13 +9,13 @@ let limitSize = 10;
 let nowIndex = 0;
 // 初始化
 function init() {
+  if (enemyTimer) stop();
   if (rende2Canvas) {
     // TODO：刷新画布暂停开启
     intervalStore.add(() => {
       draw()
     }, 'draw')
   }
-  if (enemyTimer) stop();
   enemyTimer = setInterval(() => {
     // 限制飞机数量
     if (nowIndex === limitSize) {
@@ -37,4 +37,5 @@ function stop() {
     clearInterval(enemyTimer);
     enemyTimer = null;
   }
+  intervalStore.remove('draw')
 }

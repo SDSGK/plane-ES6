@@ -8,11 +8,8 @@ const keyLimit = {
       intervalStore.add(() => {
         // 边界判断
         if (playerInfo.offsetTop <= 0) return;
-        // 渲染判断
         playerInfo.offsetTop -= moveSpeed
-        if (!rende2Canvas) {
-          ansycPosition()
-        }
+        ansycPosition()
       }, this.key);
     },
     moveStop() {
@@ -28,10 +25,7 @@ const keyLimit = {
         // 边界判断
         if (playerInfo.offsetTop >= containerInfo.height - playerInfo.height) return;
         playerInfo.offsetTop += moveSpeed
-        // 渲染判断
-        if (!rende2Canvas) {
-          ansycPosition()
-        }
+        ansycPosition()
       }, this.key);
     },
     moveStop() {
@@ -47,10 +41,7 @@ const keyLimit = {
         // 边界判断
         if (playerInfo.offsetLeft <= 0) return;
         playerInfo.offsetLeft -= moveSpeed
-        // 渲染判断
-        if (!rende2Canvas) {
-          ansycPosition()
-        }
+        ansycPosition()
       }, this.key);
     },
     moveStop() {
@@ -66,10 +57,7 @@ const keyLimit = {
         // 边界判断
         if (playerInfo.offsetLeft >= containerInfo.width - playerInfo.width) return;
         playerInfo.offsetLeft += moveSpeed
-        // 渲染判断
-        if (!rende2Canvas) {
-          ansycPosition()
-        }
+        ansycPosition()
       }, this.key);
     },
     moveStop() {
@@ -214,28 +202,30 @@ const keyLimit = {
       }
     },
     moveStop() {
-      // 移动速度还原
-      moveSpeed = moveSpeedOrginal;
-      // 伤害还原
-      hurt = hurtOrginal;
-      // 更新界面显示
-      operationDom.setHurt(hurt);
-      // 体积还原
-      playerInfo.width *= 2;
-      playerInfo.height *= 2;
-
-      playerInfo.offsetLeft -= (playerInfo.width / 4);
-      playerInfo.offsetTop -= (playerInfo.height / 4);
-      // 位置变为中心点
-      if (this.isHoldOn && !rende2Canvas) {
-         // 体积减少
-        planeDom.style.width = playerInfo.width + "px";
-        planeDom.style.height = playerInfo.height + "px";
+      if (this.isHoldOn) {
+        // 移动速度还原
+        moveSpeed = moveSpeedOrginal;
+        // 伤害还原
+        hurt = hurtOrginal;
+        // 更新界面显示
+        operationDom.setHurt(hurt);
+        // 体积还原
+        playerInfo.width *= 2;
+        playerInfo.height *= 2;
+        
         // 位置变为中心点
-        planeDom.style.left = playerInfo.offsetLeft + "px";
-        planeDom.style.top = playerInfo.offsetTop + "px";
+        playerInfo.offsetLeft -= (playerInfo.width / 4);
+        playerInfo.offsetTop -= (playerInfo.height / 4);
+        if (!rende2Canvas) {
+          // 体积减少
+          planeDom.style.width = playerInfo.width + "px";
+          planeDom.style.height = playerInfo.height + "px";
+          // 位置变为中心点
+          planeDom.style.left = playerInfo.offsetLeft + "px";
+          planeDom.style.top = playerInfo.offsetTop + "px";
+        }
+        this.isHoldOn = false
       }
-      this.isHoldOn = false
     },
   },
 };
@@ -294,6 +284,8 @@ function escKeyFunc() {
 }
 // 同步飞机位置
 function ansycPosition() {
-  planeDom.style.left = playerInfo.offsetLeft + "px";
-  planeDom.style.top = playerInfo.offsetTop + "px";
+  if (!rende2Canvas) {
+    planeDom.style.left = playerInfo.offsetLeft + "px";
+    planeDom.style.top = playerInfo.offsetTop + "px";
+  }
 }

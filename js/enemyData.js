@@ -7,6 +7,7 @@
  * timer：ms 执行时间间隔时间
  * moveDirection：移动方向、按下的键位 可以设置多个 , 作为分隔符 将会同时按下
  * distance：一次性移动多少距离
+ * isHideHealth：是否不显示血量
  */
 // 敌机贴图
 const enemyImage_1 = new Image();

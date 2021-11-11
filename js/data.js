@@ -6,7 +6,9 @@ const ctx = canvasContainer.getContext('2d');
 // 玩家贴图
 const playerImage = new Image();
 playerImage.src = '../image/player.png'
-
+// 子弹贴图
+const bulletImage = new Image();
+bulletImage.src = '../image/bullet.png'
 // 飞机
 const planeDom = document.querySelector(".plane");
 // 移动键
@@ -129,4 +131,4 @@ const Boss = [
 ];
 // 第二波
 // 固定的敌机列表（对应enemyData下标）
-const fixedEnemyList = [].concat(supply, wall, firstEnemy, secondEnemy, firstEnemy, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, wall, firstEnemy, secondEnemy, firstEnemy, firstEnemy, secondEnemy, firstEnemy, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, );
+const fixedEnemyList = [].concat(wall, firstEnemy, secondEnemy, firstEnemy, supply, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, wall, firstEnemy, secondEnemy, firstEnemy, firstEnemy, secondEnemy, firstEnemy, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, );

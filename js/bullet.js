@@ -30,6 +30,9 @@ class Bullet {
       wall: storeStore,
       supply: supplyStore,
     };
+    this.angle = 0
+    this.width = bulletWidth
+    this.height = bulletHeight
   }
   // 创建子弹
   createBullet() {
@@ -67,11 +70,6 @@ class Bullet {
           if (enemy === undefined) {
             // 数据移动
             this.positionY -= this.bulletFlySpeed;
-            if (!rende2Canvas) {
-              this.bulletDom.style.top = this.positionY + "px";
-              // 旋转角度归零
-              this.bulletDom.style.transform = "rotate(" + 0 + "deg)";
-            }
           } else {
             const { x, y, angle } = FollowUpBullet(
               enemy.positionX + containerInfo.offsetLeft + enemy.width / 2,
@@ -83,39 +81,27 @@ class Bullet {
             // 保存位置
             this.positionY += y;
             this.positionX += x;
-            if (!rende2Canvas) {
-              // 元素移动
-              this.bulletDom.style.top = this.positionY + "px";
-              this.bulletDom.style.left = this.positionX + "px";
-              // 子弹旋转
-              this.bulletDom.style.transform = "rotate(" + angle + "deg)";
-            }
+            this.angle = angle
           }
         } else {
           // 数据移动
           this.positionY -= this.bulletFlySpeed;
-          if (!rende2Canvas) {
-            this.bulletDom.style.top = this.positionY + "px";
-            // 旋转角度归零
-            this.bulletDom.style.transform = "rotate(" + 0 + "deg)";
-          }
+          this.angle = 0
         }
-        // 调用碰撞检测
-        this.bulletShooting();
       } else if (this.moveType === "buttom") {
         // 到底部
         if (this.positionY >= containerInfo.height) {
           this.clearBullet();
           return;
         }
+        this.angle = 180
         // 数据移动
         this.positionY += this.bulletFlySpeed;
-        if (!rende2Canvas) {
-          // 元素移动
-          this.bulletDom.style.top = this.positionY + "px";
-          this.bulletShooting();
-        }
       }
+      // 调用更新位置
+      this.updatePosition()
+      // 调用碰撞检测
+      this.bulletShooting();
     }, this.id);
   }
   // 子弹射击
@@ -165,10 +151,10 @@ class Bullet {
       }
     } else {
       // 敌机子弹
-      const planeDomDelayY = planeDom.offsetTop;
-      const planeDomDelayX = planeDom.offsetLeft;
-      const planeHeight = planeDom.offsetHeight;
-      const planeWidth = planeDom.offsetWidth;
+      const planeDomDelayY = playerInfo.offsetTop;
+      const planeDomDelayX = playerInfo.offsetLeft;
+      const planeHeight = playerInfo.height;
+      const planeWidth = playerInfo.width;
 
       if (
         // Y轴判断
@@ -233,6 +219,15 @@ class Bullet {
       setTimeout(() => {
         target.clearEnemy();
       }, 1000);
+    }
+  }
+  updatePosition() {
+    if (!rende2Canvas) {
+       // 元素移动
+      this.bulletDom.style.top = this.positionY + "px";
+      this.bulletDom.style.left = this.positionX + "px";
+       // 子弹旋转
+      this.bulletDom.style.transform = "rotate(" + this.angle + "deg)";
     }
   }
   // 子弹停止 清除定时器

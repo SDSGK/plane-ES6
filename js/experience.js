@@ -9,7 +9,7 @@ class Experience {
     // 经验比率
     this.empiricalRatio = 1.5;
     // 攻击力升级加成
-    this.aggressivityRatio = 1.05
+    this.aggressivityRatio = 1.10
     
   }
   // 获取等级
