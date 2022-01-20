@@ -61,12 +61,13 @@
 }
 /* 键盘的布局样式 */
 .keyboard {
-  width: 800px;
+  width: 350px;
   margin: 5px auto;
-  border: 1px solid #ccc;
+  padding: 5px 0;
   position: absolute;
-  top: calc(800px + 70px);
-  left: calc(50% - 400px);
+  top: calc(160px + 450px);
+  left: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 /* 所有按键的统一样式 */
 .key_style {
