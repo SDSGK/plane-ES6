@@ -65,7 +65,7 @@ const enemyMap = {
         },
         {
           timer: 6000,
-          moveDirection: "button,shoot",
+          moveDirection: "button",
           distance: 3,
         },
       ];
@@ -109,7 +109,7 @@ const enemyMap = {
         },
         {
           timer: 6000,
-          moveDirection: "button,shoot",
+          moveDirection: "button",
           distance: 3,
         },
       ];
@@ -126,7 +126,7 @@ const enemyMap = {
     enemyMoveFunc() {
       return [
         {
-          timer: 1500,
+          timer: 2500,
           moveDirection: "button",
           distance: 1.5,
         },
@@ -151,7 +151,7 @@ const enemyMap = {
           distance: 3,
         },
         {
-          timer: 1000,
+          timer: 2000,
           moveDirection: "left,button,shoot",
           distance: 1.5,
         },
@@ -166,7 +166,7 @@ const enemyMap = {
           distance: 1.5,
         },
         {
-          timer: 3000,
+          timer: 8000,
           moveDirection: "shoot,top",
           distance: 1.5,
         },
@@ -198,6 +198,11 @@ const wallData = {
           moveDirection: "",
           distance: 3,
         },
+        {
+          timer: 500,
+          moveDirection: "left",
+          distance: 2.5,
+        },
       ];
     },
   },
@@ -222,6 +227,11 @@ const wallData = {
           timer: 60000,
           moveDirection: "",
           distance: 3,
+        },
+        {
+          timer: 500,
+          moveDirection: "right",
+          distance: 2.5,
         },
       ];
     },
