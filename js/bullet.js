@@ -212,9 +212,13 @@ class Bullet {
       enemyHealthTextDom.innerText = "";
       // 更换爆炸gif
       const enemyDom = target.enemyDom;
-      enemyDom.style.background =
-        "url(../image/boom.gif" + "?" + "gif-" + guid() + ") no-repeat";
-      enemyDom.style.backgroundSize = "contain";
+      if (!rende2Canvas) {
+        enemyDom.style.background =
+          "url(../image/boom.gif" + "?" + "gif-" + guid() + ") no-repeat";
+        enemyDom.style.backgroundSize = "contain";
+      } else {
+        setBoom(enemy);
+      }
       enemy.operationOptions?.operationStop();
       setTimeout(() => {
         target.clearEnemy();

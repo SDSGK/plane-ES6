@@ -108,15 +108,27 @@ function drewEnemy() {
     }
   }
 }
-// TODO：飞机摧毁爆炸贴图
-function setBoom() {
-
+// 飞机摧毁爆炸贴图
+function setBoom(element) {
+  // 进行绘制gif图
+  let index = 1;
+  const intervalTime = setInterval(() => {
+    ctx.drawImage(
+      boomImageArray[index++],
+      element.positionX,
+      element.positionY,
+      element.width,
+      element.height
+    );
+    if (index >= 26) {
+      clearInterval(intervalTime);
+    }
+  }, 16);
 }
 // 总体绘制
 function draw() {
-  clearCanvas()
-  drawPlayer()
-  drewBullet()
-  drewEnemy()
+  clearCanvas();
+  drawPlayer();
+  drewBullet();
+  drewEnemy();
 }
-
