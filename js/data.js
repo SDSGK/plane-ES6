@@ -132,3 +132,11 @@ const Boss = [
 // 第二波
 // 固定的敌机列表（对应enemyData下标）
 const fixedEnemyList = [].concat(wall, firstEnemy, secondEnemy, firstEnemy, supply, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, wall, firstEnemy, secondEnemy, firstEnemy, firstEnemy, secondEnemy, firstEnemy, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, );
+
+// 添加爆炸动图 由于不知道如何实现canvas播放gif所以进行拆分图片
+let boomImageArray = []
+for(let i = 1; i < 27; i++) {
+  const image = new Image();
+  image.src = `../image/boom/boom${i}.png`
+  boomImageArray.push(image)
+}
