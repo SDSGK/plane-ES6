@@ -30,9 +30,9 @@ class Bullet {
       wall: storeStore,
       supply: supplyStore,
     };
-    this.angle = 0
-    this.width = bulletWidth
-    this.height = bulletHeight
+    this.angle = 0;
+    this.width = bulletWidth;
+    this.height = bulletHeight;
   }
   // 创建子弹
   createBullet() {
@@ -49,7 +49,7 @@ class Bullet {
     `;
     this.bulletDom = _bulletDom;
     if (!rende2Canvas) {
-      document.body.appendChild(_bulletDom);
+      this.appendDom();
     }
   }
   // 子弹移动
@@ -81,12 +81,12 @@ class Bullet {
             // 保存位置
             this.positionY += y;
             this.positionX += x;
-            this.angle = angle
+            this.angle = angle;
           }
         } else {
           // 数据移动
           this.positionY -= this.bulletFlySpeed;
-          this.angle = 0
+          this.angle = 0;
         }
       } else if (this.moveType === "buttom") {
         // 到底部
@@ -94,12 +94,12 @@ class Bullet {
           this.clearBullet();
           return;
         }
-        this.angle = 180
+        this.angle = 180;
         // 数据移动
         this.positionY += this.bulletFlySpeed;
       }
       // 调用更新位置
-      this.updatePosition()
+      this.updatePosition();
       // 调用碰撞检测
       this.bulletShooting();
     }, this.id);
@@ -107,8 +107,8 @@ class Bullet {
   // 子弹射击
   bulletShooting() {
     // 子弹偏移位置
-    const bulletDelayY = this.positionY - containerInfo.offsetTop;;
-    const bulletDelayX = this.positionX - containerInfo.offsetLeft;;
+    const bulletDelayY = this.positionY - containerInfo.offsetTop;
+    const bulletDelayX = this.positionX - containerInfo.offsetLeft;
     // 循环需要碰撞的仓库
     const forStore = this.forStore;
     for (const key in forStore) {
@@ -120,7 +120,8 @@ class Bullet {
         if (
           // Y轴判断
           enemy.positionY <= bulletDelayY &&
-          enemy.positionY + enemy.height >= bulletDelayY && // X轴判断
+          enemy.positionY + enemy.height >= bulletDelayY &&
+          // X轴判断
           enemy.positionX <= bulletDelayX &&
           enemy.positionX + enemy.width >= bulletDelayX
         ) {
@@ -140,7 +141,8 @@ class Bullet {
           if (
             // Y轴判断
             enemy.positionY <= bulletDelayY &&
-            enemy.positionY + enemy.height >= bulletDelayY && // X轴判断
+            enemy.positionY + enemy.height >= bulletDelayY &&
+            // X轴判断
             enemy.positionX <= bulletDelayX &&
             enemy.positionX + enemy.width >= bulletDelayX
           ) {
@@ -155,11 +157,11 @@ class Bullet {
       const planeDomDelayX = playerInfo.offsetLeft;
       const planeHeight = playerInfo.height;
       const planeWidth = playerInfo.width;
-
       if (
         // Y轴判断
         planeDomDelayY <= bulletDelayY &&
-        planeDomDelayY + planeHeight >= bulletDelayY && // X轴判断
+        planeDomDelayY + planeHeight >= bulletDelayY &&
+        // X轴判断
         planeDomDelayX <= bulletDelayX &&
         planeDomDelayX + planeWidth >= bulletDelayX
       ) {
@@ -184,21 +186,19 @@ class Bullet {
   }
   // 子弹碰到敌人后续操作
   updateEnemyInfo(enemy) {
-    // if (enemy) {
-      
-    // }
     // 页面上删除子弹
     this.clearBullet();
-    enemy.target.health = toDecimal(enemy.target.health - this.hurt);
     const target = enemy.target;
+    target.health = toDecimal(target.health - this.hurt);
     // 更新飞机血量
     const enemyHealthDom = target.enemyHealthDom;
     if (!rende2Canvas) {
-      enemyHealthDom.style.width = (enemy.target.health / enemy.target.healthOriginal) * 100 + "%";
+      enemyHealthDom.style.width =
+        (target.health / target.healthOriginal) * 100 + "%";
     }
     // 更新血量提示文字
     const enemyHealthTextDom = target.enemyHealthTextDom;
-    enemyHealthTextDom.innerText = enemy.target.health;
+    enemyHealthTextDom.innerText = target.health;
     // 如果生命清零 则删除飞机
     if (enemy.target.health <= 0) {
       // 页面上删除敌机
@@ -227,10 +227,10 @@ class Bullet {
   }
   updatePosition() {
     if (!rende2Canvas) {
-       // 元素移动
+      // 元素移动
       this.bulletDom.style.top = this.positionY + "px";
       this.bulletDom.style.left = this.positionX + "px";
-       // 子弹旋转
+      // 子弹旋转
       this.bulletDom.style.transform = "rotate(" + this.angle + "deg)";
     }
   }
@@ -238,11 +238,17 @@ class Bullet {
   bulletStop() {
     intervalStore.remove(this.id);
   }
+  appendDom() {
+    document.body.appendChild(this.bulletDom);
+  }
+  removeDom() {
+    document.body.removeChild(this.bulletDom);
+  }
   // 清除子弹
   clearBullet() {
     this.bulletStop();
     if (!rende2Canvas) {
-      document.body.removeChild(this.bulletDom);
+      this.removeDom();
     }
     bulletStore.removeStore(this.id);
   }

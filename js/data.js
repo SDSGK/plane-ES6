@@ -9,6 +9,8 @@ playerImage.src = '../image/player.png'
 // 子弹贴图
 const bulletImage = new Image();
 bulletImage.src = '../image/bullet.png'
+// 子弹贴图
+const boomImage = document.querySelector('#boom')
 // 飞机
 const planeDom = document.querySelector(".plane");
 // 移动键
@@ -32,6 +34,8 @@ const hurtDom = document.querySelector(".hurt");
 const pause = document.querySelector(".pause");
 // 渲染方式文字提示
 const rendeMode = document.querySelector(".rendeMode");
+// 渲染方式选择框
+const switchDom = document.querySelector(".switch");
 // 全局定时器延迟
 const allMoveSpeed = 1 / 60 * 1000;
 // 是否手动点击过暂停按钮
@@ -40,8 +44,6 @@ let isFollowBullet = false;
 // 移动速度
 let moveSpeed = 4.5;
 let moveSpeedOrginal = moveSpeed;
-const planeWidth = 80;
-const planeHeight = 60;
 // 子弹发射间隔
 let shootSpeed = 160;
 // 射击初始间隔

@@ -86,8 +86,12 @@
       moveing();
     }
   }
+  // 记录选择渲染方式
+  rende2Canvas = JSON.parse(sessionStorage.getItem('rende2Canvas') || false)
+  switchDom.checked = rende2Canvas
   function handelRendeModeChange(target) {
     rende2Canvas = target.checked
+    sessionStorage.setItem('rende2Canvas', rende2Canvas)
     if (rende2Canvas) {
       // 开启
       rendeMode.innerText = 'canvas渲染'
@@ -104,7 +108,7 @@
       ansycPosition()
     }
   }
-  initCanvas()
+  handelRendeModeChange(switchDom)
   init();
   // 判断浏览器的支持情况
   if (
