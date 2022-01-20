@@ -85,7 +85,7 @@ class Enemy {
     const rank = playExperience.getRank();
     const empiricalRatio = playExperience.getEmpiricalRatio();
     const health = parseInt(
-      (rank / empiricalRatio) * (_info.health * empiricalRatio * 0.35)
+      (rank / empiricalRatio) * (_info.health * empiricalRatio * 0.25)
     );
 
     _enemyHealthTextDom.innerText = health;
