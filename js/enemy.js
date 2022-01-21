@@ -8,7 +8,7 @@ class Enemy {
     // 方向
     this.moveType = moveType;
     // 伤害
-    this.hurt = hurt
+    this.hurt = 15
     // 类型
     // this.cut = cut
     // 唯一id
