@@ -5,11 +5,17 @@ const canvasContainer = document.querySelector(".canvas");
 const ctx = canvasContainer.getContext('2d');
 // 玩家贴图
 const playerImage = new Image();
-playerImage.src = '../image/player.png'
-// 子弹贴图
-const bulletImage = new Image();
-bulletImage.src = '../image/bullet.png'
-// 子弹贴图
+playerImage.src = './image/player.png'
+// 玩家子弹贴图
+const playerBulletImage = new Image();
+playerBulletImage.src = './image/playerBullet.png'
+// 敌机子弹贴图
+const enemyBulletImage = new Image();
+enemyBulletImage.src = './image/enemyBullet.png'
+// 敌机boss子弹贴图
+const enemyBoosBulletImage = new Image();
+enemyBoosBulletImage.src = './image/enemyBoosBullet.png'
+// 爆炸贴图
 const boomImage = document.querySelector('#boom')
 // 飞机
 const planeDom = document.querySelector(".plane");
@@ -83,7 +89,7 @@ const playerInfo = {
 }
 const containerInfo = {
   width: 800,
-  height: 800,
+  height: 900,
   offsetLeft: 560,
   offsetTop: 20
 }
@@ -139,6 +145,6 @@ const fixedEnemyList = [].concat(wall, firstEnemy, secondEnemy, firstEnemy, supp
 let boomImageArray = []
 for(let i = 1; i < 27; i++) {
   const image = new Image();
-  image.src = `../image/boom/boom${i}.png`
+  image.src = `./image/boom/boom${i}.png`
   boomImageArray.push(image)
 }

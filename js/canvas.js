@@ -15,7 +15,7 @@ function initCanvas() {
 }
 
 function clearCanvas() {
-  ctx.clearRect(0, 0, 800, 800);
+  ctx.clearRect(0, 0, 800, 900);
 }
 
 // 绘制玩家位置
@@ -60,7 +60,7 @@ function drewBullet() {
     ctx.translate(-delayX, -delayY);
     // 绘制子弹图片
     ctx.drawImage(
-      bulletImage,
+      element.image,
       positionX,
       positionY,
       bulletWidth,

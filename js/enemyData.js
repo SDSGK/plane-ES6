@@ -11,17 +11,17 @@
  */
 // 敌机贴图
 const enemyImage_1 = new Image();
-enemyImage_1.src = '../image/enemy-1.png'
+enemyImage_1.src = './image/enemy-1.png'
 // 掩体贴图
 const wallImage_1 = new Image();
-wallImage_1.src = '../image/store-1.png'
+wallImage_1.src = './image/store-1.png'
 const wallImage_2 = new Image();
-wallImage_2.src = '../image/store-2.png'
+wallImage_2.src = './image/store-2.png'
 // 补给贴图
 const supplyImage_1 = new Image();
-supplyImage_1.src = '../image/supply-1.png'
+supplyImage_1.src = './image/supply-1.png'
 const supplyImage_2 = new Image();
-supplyImage_2.src = '../image/supply-2.png'
+supplyImage_2.src = './image/supply-2.png'
 // 爆炸贴图
 const boom = new Image();
 boom.src = '../image/boom.gif'
@@ -35,6 +35,8 @@ const enemyMap = {
     distance: 2,
     delayX: 100,
     image: "enemy-1",
+    enemyType: 'plane',
+    bulletNumber: 1,
     canvasImage: enemyImage_1,
     enemyMoveFunc() {
       return [
@@ -79,6 +81,8 @@ const enemyMap = {
     distance: 2,
     delayX: 600,
     image: "enemy-1",
+    enemyType: 'plane',
+    bulletNumber: 1,
     canvasImage: enemyImage_1,
     enemyMoveFunc() {
       return [
@@ -122,6 +126,8 @@ const enemyMap = {
     height: 160,
     distance: 2,
     image: "enemy-1",
+    bulletNumber: 2,
+    enemyType: 'boss',
     canvasImage: enemyImage_1,
     enemyMoveFunc() {
       return [

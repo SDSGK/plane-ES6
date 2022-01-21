@@ -1,3 +1,7 @@
+/**
+ * 通用函数页面
+ * 没有使用导出的形式 因为是共通的函数 所以直接暴露出去
+ */
 //用于生成uuid
 function S4() {
   return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);

@@ -6,7 +6,8 @@ class Bullet {
     moveType,
     parentId,
     hurt = hurt,
-    cut = "play"
+    cut = "play",
+    image
   ) {
     // 飞行速度
     this.bulletFlySpeed = bulletFlySpeed;
@@ -33,6 +34,7 @@ class Bullet {
     this.angle = 0;
     this.width = bulletWidth;
     this.height = bulletHeight;
+    this.image = image
   }
   // 创建子弹
   createBullet() {

@@ -39,7 +39,7 @@
     <div class="container display-none">
       <div class="plane"></div>
     </div>
-    <canvas class="canvas" width="800" height="800"></canvas>
+    <canvas class="canvas" width="800" height="900"></canvas>
     <!-- 键盘按键提示 -->
     <div class="keyboard">
       <!-- 方向键 -->
@@ -87,11 +87,11 @@
     }
   }
   // 记录选择渲染方式
-  rende2Canvas = JSON.parse(sessionStorage.getItem('rende2Canvas') || false)
+  rende2Canvas = JSON.parse(localStorage.getItem('rende2Canvas') || false)
   switchDom.checked = rende2Canvas
   function handelRendeModeChange(target) {
     rende2Canvas = target.checked
-    sessionStorage.setItem('rende2Canvas', rende2Canvas)
+    localStorage.setItem('rende2Canvas', rende2Canvas)
     if (rende2Canvas) {
       // 开启
       rendeMode.innerText = 'canvas渲染'

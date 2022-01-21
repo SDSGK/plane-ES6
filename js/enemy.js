@@ -23,6 +23,7 @@ class Enemy {
     this.type = "enemy";
     // 当前血量
     this.health = 100;
+    this.bulletNumber = 1
     // 最大血量
     this.healthOriginal = 100;
     // 移动间隔时间 ms
@@ -118,6 +119,10 @@ class Enemy {
     const positionY = realY - _info.height;
     this.positionX = positionX
     this.positionY = positionY
+
+    this.bulletNumber = _info.bulletNumber
+
+    this.enemyType = _info.enemyType
     // 合并数据
     const saveObject = Object.assign(
       _info,
@@ -309,19 +314,28 @@ class Enemy {
   enemyShoot() {
     this.stopEnemyShoot();
     this.shootTimer = setInterval(() => {
-      const positionX = this.positionX + containerInfo.offsetLeft + this.width / 2;
-      const positionY = this.positionY + this.height;
-      const bullet = new Bullet(
+      const positionX = this.positionX + containerInfo.offsetLeft;
+      const positionY = this.positionY + (this.height / 2);
+      const bulletImage = this.enemyType === 'boss' ? enemyBoosBulletImage : enemyBulletImage
+      // 循环发射子弹
+      for (let i = 0; i < this.bulletNumber; i++) {
+        // 宽度进行取平均分布子弹
+        const average = this.width / (this.bulletNumber + 1);
+        // 依次分布子弹位置
+        let bulletPositionX = positionX + average * (i + 1);
+        const bullet = new Bullet(
         shootDistance,
-        positionX,
+        bulletPositionX,
         positionY,
         "buttom",
         this.id,
         this.hurt,
-        "enemy"
+        "enemy",
+        bulletImage
       );
-      bullet.createBullet();
-      bullet.bulletMove();
+        bullet.createBullet();
+        bullet.bulletMove();
+      }
     }, this.shootInterval);
   }
   stopEnemyShoot() {

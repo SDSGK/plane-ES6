@@ -87,7 +87,9 @@ const keyLimit = {
             positionY,
             "top",
             'player',
-            hurt
+            hurt,
+            'play',
+            playerBulletImage
           );
           bullet.createBullet();
           bullet.bulletMove();
