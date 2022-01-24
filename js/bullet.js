@@ -178,7 +178,7 @@ class Bullet {
           operationDom.setPlayBloodVolume(playBloodVolume);
           if (playBloodVolume <= 0) {
             // 游戏结束
-            console.log("game over");
+            escKeyFunc('游戏结束')
           }
           // 无敌时间
           planeDom.classList.add("invincibleTimer");

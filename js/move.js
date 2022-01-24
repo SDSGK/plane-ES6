@@ -267,12 +267,12 @@ document.addEventListener("keyup", keyupFunc);
 document.addEventListener("keydown", (e) => {
   const code = e.keyCode;
   if (code === escKeyCode) {
-    escKeyFunc();
+    escKeyFunc('暂停');
   }
 });
 
 // 按下esc键调用函数
-function escKeyFunc() {
+function escKeyFunc(tips = '暂停') {
   // 判断是否处于暂停状态
   if (isClickStopButton) {
     isClickStopButton = false;
@@ -282,6 +282,7 @@ function escKeyFunc() {
     moveStop();
   }
   // 切换样式 用于隐藏、显示 暂停提示
+  pause.querySelector('span').innerText = tips
   pause.classList.toggle("display-none");
 }
 // 同步飞机位置

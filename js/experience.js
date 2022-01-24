@@ -9,8 +9,7 @@ class Experience {
     // 经验比率
     this.empiricalRatio = 1.5;
     // 攻击力升级加成
-    this.aggressivityRatio = 1.10
-    
+    this.aggressivityRatio = 1.1;
   }
   // 获取等级
   getRank() {
@@ -37,6 +36,8 @@ class Experience {
       this.rank += level;
       // 升级提高伤害
       hurt = toDecimal(hurt * this.aggressivityRatio);
+      // 增加血量
+      playBloodVolume += level * 15
       // 翻倍经验
       this.requiredForUpgrade = parseInt(
         (this.requiredForUpgrade *= this.empiricalRatio) * level
@@ -103,6 +104,7 @@ class Experience {
     operationDom.setRank(this.rank);
     operationDom.setShootSpeed(shootSpeed);
     operationDom.setHurt(hurt);
+    operationDom.setPlayBloodVolume(playBloodVolume);
   }
 }
 
