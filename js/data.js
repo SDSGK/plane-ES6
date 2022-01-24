@@ -42,6 +42,8 @@ const pause = document.querySelector(".pause");
 const rendeMode = document.querySelector(".rendeMode");
 // 渲染方式选择框
 const switchDom = document.querySelector(".switch");
+// 提示框
+const noticeDom = document.querySelector(".notice");
 // 全局定时器延迟
 const allMoveSpeed = 1 / 60 * 1000;
 // 是否手动点击过暂停按钮

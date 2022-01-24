@@ -24,10 +24,11 @@ class Experience {
   accumulateExperience(target) {
     const { healthOriginal } = target.target;
     // (等级 * 经验比率) * (经验 * 经验比率)
-    this.experience += parseInt(
+    const levelExperience = parseInt(
       (this.rank / this.empiricalRatio) *
         ((healthOriginal / this.empiricalRatio) * 0.5)
     );
+    this.experience += levelExperience;
     // 更新经验显示页面
     operationDom.setExperience(this.experience);
     if (this.experience >= this.requiredForUpgrade) {
@@ -43,6 +44,7 @@ class Experience {
       this.upgrade();
       this.synchronization();
     }
+    return { experience: this.experience, rank: this.rank, levelExperience };
   }
   // 升级提升
   upgrade() {
@@ -52,6 +54,11 @@ class Experience {
         bulletLength += 1;
         // 应用射速间隔
         shootIntervalStore.setIntervalDelay(shootSpeed);
+        notice.addNotice(
+          `${new Date().toLocaleTimeString("zh-cn", {
+            hour12: false,
+          })}-射速提高到：${shootSpeed} 子弹数量提高到：${bulletLength}`
+        );
         break;
       case 10:
         shootSpeed = 130;
@@ -59,6 +66,11 @@ class Experience {
         hurt = toDecimal(hurt * 1.25);
         playInvincibleTimer = 700;
         shootIntervalStore.setIntervalDelay(shootSpeed);
+        notice.addNotice(
+          `${new Date().toLocaleTimeString("zh-cn", {
+            hour12: false,
+          })}-射速提高到：${shootSpeed} 子弹数量提高到：${bulletLength}`
+        );
         break;
       case 20:
         shootSpeed = 110;
@@ -66,12 +78,22 @@ class Experience {
         bulletLength += 1;
         playInvincibleTimer = 1200;
         shootIntervalStore.setIntervalDelay(shootSpeed);
+        notice.addNotice(
+          `${new Date().toLocaleTimeString("zh-cn", {
+            hour12: false,
+          })}-射速提高到：${shootSpeed} 子弹数量提高到：${bulletLength}`
+        );
         break;
       case 30:
         shootSpeed = 100;
         hurt = toDecimal(hurt * 1.25);
         playInvincibleTimer = 1500;
         shootIntervalStore.setIntervalDelay(shootSpeed);
+        notice.addNotice(
+          `${new Date().toLocaleTimeString("zh-cn", {
+            hour12: false,
+          })}-射速提高到：${shootSpeed} 子弹数量提高到：${bulletLength}`
+        );
         break;
     }
   }

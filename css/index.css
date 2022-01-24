@@ -137,6 +137,32 @@
 .float_left {
   float: left;
 }
+/* 提示相关的 */
+.notice {
+  width: 350px;
+  height: 450px;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  right: 50px;
+  top: 150px;
+  overflow-x: hidden;
+}
+.noticeItem {
+  color: #ffffff;
+  padding: 10px;
+  transform: translateX(0);
+  animation: noticeItemAnima .5s ease-in-out;
+  cursor: default;
+}
+@keyframes noticeItemAnima {
+  0% {
+    transform: translateX(350px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 
 /* 经验相关布局 */
 .experience-box {
@@ -295,4 +321,20 @@
   opacity: .3;
   /* 设置初始状态 */
   transition: 0s;
+}
+
+/* 修改滚动条样式 */
+.scroll-style::-webkit-scrollbar {
+  width: 6px;    
+  /*height: 4px;*/
+}
+.scroll-style::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  background: rgba(0,0,0,.5);;
+}
+.scroll-style::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  border-radius: 0;
+  background: rgba(0,0,0,0.1);
 }

@@ -170,6 +170,11 @@ class Bullet {
         this.clearBullet();
         if (!isInvincibleTimer) {
           playBloodVolume -= this.hurt;
+          notice.addNotice(
+            `${new Date().toLocaleTimeString('zh-cn',{hour12: false})}-受到伤害：${
+              this.hurt
+            } 当前血量剩余：${playBloodVolume}`
+          );
           operationDom.setPlayBloodVolume(playBloodVolume);
           if (playBloodVolume <= 0) {
             // 游戏结束
@@ -209,7 +214,12 @@ class Bullet {
       typeStore[target.type].removeStore(target.id);
       enemyHealthDom.style.width = "0%";
       // 获取经验
-      playExperience.accumulateExperience(enemy);
+      const levelInfo = playExperience.accumulateExperience(enemy);
+      notice.addNotice(
+        `${new Date().toLocaleTimeString('zh-cn',{hour12: false})}-击杀 获得经验：${
+          levelInfo.levelExperience
+        }`
+      );
       // 血条提示文字变为空
       enemyHealthTextDom.innerText = "";
       // 更换爆炸gif
