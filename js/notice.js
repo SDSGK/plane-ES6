@@ -38,4 +38,3 @@ class Notice {
 }
 
 const notice = new Notice()
-console.log('notice', notice);
