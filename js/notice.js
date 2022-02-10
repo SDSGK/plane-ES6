@@ -1,33 +1,39 @@
 class Notice {
   constructor() {
     // 队列
-    this.noticeQueue = new Queue()
+    this.noticeQueue = new Queue();
     // 提示dom
-    this.noticeDom = noticeDom
+    this.noticeDom = noticeDom;
     // 最大index
-    this.maxIndex = 1
+    this.maxIndex = 1;
     // 提示元素
-    this.noticeDom = noticeDom
+    this.noticeDom = noticeDom;
   }
   // 添加文字提示
-  addNotice(notice) {
-    const id = 'notice' + "-" + guid();
-    this.noticeQueue.enqueue({
-      notice,
-      id
-    }, this.maxIndex++)
+  addNotice(notice, autoAddTimer = true) {
+    const id = "notice" + "-" + guid();
+    this.noticeQueue.enqueue(
+      {
+        notice,
+        id,
+      },
+      this.maxIndex++
+    );
     // 创建元素
-    const noticeChildDom = document.createElement('div')
-    noticeChildDom.setAttribute('id', id)
-    noticeChildDom.innerText = notice
-    noticeChildDom.classList.add('noticeItem')
+    const noticeChildDom = document.createElement("div");
+    noticeChildDom.setAttribute("id", id);
+    noticeChildDom.innerText =
+      (autoAddTimer
+        ? new Date().toLocaleTimeString("zh-cn", { hour12: false }) + "-"
+        : "") + notice;
+    noticeChildDom.classList.add("noticeItem");
     // 添加元素
-    this.noticeDom.appendChild(noticeChildDom)
-    this.noticeDom.scrollTop = this.noticeDom.scrollHeight
+    this.noticeDom.appendChild(noticeChildDom);
+    this.noticeDom.scrollTop = this.noticeDom.scrollHeight;
   }
   // 同步所有提示
   asyncNotice() {
-    const noticeQueue = this.noticeQueue
+    const noticeQueue = this.noticeQueue;
     for (const index in noticeQueue) {
       if (Object.hasOwnProperty.call(noticeQueue, index)) {
         const element = noticeQueue[index];
@@ -37,4 +43,4 @@ class Notice {
   }
 }
 
-const notice = new Notice()
+const notice = new Notice();

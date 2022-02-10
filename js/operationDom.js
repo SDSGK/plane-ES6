@@ -1,7 +1,7 @@
 class OperationDom {
   constructor() {
     // 玩家血量
-    this.playBloodVolume = playBloodVolumeDom;
+    this.playBloodVolume = playerInfo.playBloodVolumeDom;
     // 当前经验
     this.experience = experienceDom;
     // 当前升级所需经验
@@ -9,7 +9,7 @@ class OperationDom {
     // 当前等级
     this.rank = rankDom;
     // 当前当前子弹射速
-    this.shootSpeed = shootSpeedDom;
+    this.shootSpeed = playerInfo.shootSpeedDom;
     // 当前当前子弹伤害
     this.hurt = hurtDom;
   }

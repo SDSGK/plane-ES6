@@ -1,11 +1,5 @@
 class Experience {
   constructor() {
-    // 等级
-    this.rank = 1;
-    // 经验
-    this.experience = 0;
-    // 升级所需要的经验
-    this.requiredForUpgrade = 100;
     // 经验比率
     this.empiricalRatio = 1.5;
     // 攻击力升级加成
@@ -13,98 +7,77 @@ class Experience {
   }
   // 获取等级
   getRank() {
-    return this.rank;
+    return playerInfo.rank;
   }
   // 获取经验比率
   getEmpiricalRatio() {
     return this.empiricalRatio;
   }
   // 累计经验
-  accumulateExperience(target) {
-    const { healthOriginal } = target.target;
+  accumulateExperience(targetHealth, playerInfo) {
+    // 获取信息
+    const info = {
+      rank: playerInfo.rank,
+      hurt: playerInfo.hurt,
+      requiredForUpgrade: playerInfo.requiredForUpgrade,
+      playBloodVolume: 0,
+      experience: playerInfo.experience,
+    };
     // (等级 * 经验比率) * (经验 * 经验比率)
-    const levelExperience = parseInt(
-      (this.rank / this.empiricalRatio) *
-        ((healthOriginal / this.empiricalRatio) * 0.5)
+    info.levelExperience = parseInt(
+      (info.rank / this.empiricalRatio) *
+        ((targetHealth / this.empiricalRatio) * 0.5)
     );
-    this.experience += levelExperience;
-    // 更新经验显示页面
-    operationDom.setExperience(this.experience);
-    if (this.experience >= this.requiredForUpgrade) {
+    // 当前经验
+    const currenExperience = info.experience + info.levelExperience;
+    info.experience = currenExperience
+    // 计算是否升级
+    if (currenExperience >= info.requiredForUpgrade) {
       // 记录提升的等级（可能会出现连续升级的情况）
-      const level = parseInt(this.experience / this.requiredForUpgrade) || 1;
-      this.rank += level;
+      const level = parseInt(currenExperience / info.requiredForUpgrade) || 1;
+      info.rank += level;
       // 升级提高伤害
-      hurt = toDecimal(hurt * this.aggressivityRatio);
+      info.hurt = toDecimal(hurt * this.aggressivityRatio);
       // 增加血量
-      playBloodVolume += level * 15
+      info.playBloodVolume += level * 15;
       // 翻倍经验
-      this.requiredForUpgrade = parseInt(
-        (this.requiredForUpgrade *= this.empiricalRatio) * level
+      info.requiredForUpgrade = parseInt(
+        (info.requiredForUpgrade *= this.empiricalRatio) * level
       );
-      this.upgrade();
-      this.synchronization();
     }
-    return { experience: this.experience, rank: this.rank, levelExperience };
+    return info;
   }
   // 升级提升
-  upgrade() {
-    switch (this.rank) {
-      case 5:
-        shootSpeed = 150;
-        bulletLength += 1;
-        // 应用射速间隔
-        shootIntervalStore.setIntervalDelay(shootSpeed);
-        notice.addNotice(
-          `${new Date().toLocaleTimeString("zh-cn", {
-            hour12: false,
-          })}-射速提高到：${shootSpeed} 子弹数量提高到：${bulletLength}`
-        );
-        break;
-      case 10:
-        shootSpeed = 130;
-        bulletLength += 1;
-        hurt = toDecimal(hurt * 1.25);
-        playInvincibleTimer = 700;
-        shootIntervalStore.setIntervalDelay(shootSpeed);
-        notice.addNotice(
-          `${new Date().toLocaleTimeString("zh-cn", {
-            hour12: false,
-          })}-射速提高到：${shootSpeed} 子弹数量提高到：${bulletLength}`
-        );
-        break;
-      case 20:
-        shootSpeed = 110;
-        hurt = toDecimal(hurt * 1.25);
-        bulletLength += 1;
-        playInvincibleTimer = 1200;
-        shootIntervalStore.setIntervalDelay(shootSpeed);
-        notice.addNotice(
-          `${new Date().toLocaleTimeString("zh-cn", {
-            hour12: false,
-          })}-射速提高到：${shootSpeed} 子弹数量提高到：${bulletLength}`
-        );
-        break;
-      case 30:
-        shootSpeed = 100;
-        hurt = toDecimal(hurt * 1.25);
-        playInvincibleTimer = 1500;
-        shootIntervalStore.setIntervalDelay(shootSpeed);
-        notice.addNotice(
-          `${new Date().toLocaleTimeString("zh-cn", {
-            hour12: false,
-          })}-射速提高到：${shootSpeed} 子弹数量提高到：${bulletLength}`
-        );
-        break;
+  upgrade(playerInfo) {
+    const uploadingMap = {
+      5: true,
+      10: true,
+      15: true,
+      20: true,
+      30: true,
+      40: true,
+      50: true,
+      60: true,
+      70: true,
+      80: true,
+      90: true,
+    };
+    if (uploadingMap[parseInt(playerInfo.rank)]) {
+      hurt = toDecimal(hurt * this.empiricalRatio);
+      playerInfo.playInvincibleTimer *= this.empiricalRatio;
+      playerInfoControl.changeHurt(hurt);
+      playerInfoControl.changeShootSpeed(playerInfo.shootSpeed - (playerInfo.shootSpeed *= 0.2));
+      playerInfoControl.changeBulletLength(playerInfo.bulletLength + 1);
     }
   }
   // 同步数据显示
   synchronization() {
-    operationDom.setRequiredForUpgrade(this.requiredForUpgrade);
-    operationDom.setRank(this.rank);
-    operationDom.setShootSpeed(shootSpeed);
-    operationDom.setHurt(hurt);
-    operationDom.setPlayBloodVolume(playBloodVolume);
+    operationDom.setExperience(playerInfo.experience);
+    operationDom.setRequiredForUpgrade(playerInfo.requiredForUpgrade);
+    operationDom.setRank(playerInfo.rank);
+    operationDom.setShootSpeed(playerInfo.shootSpeed);
+    operationDom.setHurt(playerInfo.hurt);
+    operationDom.setPlayBloodVolume(playerInfo.playBloodVolume);
   }
 }
 

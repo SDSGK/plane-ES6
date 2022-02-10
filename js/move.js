@@ -76,9 +76,9 @@ const keyLimit = {
         let positionX = playerInfo.offsetLeft + containerInfo.offsetLeft;
         let positionY = playerInfo.offsetTop;
         // 循环发射子弹
-        for (let i = 0; i < bulletLength; i++) {
+        for (let i = 0; i < playerInfo.bulletLength; i++) {
           // 宽度进行取平均分布子弹
-          const average = playerInfo.width / (bulletLength + 1);
+          const average = playerInfo.width / (playerInfo.bulletLength + 1);
           // 依次分布子弹位置
           let bulletPositionX = positionX + average * (i + 1);
           let bullet = new Bullet(

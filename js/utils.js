@@ -176,3 +176,9 @@ function toDecimal(x) {
   f = Math.round(x * 100) / 100;
   return f;
 }
+// 补给效果
+function supplyEff(target, type) {
+  // effData
+  let data = effData[Math.floor(Math.random() * effData.length)]
+  console.log('data', data);
+}

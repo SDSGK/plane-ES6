@@ -34,7 +34,7 @@ class Bullet {
     this.angle = 0;
     this.width = bulletWidth;
     this.height = bulletHeight;
-    this.image = image
+    this.image = image;
   }
   // 创建子弹
   createBullet() {
@@ -168,26 +168,7 @@ class Bullet {
         planeDomDelayX + planeWidth >= bulletDelayX
       ) {
         this.clearBullet();
-        if (!isInvincibleTimer) {
-          playBloodVolume -= this.hurt;
-          notice.addNotice(
-            `${new Date().toLocaleTimeString('zh-cn',{hour12: false})}-受到伤害：${
-              this.hurt
-            } 当前血量剩余：${playBloodVolume}`
-          );
-          operationDom.setPlayBloodVolume(playBloodVolume);
-          if (playBloodVolume <= 0) {
-            // 游戏结束
-            escKeyFunc('游戏结束')
-          }
-          // 无敌时间
-          planeDom.classList.add("invincibleTimer");
-          isInvincibleTimer = true;
-          setTimeout(() => {
-            planeDom.classList.remove("invincibleTimer");
-            isInvincibleTimer = false;
-          }, playInvincibleTimer);
-        }
+        playerInfoControl.dscPlayBloodVolume(-this.hurt)
       }
     }
   }
@@ -207,19 +188,26 @@ class Bullet {
     const enemyHealthTextDom = target.enemyHealthTextDom;
     enemyHealthTextDom.innerText = target.health;
     // 如果生命清零 则删除飞机
-    if (enemy.target.health <= 0) {
+    if (target.health <= 0) {
+      if (target.type === "supply") {
+        supplyEff()
+        if (this.parentId === "player") {
+          // 玩家破坏补给
+          // supplyEff()
+        } else {
+          // 敌机破坏补给
+          const target = enemyStore.getId(this.parentId);
+          console.log("target", target);
+        }
+      }
       // 页面上删除敌机
       target.enemyStop();
       // 数据上进行擦除
       typeStore[target.type].removeStore(target.id);
       enemyHealthDom.style.width = "0%";
       // 获取经验
-      const levelInfo = playExperience.accumulateExperience(enemy);
-      notice.addNotice(
-        `${new Date().toLocaleTimeString('zh-cn',{hour12: false})}-击杀 获得经验：${
-          levelInfo.levelExperience
-        }`
-      );
+      const levelInfo = playerInfoControl.getExperience(enemy);
+      notice.addNotice(`击杀 获得经验：${levelInfo.levelExperience}`);
       // 血条提示文字变为空
       enemyHealthTextDom.innerText = "";
       // 更换爆炸gif

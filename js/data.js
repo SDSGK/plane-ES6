@@ -50,21 +50,15 @@ const allMoveSpeed = 1 / 60 * 1000;
 let isClickStopButton = false;
 let isFollowBullet = false;
 // 移动速度
-let moveSpeed = 4.5;
+let moveSpeed = 4;
 let moveSpeedOrginal = moveSpeed;
 // 子弹发射间隔
-let shootSpeed = 160;
-// 射击初始间隔
-const shootSpeedOrginal = shootSpeed;
 let shootDistance = 9.5;
 // 飞机的移动距离
 let distance = 2.5;
 // 一次性发射子弹的数量
 let bulletLength = 1;
-// 玩家血量
-let playBloodVolume = 100;
-// 玩家无敌时间
-let playInvincibleTimer = 500;
+
 // 是否在无敌时间
 let isInvincibleTimer = false;
 let rende2Canvas = true
@@ -87,8 +81,33 @@ const playerInfo = {
   offsetLeft: 320,
   offsetTop: 740,
   width: 80,
-  height: 60
+  height: 60,
+  // 血量
+  playBloodVolume: 100,
+  // 当前经验
+  experience: 0,
+  // 升级所需经验
+  requiredForUpgrade: 100,
+  // 等级
+  rank: 1,
+  // 发射间隔
+  shootSpeed: 160,
+  // 子弹发射数量
+  bulletLength: 1,
+  // 伤害
+  hurt: 15,
+  // 无敌时间
+  playInvincibleTimer: 500,
+  hurtDom,
+  rankDom,
+  requiredForUpgradeDom,
+  experienceDom,
+  shootSpeedDom,
+  playBloodVolumeDom,
 }
+// 射击初始间隔
+let shootSpeedOrginal = playerInfo.shootSpeed;
+
 const containerInfo = {
   width: 800,
   height: 900,

@@ -8,7 +8,7 @@ class Enemy {
     // 方向
     this.moveType = moveType;
     // 伤害
-    this.hurt = 15
+    this.hurt = 15;
     // 类型
     // this.cut = cut
     // 唯一id
@@ -23,7 +23,7 @@ class Enemy {
     this.type = "enemy";
     // 当前血量
     this.health = 100;
-    this.bulletNumber = 1
+    this.bulletNumber = 1;
     // 最大血量
     this.healthOriginal = 100;
     // 移动间隔时间 ms
@@ -41,14 +41,14 @@ class Enemy {
     this.shootTimer = null;
     this.shootInterval = 160;
     // 速度加成
-    this.speedUp = 1
+    this.speedUp = 1;
     // 攻击力加成
-    this.hurtUp = 1
+    this.hurtUp = 1;
     // 宽度
-    this.width = 50
-    this.height = 50
-    
-    this.isHideHealth = false
+    this.width = 50;
+    this.height = 50;
+
+    this.isHideHealth = false;
   }
   /**
    * @description: 创建敌机
@@ -117,20 +117,20 @@ class Enemy {
       _info.delayX ||
       (realX <= _info.width ? _info.width : realX - _info.width);
     const positionY = realY - _info.height;
-    this.positionX = positionX
-    this.positionY = positionY
+    this.positionX = positionX;
+    this.positionY = positionY;
 
-    this.bulletNumber = _info.bulletNumber
+    this.bulletNumber = _info.bulletNumber;
 
-    this.enemyType = _info.enemyType
+    this.enemyType = _info.enemyType;
     // 合并数据
     const saveObject = Object.assign(
       _info,
       { positionY, positionX },
       { target: this }
     );
-    this.width = _info.width
-    this.height = _info.height
+    this.width = _info.width;
+    this.height = _info.height;
     this.type = _info.type;
     typeStore[_info.type].setId(this.id, saveObject);
     _enemyDom.style.cssText = `
@@ -192,7 +192,8 @@ class Enemy {
           }
         }
         // 添加相对应的速度
-        this.enemyFlySpeed = (singleMove.distance || this.enemyFlySpeed) * this.speedUp;
+        this.enemyFlySpeed =
+          (singleMove.distance || this.enemyFlySpeed) * this.speedUp;
 
         // 进行移动时间记录 按照 60hz/1(具体取决于配置的飞机移动间隔) 的记录规则
         operationOptions.moveTimer = interval(() => {
@@ -254,7 +255,7 @@ class Enemy {
     intervalStore.add(() => {
       // 判断范围
       if (this.positionY <= containerInfo.offsetTop) return;
-      this.positionY -= this.enemyFlySpeed
+      this.positionY -= this.enemyFlySpeed;
       // 更新位置信息
       this.updatePosition();
       if (!rende2Canvas) {
@@ -272,7 +273,7 @@ class Enemy {
         this.clearEnemy();
         return;
       }
-      this.positionY += this.enemyFlySpeed
+      this.positionY += this.enemyFlySpeed;
       // 更新位置信息
       this.updatePosition();
       if (!rende2Canvas) {
@@ -287,7 +288,7 @@ class Enemy {
     intervalStore.add(() => {
       // 限制范围
       if (this.positionX <= 0) return;
-      this.positionX -= this.enemyFlySpeed
+      this.positionX -= this.enemyFlySpeed;
       // 更新位置信息
       this.updatePosition();
       if (!rende2Canvas) {
@@ -301,7 +302,7 @@ class Enemy {
     intervalStore.add(() => {
       // 限制范围
       if (this.positionX >= containerInfo.height - this.width) return;
-      this.positionX += this.enemyFlySpeed
+      this.positionX += this.enemyFlySpeed;
       // 更新位置信息
       this.updatePosition();
       if (!rende2Canvas) {
@@ -315,8 +316,9 @@ class Enemy {
     this.stopEnemyShoot();
     this.shootTimer = setInterval(() => {
       const positionX = this.positionX + containerInfo.offsetLeft;
-      const positionY = this.positionY + (this.height / 2);
-      const bulletImage = this.enemyType === 'boss' ? enemyBoosBulletImage : enemyBulletImage
+      const positionY = this.positionY + this.height / 2;
+      const bulletImage =
+        this.enemyType === "boss" ? enemyBoosBulletImage : enemyBulletImage;
       // 循环发射子弹
       for (let i = 0; i < this.bulletNumber; i++) {
         // 宽度进行取平均分布子弹
@@ -324,15 +326,15 @@ class Enemy {
         // 依次分布子弹位置
         let bulletPositionX = positionX + average * (i + 1);
         const bullet = new Bullet(
-        shootDistance,
-        bulletPositionX,
-        positionY,
-        "buttom",
-        this.id,
-        this.hurt,
-        "enemy",
-        bulletImage
-      );
+          shootDistance,
+          bulletPositionX,
+          positionY,
+          "buttom",
+          this.id,
+          this.hurt,
+          "enemy",
+          bulletImage
+        );
         bullet.createBullet();
         bullet.bulletMove();
       }
@@ -351,6 +353,15 @@ class Enemy {
       positionY: this.positionY,
     };
     typeStore[this.type].setId(this.id, saveObject);
+    // 判断是否撞到玩家
+    if (
+      this.positionX >= playerInfo.offsetLeft &&
+      this.positionX <= playerInfo.offsetLeft + playerInfo.width &&
+      this.positionY + this.height >= playerInfo.offsetTop &&
+      this.positionY <= playerInfo.offsetTop + playerInfo.height
+    ) {
+      playerInfoControl.dscPlayBloodVolume(-this.hurt)
+    }
   }
   // 清除相对应的移动定时器
   enemyMoveStop(key) {
