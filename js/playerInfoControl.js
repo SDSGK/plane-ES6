@@ -42,11 +42,10 @@ class PlayerInfoControl {
     this.changeRequiredForUpgrade(info.requiredForUpgrade);
     this.changeHurt(info.hurt);
     this.changePlayBloodVolume(info.playBloodVolume);
-    if (playerInfo.rank < info.rank) {
-      this.changeRank(info.rank);
+    for (let i = 0; i < info.level; i++) {
+      this.changeRank((playerInfo.rank += 1));
     }
     // 同步信息
-    // playExperience.synchronization();
     return info;
   }
   // 当前经验

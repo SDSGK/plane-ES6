@@ -18,10 +18,11 @@ class Experience {
     // 获取信息
     const info = {
       rank: playerInfo.rank,
-      hurt: playerInfo.hurt,
+      hurt: playerInfo.hurt + increaseData.hurt,
       requiredForUpgrade: playerInfo.requiredForUpgrade,
       playBloodVolume: 0,
       experience: playerInfo.experience,
+      level: 0
     };
     // (等级 * 经验比率) * (经验 * 经验比率)
     info.levelExperience = parseInt(
@@ -35,9 +36,10 @@ class Experience {
     if (currenExperience >= info.requiredForUpgrade) {
       // 记录提升的等级（可能会出现连续升级的情况）
       const level = parseInt(currenExperience / info.requiredForUpgrade) || 1;
+      info.level = level
       info.rank += level;
       // 升级提高伤害
-      info.hurt = toDecimal(hurt * this.aggressivityRatio);
+      info.hurt = toDecimal(info.hurt * this.aggressivityRatio);
       // 增加血量
       info.playBloodVolume += level * 15;
       // 翻倍经验
@@ -50,12 +52,11 @@ class Experience {
   // 升级提升
   upgrade(playerInfo) {
     const uploadingMap = {
-      5: true,
       10: true,
-      15: true,
       20: true,
+      25: true,
       30: true,
-      40: true,
+      35: true,
       50: true,
       60: true,
       70: true,
