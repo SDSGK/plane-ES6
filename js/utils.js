@@ -178,7 +178,5 @@ function toDecimal(x) {
 }
 // 补给效果
 function supplyEff(target, type) {
-  // effData
-  let data = effData[Math.floor(Math.random() * effData.length)]
-  console.log('data', data);
+  return effData[Math.floor(Math.random() * effData.length)]
 }

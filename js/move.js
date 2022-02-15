@@ -8,8 +8,8 @@ const keyLimit = {
       intervalStore.add(() => {
         // 边界判断
         if (playerInfo.offsetTop <= 0) return;
-        playerInfo.offsetTop -= moveSpeed
-        ansycPosition()
+        playerInfo.offsetTop -= moveSpeed;
+        ansycPosition();
       }, this.key);
     },
     moveStop() {
@@ -23,9 +23,10 @@ const keyLimit = {
     moveing() {
       intervalStore.add(() => {
         // 边界判断
-        if (playerInfo.offsetTop >= containerInfo.height - playerInfo.height) return;
-        playerInfo.offsetTop += moveSpeed
-        ansycPosition()
+        if (playerInfo.offsetTop >= containerInfo.height - playerInfo.height)
+          return;
+        playerInfo.offsetTop += moveSpeed;
+        ansycPosition();
       }, this.key);
     },
     moveStop() {
@@ -40,8 +41,8 @@ const keyLimit = {
       intervalStore.add(() => {
         // 边界判断
         if (playerInfo.offsetLeft <= 0) return;
-        playerInfo.offsetLeft -= moveSpeed
-        ansycPosition()
+        playerInfo.offsetLeft -= moveSpeed;
+        ansycPosition();
       }, this.key);
     },
     moveStop() {
@@ -55,9 +56,10 @@ const keyLimit = {
     moveing() {
       intervalStore.add(() => {
         // 边界判断
-        if (playerInfo.offsetLeft >= containerInfo.width - playerInfo.width) return;
-        playerInfo.offsetLeft += moveSpeed
-        ansycPosition()
+        if (playerInfo.offsetLeft >= containerInfo.width - playerInfo.width)
+          return;
+        playerInfo.offsetLeft += moveSpeed;
+        ansycPosition();
       }, this.key);
     },
     moveStop() {
@@ -205,17 +207,17 @@ const keyLimit = {
       // 加速
       moveSpeed = moveSpeed * 1.35;
       // 记录当前子弹伤害
-      hurtOrginal = hurt;
+      playerInfo.hurtOrginal = playerInfo.hurt;
       // 进行伤害降低
-      hurt = hurt * 0.75;
+      playerInfo.hurt *= 0.75;
       // 更新界面显示
-      operationDom.setHurt(hurt);
+      operationDom.setHurt(playerInfo.hurt);
       playerInfo.width /= 2;
       playerInfo.height /= 2;
 
-      playerInfo.offsetLeft += (playerInfo.width / 2);
-      playerInfo.offsetTop += (playerInfo.height / 2);
-      
+      playerInfo.offsetLeft += playerInfo.width / 2;
+      playerInfo.offsetTop += playerInfo.height / 2;
+
       if (!rende2Canvas) {
         // 体积减少
         planeDom.style.width = playerInfo.width + "px";
@@ -230,16 +232,16 @@ const keyLimit = {
         // 移动速度还原
         moveSpeed = moveSpeedOrginal;
         // 伤害还原
-        hurt = hurtOrginal;
+        playerInfo.hurt = playerInfo.hurtOrginal;
         // 更新界面显示
-        operationDom.setHurt(hurt);
+        operationDom.setHurt(playerInfo.hurt);
         // 体积还原
         playerInfo.width *= 2;
         playerInfo.height *= 2;
-        
+
         // 位置变为中心点
-        playerInfo.offsetLeft -= (playerInfo.width / 4);
-        playerInfo.offsetTop -= (playerInfo.height / 4);
+        playerInfo.offsetLeft -= playerInfo.width / 4;
+        playerInfo.offsetTop -= playerInfo.height / 4;
         if (!rende2Canvas) {
           // 体积减少
           planeDom.style.width = playerInfo.width + "px";
@@ -248,7 +250,7 @@ const keyLimit = {
           planeDom.style.left = playerInfo.offsetLeft + "px";
           planeDom.style.top = playerInfo.offsetTop + "px";
         }
-        this.isHoldOn = false
+        this.isHoldOn = false;
       }
     },
   },
@@ -289,12 +291,12 @@ document.addEventListener("keyup", keyupFunc);
 document.addEventListener("keydown", (e) => {
   const code = e.keyCode;
   if (code === escKeyCode) {
-    escKeyFunc('暂停');
+    escKeyFunc("暂停");
   }
 });
 
 // 按下esc键调用函数
-function escKeyFunc(tips = '暂停') {
+function escKeyFunc(tips = "暂停") {
   // 判断是否处于暂停状态
   if (isClickStopButton) {
     isClickStopButton = false;
@@ -304,7 +306,7 @@ function escKeyFunc(tips = '暂停') {
     moveStop();
   }
   // 切换样式 用于隐藏、显示 暂停提示
-  pause.querySelector('span').innerText = tips
+  pause.querySelector("span").innerText = tips;
   pause.classList.toggle("display-none");
 }
 // 同步飞机位置

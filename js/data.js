@@ -129,9 +129,11 @@ const wall = [
   "wall1",
   "wall2",
 ]
-const supply = [
+const supplyHp = [
   'supplyHp',
-  'supplySpeed'
+]
+const supplySpeed = [
+  'supplySpeed',
 ]
 
 const firstEnemy = [
@@ -170,7 +172,7 @@ const Boss = [
 ];
 // 第二波
 // 固定的敌机列表（对应enemyData下标）
-const fixedEnemyList = [].concat(wall, firstEnemy, secondEnemy, firstEnemy, supply, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, wall, firstEnemy, secondEnemy, firstEnemy, firstEnemy, secondEnemy, firstEnemy, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, );
+const fixedEnemyList = [].concat(wall, firstEnemy, secondEnemy, firstEnemy, supplyHp, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, wall, firstEnemy, secondEnemy, firstEnemy, firstEnemy, secondEnemy, firstEnemy, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, supplySpeed, wall, firstEnemy, secondEnemy, firstEnemy, firstEnemy, secondEnemy, firstEnemy, Boss, firstEnemy, secondEnemy, firstEnemy, Boss, Boss, supplySpeed);
 
 // 添加爆炸动图 由于不知道如何实现canvas播放gif所以进行拆分图片
 let boomImageArray = []
