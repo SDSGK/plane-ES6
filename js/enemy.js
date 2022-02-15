@@ -325,16 +325,15 @@ class Enemy {
         const average = this.width / (this.bulletNumber + 1);
         // 依次分布子弹位置
         let bulletPositionX = positionX + average * (i + 1);
-        const bullet = new Bullet(
-          shootDistance,
-          bulletPositionX,
+        const bullet = new Bullet({
+          positionX: bulletPositionX,
           positionY,
-          "buttom",
-          this.id,
-          this.hurt,
-          "enemy",
-          bulletImage
-        );
+          moveType: "buttom",
+          bulletType: this.id,
+          hurt: this.hurt,
+          cut: "enemy",
+          image: bulletImage,
+        });
         bullet.createBullet();
         bullet.bulletMove();
       }

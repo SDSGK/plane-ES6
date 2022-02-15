@@ -63,10 +63,11 @@ class Experience {
       90: true,
     };
     if (uploadingMap[parseInt(playerInfo.rank)]) {
-      hurt = toDecimal(hurt * this.empiricalRatio);
+      playerInfo.hurt = toDecimal(playerInfo.hurt * this.empiricalRatio);
       playerInfo.playInvincibleTimer *= this.empiricalRatio;
-      playerInfoControl.changeHurt(hurt);
+      playerInfoControl.changeHurt(playerInfo.hurt);
       playerInfoControl.changeShootSpeed(playerInfo.shootSpeed - (playerInfo.shootSpeed *= 0.2));
+      playerInfoControl.changeFollowingShootSpeed(playerInfo.followingShootSpeed - (playerInfo.followingShootSpeed *= 0.2));
       playerInfoControl.changeBulletLength(playerInfo.bulletLength + 1);
     }
   }

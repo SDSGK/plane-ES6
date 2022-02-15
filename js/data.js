@@ -9,6 +9,9 @@ playerImage.src = './image/player.png'
 // 玩家子弹贴图
 const playerBulletImage = new Image();
 playerBulletImage.src = './image/playerBullet.png'
+// 玩家子弹贴图
+const followingBullet = new Image();
+followingBullet.src = './image/followingBullet.png'
 // 敌机子弹贴图
 const enemyBulletImage = new Image();
 enemyBulletImage.src = './image/enemyBullet.png'
@@ -62,12 +65,9 @@ let bulletLength = 1;
 // 是否在无敌时间
 let isInvincibleTimer = false;
 let rende2Canvas = true
-// 玩家子弹伤害
-let hurt = 15;
-let hurtOrginal = hurt;
 // 子弹的宽高度
-const bulletHeight = 20;
-const bulletWidth = 10;
+// const bulletHeight = 20;
+// const bulletWidth = 10;
 // 技能冷却时间颜色
 const defaultCoolingTimeColor = "#ffffff";
 // 存放仓库
@@ -90,12 +90,17 @@ const playerInfo = {
   requiredForUpgrade: 100,
   // 等级
   rank: 1,
+  // 移动间隔
+  shootDistance: 9.5,
   // 发射间隔
   shootSpeed: 160,
+  // 跟踪子弹发射间隔
+  followingShootSpeed: 750,
   // 子弹发射数量
   bulletLength: 1,
   // 伤害
   hurt: 15,
+  hurtOrginal: 15,
   // 无敌时间
   playInvincibleTimer: 500,
   hurtDom,
@@ -104,6 +109,11 @@ const playerInfo = {
   experienceDom,
   shootSpeedDom,
   playBloodVolumeDom,
+}
+const probabilityData = [true, false]
+const increaseData = {
+  hurt: 0,
+  playInvincibleTimer: 0
 }
 // 射击初始间隔
 let shootSpeedOrginal = playerInfo.shootSpeed;

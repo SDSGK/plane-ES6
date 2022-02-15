@@ -76,6 +76,12 @@ class PlayerInfoControl {
       shootIntervalStore.setIntervalDelay(value);
     }
   }
+  // 当前当前跟踪子弹射速
+  changeFollowingShootSpeed(value) {
+    playerInfo.followingShootSpeed = value;
+    followingShootIntervalStore.setIntervalDelay(value);
+    notice.addNotice(`跟踪子弹射速提高到：${value}`);
+  }
   // 当前当前子弹射速
   changeBulletLength(value) {
     playerInfo.bulletLength = value;

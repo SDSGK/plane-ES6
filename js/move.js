@@ -73,31 +73,53 @@ const keyLimit = {
     moveing() {
       // 定时创建子弹
       shootIntervalStore.add(() => {
-        let positionX = playerInfo.offsetLeft + containerInfo.offsetLeft;
-        let positionY = playerInfo.offsetTop;
+        const positionX = playerInfo.offsetLeft + containerInfo.offsetLeft;
+        const positionY = playerInfo.offsetTop;
         // 循环发射子弹
         for (let i = 0; i < playerInfo.bulletLength; i++) {
           // 宽度进行取平均分布子弹
           const average = playerInfo.width / (playerInfo.bulletLength + 1);
           // 依次分布子弹位置
           let bulletPositionX = positionX + average * (i + 1);
-          let bullet = new Bullet(
-            shootDistance,
-            bulletPositionX,
+          const bullet = new Bullet({
+            positionX: bulletPositionX,
             positionY,
-            "top",
-            'player',
-            hurt,
-            'play',
-            playerBulletImage
-          );
+            hurt: playerInfo.hurt,
+            image: playerBulletImage,
+            following: false,
+          });
           bullet.createBullet();
           bullet.bulletMove();
         }
       }, this.key);
+      // 跟踪子弹
+      followingShootIntervalStore.add(() => {
+        // 随机ture\false
+        const flag =
+          probabilityData[Math.floor(Math.random() * probabilityData.length)];
+        // 获取当前偏移量
+        let positionX = playerInfo.offsetLeft + containerInfo.offsetLeft;
+        // 如果是true
+        if (flag) {
+          positionX += playerInfo.width;
+        }
+        const positionY = playerInfo.offsetTop;
+        const bullet = new Bullet({
+          positionX,
+          positionY,
+          hurt: playerInfo.hurt,
+          image: followingBullet,
+          following: true,
+          bulletWidth: 25,
+          bulletHeight: 25
+        });
+        bullet.createBullet();
+        bullet.bulletMove();
+      }, this.key);
     },
     moveStop() {
       shootIntervalStore.remove(this.key);
+      followingShootIntervalStore.remove(this.key);
     },
   },
   73: {

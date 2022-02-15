@@ -51,9 +51,12 @@ class Interval {
     }
   }
 }
-
+// 全局刷新定时器
 const intervalStore = new Interval();
 intervalStore.createInterval();
-
+// 玩家子弹定时器
 const shootIntervalStore = new Interval(playerInfo.shootSpeed);
 shootIntervalStore.createInterval();
+// 跟踪子弹定时器
+const followingShootIntervalStore = new Interval(playerInfo.followingShootSpeed);
+followingShootIntervalStore.createInterval();

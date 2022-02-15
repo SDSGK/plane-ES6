@@ -1,27 +1,32 @@
 class Bullet {
-  constructor(
-    bulletFlySpeed,
-    positionX,
-    positionY,
-    moveType,
-    parentId,
-    hurt = hurt,
-    cut = "play",
-    image
-  ) {
+  constructor(info) {
+    const defaultInfo = {
+      bulletFlySpeed: playerInfo.shootDistance,
+      positionX: 0,
+      positionY: 0,
+      moveType: 'top',
+      parentId: 'player',
+      hurt: 15,
+      cut: "play",
+      image: playerBulletImage,
+      following: false,
+      bulletWidth: 10,
+      bulletHeight: 20
+    }
+    Object.assign(defaultInfo, info)
     // 飞行速度
-    this.bulletFlySpeed = bulletFlySpeed;
+    this.bulletFlySpeed = defaultInfo.bulletFlySpeed;
     // 位置信息
-    this.positionX = positionX - bulletWidth / 2;
-    this.positionY = positionY + bulletHeight;
+    this.positionX = defaultInfo.positionX - defaultInfo.bulletWidth / 2;
+    this.positionY = defaultInfo.positionY + defaultInfo.bulletHeight;
     // 方向
-    this.moveType = moveType;
+    this.moveType = defaultInfo.moveType;
     // 伤害
-    this.hurt = hurt;
+    this.hurt = defaultInfo.hurt;
     // 父级ID 用于记录谁发射的子弹
-    this.parentId = parentId;
+    this.parentId = defaultInfo.parentId;
     // 类型
-    this.cut = cut;
+    this.cut = defaultInfo.cut;
     // 唯一id
     this.id = "bullet-" + guid();
     // Dom元素
@@ -32,9 +37,11 @@ class Bullet {
       supply: supplyStore,
     };
     this.angle = 0;
-    this.width = bulletWidth;
-    this.height = bulletHeight;
-    this.image = image;
+    this.width = defaultInfo.bulletWidth;
+    this.height = defaultInfo.bulletHeight;
+    this.image = defaultInfo.image;
+    // 是否为跟踪子弹
+    this.following = defaultInfo.following;
   }
   // 创建子弹
   createBullet() {
@@ -43,8 +50,8 @@ class Bullet {
     bulletStore.setId(this.id, { target: this });
     // 设置子弹信息
     _bulletDom.style.cssText = `
-      width: ${bulletWidth}px; 
-      height: ${bulletHeight}px; 
+      width: ${this.width}px; 
+      height: ${this.height}px; 
       left: ${this.positionX}px; 
       top: ${this.positionY}px;
       transform: rotate(${this.cut === "play" ? "0deg" : "180deg"});
@@ -63,7 +70,7 @@ class Bullet {
           this.clearBullet();
           return;
         }
-        if (isFollowBullet) {
+        if (isFollowBullet || this.following) {
           // 跟踪子弹
           const enemyStoreList = enemyStore.getStore();
           const keys = Object.keys(enemyStoreList);
@@ -72,6 +79,7 @@ class Bullet {
           if (enemy === undefined) {
             // 数据移动
             this.positionY -= this.bulletFlySpeed;
+            this.angle = 0;
           } else {
             const { x, y, angle } = FollowUpBullet(
               enemy.positionX + containerInfo.offsetLeft + enemy.width / 2,
@@ -168,7 +176,7 @@ class Bullet {
         planeDomDelayX + planeWidth >= bulletDelayX
       ) {
         this.clearBullet();
-        playerInfoControl.dscPlayBloodVolume(-this.hurt)
+        playerInfoControl.dscPlayBloodVolume(-this.hurt);
       }
     }
   }
@@ -190,10 +198,11 @@ class Bullet {
     // 如果生命清零 则删除飞机
     if (target.health <= 0) {
       if (target.type === "supply") {
-        supplyEff()
         if (this.parentId === "player") {
           // 玩家破坏补给
-          // supplyEff()
+          // TODO：实装补给效果
+          const effData = supplyEff();
+          console.log("effData", effData);
         } else {
           // 敌机破坏补给
           const target = enemyStore.getId(this.parentId);
