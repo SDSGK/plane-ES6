@@ -200,13 +200,23 @@ class Bullet {
       if (target.type === "supply") {
         if (this.parentId === "player") {
           // 玩家破坏补给
-          // TODO：实装补给效果
           const effData = supplyEff();
-          console.log("effData", effData);
+          notice.addNotice(effData.describe, {
+            color: '#4E6EF2'
+          })
+          playerInfoControl.changeHurt()
+          increaseData[effData.keyName] = playerInfo[effData.keyName] * effData.range
+          efftControl.addEff(effData.keyName, effData, (efftData) => {
+            notice.addNotice(effData.describeEnd, {
+              color: '#4E6EF2'
+            })
+            playerInfoControl.changeHurt()
+            increaseData[efftData.keyName] = 0
+          })
         } else {
+          // TODO：敌机抢夺强化
           // 敌机破坏补给
           const target = enemyStore.getId(this.parentId);
-          console.log("target", target);
         }
       }
       // 页面上删除敌机

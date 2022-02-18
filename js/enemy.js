@@ -359,6 +359,7 @@ class Enemy {
       this.positionY + this.height >= playerInfo.offsetTop &&
       this.positionY <= playerInfo.offsetTop + playerInfo.height
     ) {
+      // 撞到玩家后进行扣血处理
       playerInfoControl.dscPlayBloodVolume(-this.hurt)
     }
   }

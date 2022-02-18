@@ -86,7 +86,7 @@ const keyLimit = {
           const bullet = new Bullet({
             positionX: bulletPositionX,
             positionY,
-            hurt: playerInfo.hurt,
+            hurt: playerInfo.hurt + increaseData.hurt,
             image: playerBulletImage,
             following: false,
           });
@@ -109,7 +109,7 @@ const keyLimit = {
         const bullet = new Bullet({
           positionX,
           positionY,
-          hurt: playerInfo.hurt,
+          hurt: playerInfo.hurt + increaseData.hurt,
           image: followingBullet,
           following: true,
           bulletWidth: 25,

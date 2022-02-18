@@ -18,7 +18,7 @@ class Experience {
     // 获取信息
     const info = {
       rank: playerInfo.rank,
-      hurt: playerInfo.hurt + increaseData.hurt,
+      hurt: playerInfo.hurt,
       requiredForUpgrade: playerInfo.requiredForUpgrade,
       playBloodVolume: 0,
       experience: playerInfo.experience,
