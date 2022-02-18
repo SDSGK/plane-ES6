@@ -10,7 +10,13 @@ class Notice {
     this.noticeDom = noticeDom;
   }
   // 添加文字提示
-  addNotice(notice, autoAddTimer = true) {
+  addNotice(notice, options = {}) {
+    const defaultOptions = {
+      autoAddTimer: true, // 是否默认添加时间
+      color: '', // 文字颜色
+      className: '' // 样式名称
+    }
+    Object.assign(defaultOptions, options)
     const id = "notice" + "-" + guid();
     this.noticeQueue.enqueue(
       {
@@ -23,10 +29,16 @@ class Notice {
     const noticeChildDom = document.createElement("div");
     noticeChildDom.setAttribute("id", id);
     noticeChildDom.innerText =
-      (autoAddTimer
+      (defaultOptions.autoAddTimer
         ? new Date().toLocaleTimeString("zh-cn", { hour12: false }) + "-"
         : "") + notice;
     noticeChildDom.classList.add("noticeItem");
+    if (defaultOptions.color) {
+      noticeChildDom.style.color = defaultOptions.color;
+    }
+    if (defaultOptions.className) {
+      noticeChildDom.classList.add(defaultOptions.className);
+    }
     // 添加元素
     this.noticeDom.appendChild(noticeChildDom);
     this.noticeDom.scrollTop = this.noticeDom.scrollHeight;

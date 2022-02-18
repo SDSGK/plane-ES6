@@ -1,17 +1,17 @@
 class Bullet {
-  constructor(info) {
+  constructor(info = {}) {
     const defaultInfo = {
-      bulletFlySpeed: playerInfo.shootDistance,
-      positionX: 0,
-      positionY: 0,
-      moveType: 'top',
-      parentId: 'player',
-      hurt: 15,
-      cut: "play",
-      image: playerBulletImage,
-      following: false,
-      bulletWidth: 10,
-      bulletHeight: 20
+      bulletFlySpeed: playerInfo.shootDistance, // 单次移动距离
+      positionX: 0, // X偏移量
+      positionY: 0, // y偏移量
+      moveType: 'top', // 往什么方位移动
+      parentId: 'player', // 父级的id
+      hurt: 15, // 子弹伤害
+      cut: "play", // 子弹类型
+      image: playerBulletImage, // 子弹贴图
+      following: false, // 是否是跟踪子弹
+      bulletWidth: 10, // 子弹宽度
+      bulletHeight: 20 // 子弹高度
     }
     Object.assign(defaultInfo, info)
     // 飞行速度
