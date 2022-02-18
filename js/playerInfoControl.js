@@ -10,7 +10,7 @@ class PlayerInfoControl {
       setTimeout(() => {
         planeDom.classList.remove("invincibleTimer");
         isInvincibleTimer = false;
-      }, playerInfo.playInvincibleTimer);
+      }, playerInfo.playInvincibleTimer + increaseData.playInvincibleTimer);
     }
   }
   // 设置玩家血量
@@ -21,7 +21,7 @@ class PlayerInfoControl {
       notice.addNotice(
         `受到伤害：${Math.abs(value)} 当前血量剩余：${
           playerInfo.playBloodVolume
-        }`
+        }`, {color: 'red'}
       );
     }
     if (playerInfo.playBloodVolume <= 0) {
@@ -49,47 +49,47 @@ class PlayerInfoControl {
     return info;
   }
   // 当前经验
-  changeExperience(value) {
+  changeExperience(value = playerInfo.experience) {
     playerInfo.experience = value;
     operationDom.setExperience(value);
   }
   // 当前升级所需经验
-  changeRequiredForUpgrade(value) {
+  changeRequiredForUpgrade(value = playerInfo.requiredForUpgrade) {
     playerInfo.requiredForUpgrade = value;
     operationDom.setRequiredForUpgrade(value);
   }
   // 当前等级
-  changeRank(value) {
+  changeRank(value = playerInfo.rank) {
     playerInfo.rank = value;
     operationDom.setRank(value);
     playExperience.upgrade(playerInfo);
   }
   // 当前当前子弹射速
-  changeShootSpeed(value) {
+  changeShootSpeed(value = playerInfo.shootSpeed) {
     playerInfo.shootSpeed = value;
     shootSpeedOrginal = value;
     operationDom.setShootSpeed(value);
-    notice.addNotice(`射速提高到：${value}`);
+    notice.addNotice(`射速提高到：${value}`, {color: '#4E6EF2'});
     if (keyLimit[73].nowCoolingTime === 0) {
       // 开启技能的时候 不能立马切换
       shootIntervalStore.setIntervalDelay(value);
     }
   }
   // 当前当前跟踪子弹射速
-  changeFollowingShootSpeed(value) {
+  changeFollowingShootSpeed(value = playerInfo.followingShootSpeed) {
     playerInfo.followingShootSpeed = value;
     followingShootIntervalStore.setIntervalDelay(value);
-    notice.addNotice(`跟踪子弹射速提高到：${value}`);
+    notice.addNotice(`跟踪子弹射速提高到：${value}`, {color: '#4E6EF2'});
   }
   // 当前当前子弹射速
-  changeBulletLength(value) {
+  changeBulletLength(value = playerInfo.bulletLength) {
     playerInfo.bulletLength = value;
-    notice.addNotice(`子弹数量提高到：${value}`);
+    notice.addNotice(`子弹数量提高到：${value}`, {color: '#4E6EF2'});
   }
   // 当前当前子弹伤害
-  changeHurt(value) {
+  changeHurt(value = playerInfo.hurt) {
     playerInfo.hurt = value;
-    operationDom.setHurt(value);
+    operationDom.setHurt(value + increaseData.hurt);
   }
 }
 const playerInfoControl = new PlayerInfoControl();
