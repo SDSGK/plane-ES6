@@ -299,9 +299,11 @@ document.addEventListener("keydown", (e) => {
 function escKeyFunc(tips = "暂停") {
   // 判断是否处于暂停状态
   if (isClickStopButton) {
+    notice.addNotice("游戏恢复", { color: "red" });
     isClickStopButton = false;
     moveing();
   } else {
+    notice.addNotice("游戏暂停", { color: "red" });
     isClickStopButton = true;
     moveStop();
   }
