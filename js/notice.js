@@ -6,19 +6,23 @@ class Notice {
     this.noticeDom = noticeDom;
     // 最大index
     this.maxIndex = 1;
-    // 提示元素
-    this.noticeDom = noticeDom;
+    // 超过一定数量进行出栈
+    this.autoDequeue = 50;
   }
   // 添加文字提示
   addNotice(notice, options = {}) {
     const defaultOptions = {
       autoAddTimer: true, // 是否默认添加时间
-      color: '', // 文字颜色
-      className: '' // 样式名称
-    }
-    Object.assign(defaultOptions, options)
+      color: "", // 文字颜色
+      className: "", // 样式名称
+    };
+    Object.assign(defaultOptions, options);
+    // 生成唯一id
     const id = "notice" + "-" + guid();
-    this.noticeQueue.enqueue(
+    const noticeQueue = this.noticeQueue;
+    const noticeDom = this.noticeDom;
+    // 进栈
+    noticeQueue.enqueue(
       {
         notice,
         id,
@@ -40,8 +44,17 @@ class Notice {
       noticeChildDom.classList.add(defaultOptions.className);
     }
     // 添加元素
-    this.noticeDom.appendChild(noticeChildDom);
-    this.noticeDom.scrollTop = this.noticeDom.scrollHeight;
+    noticeDom.appendChild(noticeChildDom);
+    noticeDom.scrollTop = noticeDom.scrollHeight;
+    // 进行出栈释放内存
+    if (noticeQueue.size() > this.autoDequeue) {
+      const frontElement = noticeQueue.front();
+      // 找到子内容
+      const noticeItem = noticeDom.querySelector("#" + frontElement.data.id);
+      // 进行删除当前记录的内容
+      noticeDom.removeChild(noticeItem);
+      noticeQueue.dequeue();
+    }
   }
   // 同步所有提示
   asyncNotice() {
