@@ -178,7 +178,7 @@ const keyLimit = {
       this.nowCoolingTime = this.coolingTimeOrginal;
       isFollowBullet = true;
       setTimeout(() => {
-        shootIntervalStore.setIntervalDelay(shootSpeedOrginal);
+        // shootIntervalStore.setIntervalDelay(shootSpeedOrginal);
         // 技能持续时间结束
         isFollowBullet = false;
       }, this.duration);

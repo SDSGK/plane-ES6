@@ -198,6 +198,26 @@ class Bullet {
     enemyHealthTextDom.innerText = target.health;
     // 如果生命清零 则删除飞机
     if (target.health <= 0) {
+      // 页面上删除敌机
+      target.enemyStop();
+      // 数据上进行擦除
+      typeStore[target.type].removeStore(target.id);
+      enemyHealthDom.style.width = "0%";
+      // 血条提示文字变为空
+      enemyHealthTextDom.innerText = "";
+      // 更换爆炸gif
+      const enemyDom = target.enemyDom;
+      if (!rende2Canvas) {
+        enemyDom.style.background =
+          "url(../image/boom.gif" + "?" + "gif-" + guid() + ") no-repeat";
+        enemyDom.style.backgroundSize = "contain";
+      } else {
+        setBoom(enemy);
+      }
+      enemy.operationOptions?.operationStop();
+      setTimeout(() => {
+        target.clearEnemy();
+      }, 1000);
       if (target.type === "supply") {
         if (this.parentId === "player") {
           // 玩家破坏补给
@@ -221,30 +241,11 @@ class Bullet {
           // 敌机破坏补给
           const target = enemyStore.getId(this.parentId);
         }
+        return
       }
-      // 页面上删除敌机
-      target.enemyStop();
-      // 数据上进行擦除
-      typeStore[target.type].removeStore(target.id);
-      enemyHealthDom.style.width = "0%";
       // 获取经验
       const levelInfo = playerInfoControl.getExperience(enemy);
       notice.addNotice(`击杀 获得经验：${levelInfo.levelExperience}`);
-      // 血条提示文字变为空
-      enemyHealthTextDom.innerText = "";
-      // 更换爆炸gif
-      const enemyDom = target.enemyDom;
-      if (!rende2Canvas) {
-        enemyDom.style.background =
-          "url(../image/boom.gif" + "?" + "gif-" + guid() + ") no-repeat";
-        enemyDom.style.backgroundSize = "contain";
-      } else {
-        setBoom(enemy);
-      }
-      enemy.operationOptions?.operationStop();
-      setTimeout(() => {
-        target.clearEnemy();
-      }, 1000);
     }
   }
   updatePosition() {

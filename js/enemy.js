@@ -329,7 +329,7 @@ class Enemy {
           positionX: bulletPositionX,
           positionY,
           moveType: "buttom",
-          bulletType: this.id,
+          parentId: this.id,
           hurt: this.hurt,
           cut: "enemy",
           image: bulletImage,
