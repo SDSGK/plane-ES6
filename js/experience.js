@@ -1,9 +1,9 @@
 class Experience {
   constructor() {
     // 经验比率
-    this.empiricalRatio = 1.5;
+    this.empiricalRatio = 1.65;
     // 攻击力升级加成
-    this.aggressivityRatio = 1.1;
+    this.aggressivityRatio = 1.15;
   }
   // 获取等级
   getRank() {
@@ -22,7 +22,7 @@ class Experience {
       requiredForUpgrade: playerInfo.requiredForUpgrade,
       playBloodVolume: 0,
       experience: playerInfo.experience,
-      level: 0
+      level: 0,
     };
     // (等级 * 经验比率) * (经验 * 经验比率)
     info.levelExperience = parseInt(
@@ -31,23 +31,37 @@ class Experience {
     );
     // 当前经验
     const currenExperience = info.experience + info.levelExperience;
-    info.experience = currenExperience
+    info.experience = currenExperience;
     // 计算是否升级
     if (currenExperience >= info.requiredForUpgrade) {
-      // 记录提升的等级（可能会出现连续升级的情况）
-      const level = parseInt(currenExperience / info.requiredForUpgrade) || 1;
-      info.level = level
-      info.rank += level;
+      // info.level += 1;
       // 升级提高伤害
       info.hurt = toDecimal(info.hurt * this.aggressivityRatio);
-      // 增加血量
-      info.playBloodVolume += level * 15;
-      // 翻倍经验
-      info.requiredForUpgrade = parseInt(
-        (info.requiredForUpgrade *= this.empiricalRatio) * level
-      );
+      this.getNextForUpgrade(info);
+      info.playBloodVolume += info.level * 15;
+      info.rank += info.level;
     }
     return info;
+  }
+  // 获取下一次升级所需要的数据
+  getNextForUpgrade(expObject) {
+    // 计算升级的等级
+    const requiredLevel = parseInt(
+      expObject.experience / expObject.requiredForUpgrade
+    );
+    if (expObject.experience >= expObject.requiredForUpgrade) {
+      // 进行经验相减
+      expObject.experience -= expObject.requiredForUpgrade;
+    }
+    if (requiredLevel > 0) {
+      // 计算下一次需要提升的经验
+      expObject.requiredForUpgrade = parseInt(
+        (expObject.requiredForUpgrade *= this.empiricalRatio)
+      );
+      expObject.level += 1;
+      // 递归
+      this.getNextForUpgrade(expObject);
+    }
   }
   // 升级提升
   upgrade(playerInfo) {
@@ -67,8 +81,12 @@ class Experience {
       playerInfo.hurt = toDecimal(playerInfo.hurt * this.empiricalRatio);
       playerInfo.playInvincibleTimer *= this.empiricalRatio;
       playerInfoControl.changeHurt(playerInfo.hurt);
-      playerInfoControl.changeShootSpeed(playerInfo.shootSpeed - (playerInfo.shootSpeed *= 0.2));
-      playerInfoControl.changeFollowingShootSpeed(playerInfo.followingShootSpeed - (playerInfo.followingShootSpeed *= 0.2));
+      playerInfoControl.changeShootSpeed(
+        playerInfo.shootSpeed - (playerInfo.shootSpeed *= 0.2)
+      );
+      playerInfoControl.changeFollowingShootSpeed(
+        playerInfo.followingShootSpeed - (playerInfo.followingShootSpeed *= 0.2)
+      );
       playerInfoControl.changeBulletLength(playerInfo.bulletLength + 1);
     }
   }
