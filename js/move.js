@@ -113,7 +113,7 @@ const keyLimit = {
           image: followingBullet,
           following: true,
           bulletWidth: 25,
-          bulletHeight: 25
+          bulletHeight: 25,
         });
         bullet.createBullet();
         bullet.bulletMove();

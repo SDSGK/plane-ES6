@@ -49,7 +49,7 @@ class Notice {
     for (const index in noticeQueue) {
       if (Object.hasOwnProperty.call(noticeQueue, index)) {
         const element = noticeQueue[index];
-        // TODO
+        // TODO：暂无同步所有数据需求
       }
     }
   }

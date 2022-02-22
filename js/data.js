@@ -118,6 +118,7 @@ const increaseData = {
 // 射击初始间隔
 let shootSpeedOrginal = playerInfo.shootSpeed;
 
+// 容器的信息
 const containerInfo = {
   width: 800,
   height: 900,

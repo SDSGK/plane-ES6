@@ -61,6 +61,7 @@ class Bullet {
       this.appendDom();
     }
   }
+  // TODO：子弹移动的改动 参考敌机移动
   // 子弹移动
   bulletMove() {
     intervalStore.add(() => {
@@ -205,7 +206,9 @@ class Bullet {
             color: '#4E6EF2'
           })
           playerInfoControl.changeHurt()
+          // 属性增幅计算
           increaseData[effData.keyName] = playerInfo[effData.keyName] * effData.range
+          // 控制类调用计时
           efftControl.addEff(effData.keyName, effData, (efftData) => {
             notice.addNotice(effData.describeEnd, {
               color: '#4E6EF2'
