@@ -39,3 +39,26 @@ function stop() {
   }
   intervalStore.remove('draw')
 }
+// 重新开始
+function reStart() {
+  intervalStore.clearInterval()
+  // 清空已经生成的仓库
+  bulletStore.clearStore()
+  enemyStore.clearStore()
+  storeStore.clearStore()
+  supplyStore.clearStore()
+  // 清空定时器记录的函数
+  intervalStore.clearData()
+  shootIntervalStore.clearData()
+  followingShootIntervalStore.clearData()
+  // 回滚数据
+  Object.assign(playerInfo, playerInfoOrginal)
+  Object.assign(increaseData, increaseDataOrginal)
+  // 刷新页面显示
+  playExperience.synchronization();
+  notice.addNotice("游戏重新开始", { color: "red" });
+  // 取消遮蔽层
+  escKeyFunc()
+  // 重新开始
+  init()
+}

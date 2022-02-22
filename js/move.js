@@ -308,7 +308,7 @@ function escKeyFunc(tips = "暂停") {
     moveStop();
   }
   // 切换样式 用于隐藏、显示 暂停提示
-  pause.querySelector("span").innerText = tips;
+  pause.querySelector(".tips span").innerText = tips;
   pause.classList.toggle("display-none");
 }
 // 同步飞机位置

@@ -21,12 +21,21 @@
       <div>当前当前子弹射速：<span class="shootSpeed">160</span></div>
       <div>当前当前子弹伤害：<span class="hurt">10</span></div>
       <!-- 引用 https://blog.csdn.net/en__ne/article/details/87896218 样式 -->
-      <div><span>渲染方式(测试)：</span><input class="switch" type="checkbox" onChange="handelRendeModeChange(this)" checked="checked"/><span class="rendeMode">canvas渲染</span></div>
+      <!-- TODO：切换时会出现渲染bug所以暂时不启用，后续优化后开放 -->
+      <div class="display-none"><span>渲染方式(测试)：</span><input class="switch" type="checkbox"
+          onChange="handelRendeModeChange(this)" checked="checked" /><span class="rendeMode">canvas渲染</span></div>
     </div>
     <div class="notice scroll-style"></div>
     <!-- 暂停 -->
-    <div class="pause display-none dont-select">
-      <span>暂停</span>
+    <div class="pause dont-select">
+      <div>
+        <div class="tips">
+          <span>暂停</span>
+        </div>
+        <p class="button-list" onclick="escKeyFunc()">继续游戏</p>
+        <p class="button-list" onclick="reStart()">重新开始</p>
+        <span>按下“ESC”继续</span>
+      </div>
     </div>
     <!-- 暂停按钮（不显示） -->
     <div class="button-list display-none">
@@ -94,7 +103,7 @@
     }
   }
   // 记录选择渲染方式
-  rende2Canvas = localStorage.getItem('rende2Canvas') === 'true' ||  localStorage.getItem('rende2Canvas') === null
+  rende2Canvas = localStorage.getItem('rende2Canvas') === 'true' || localStorage.getItem('rende2Canvas') === null
   switchDom.checked = rende2Canvas
   function handelRendeModeChange(target) {
     rende2Canvas = target.checked
@@ -115,7 +124,8 @@
     }
   }
   handelRendeModeChange(switchDom)
-  init();
+  // escKeyFunc('暂停')
+  // init();
   // 判断浏览器的支持情况
   if (
     typeof document.addEventListener === "undefined" ||

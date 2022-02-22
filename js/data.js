@@ -50,7 +50,7 @@ const noticeDom = document.querySelector(".notice");
 // 全局定时器延迟
 const allMoveSpeed = 1 / 60 * 1000;
 // 是否手动点击过暂停按钮
-let isClickStopButton = false;
+let isClickStopButton = true;
 let isFollowBullet = false;
 // 移动速度
 let moveSpeed = 4;
@@ -110,14 +110,15 @@ const playerInfo = {
   shootSpeedDom,
   playBloodVolumeDom,
 }
+let playerInfoOrginal = {...playerInfo}
 const probabilityData = [true, false]
 const increaseData = {
   hurt: 0,
   playInvincibleTimer: 0
 }
+let increaseDataOrginal = {...increaseData}
 // 射击初始间隔
 let shootSpeedOrginal = playerInfo.shootSpeed;
-
 // 容器的信息
 const containerInfo = {
   width: 800,

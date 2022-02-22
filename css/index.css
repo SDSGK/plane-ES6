@@ -119,20 +119,36 @@
   position: absolute;
   width: 800px;
   height: 900px;
-  line-height: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* line-height: 800px; */
   margin: 20px auto 0 auto;
   left: calc(50% - 400px);
   background-color: #00000096;
   z-index: 2;
   text-align: center;
 }
-
-.pause span {
+.pause .tips span {
   color: #ffffff;
+  font-size: 30px;
+}
+.button-list {
+  width: 120px;
+  height: 35px;
+  line-height: 35px;
+  background-color: #409EFF;
+  margin: 5px;
+  border-radius: 2px;
+  cursor: pointer;
+  color: #ffffff;
+}
+.button-list:hover {
+  background-color: #66b1ff;
 }
 
 .display-none {
-  display: none;
+  display: none !important;
 }
 .float_left {
   float: left;

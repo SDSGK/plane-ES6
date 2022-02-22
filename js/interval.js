@@ -40,6 +40,13 @@ class Interval {
   remove(id) {
     return delete this.intervalFuncMap[id];
   }
+  // 清空所有记录的函数
+  clearData() {
+    const intervalFuncMap = this.intervalFuncMap;
+    for (const key in intervalFuncMap) {
+      this.remove(key);
+    }
+  }
   // 执行定期函数
   intervalOperationFunc() {
     const intervalFuncMap = this.intervalFuncMap;
